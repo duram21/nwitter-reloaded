@@ -65,7 +65,7 @@ export default function CreateAccount() {
                 placeholder="Password"
                 type="password"
                 required />
-            <Input type="submit" value={isLoading ? "Loading..." : "Create Account"} />
+            <Input type="submit" value={isLoading ? "Loading..." : "Login!"} />
         </Form>
         {error !== "" ? <Error>{error}</Error> : null}
         <Switcher>
