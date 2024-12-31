@@ -4,7 +4,7 @@ import { auth, db, storage } from "../firebase";
 import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { useState } from "react";
-import EditTweet from "./edit-form";
+
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -110,7 +110,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
     await updateDoc(doc(db, "tweets", id), {
       tweet: editTweet
     });
-    
+
     setEditMode(false);
   }
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
