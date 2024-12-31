@@ -11,19 +11,18 @@ export interface ITweet {
   tweet:string;
   userId:string;
   username:string;
-  createdAt:number;
+  createdAt?:number;
 }
 
 const Wrapper = styled.div`
   display: flex;
   gap :10px;
   flex-direction: column;
-
+  overflow-y: scroll;
 `;
 
 export default function Timeline(){
   const [tweets, setTweet] = useState<ITweet[]>([]);
-
   useEffect(() => {
     let unsubscribe : Unsubscribe | null = null;
     const fetchTweets = async() => {
