@@ -155,7 +155,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
           ) : null}
         </Wrapper>
     }
-    </div>
+    </div> 
     
   );
 }
