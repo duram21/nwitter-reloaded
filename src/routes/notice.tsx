@@ -13,8 +13,14 @@ const Wrapper = styled.div`
   display: flex;
   gap :10px;
   flex-direction: column;
-  overflow-y: scroll;
 `;
+
+const NoticeWrapper = styled.div`
+  display:flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+`
 
 export interface INotice{
   id: string;
@@ -53,7 +59,9 @@ export default function Notice(){
     }
 
   return <Wrapper>
-    {notices.map((notice) => (<NoticeList key={notice.id} {...notice} noticeNum={onNotice}/>))}
+    <NoticeWrapper>
+      {notices.map((notice) => (<NoticeList key={notice.id} {...notice} noticeNum={onNotice}/>))}
+    </NoticeWrapper>
 
     {noticeName ? 
     <div>

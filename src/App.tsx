@@ -11,6 +11,7 @@ import LoadingScreen from './components/loading-screen'
 import { auth } from './firebase'
 import ProtectedRoute from './components/protected-route'
 import Notice from './routes/notice'
+import Write from './routes/write'
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,14 @@ const router = createBrowserRouter([
         children: [
 
         ]
-      }
+      },
+      {
+        path:"write",
+        element:<Write />,
+        children: [
+
+        ]
+      },
     ]
   },
   {
