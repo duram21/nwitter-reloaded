@@ -121,7 +121,7 @@ export default function WriteForm(){
         username: user.displayName || "Annonymous",
         userId: user.uid,
         noticeName: noticeName,
-
+        title: title,
       });
       if(file){
         const locationRef = ref(storage, `tweets/${user.uid}/${doc.id}`)

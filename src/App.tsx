@@ -12,6 +12,7 @@ import { auth } from './firebase'
 import ProtectedRoute from './components/protected-route'
 import Notice from './routes/notice'
 import Write from './routes/write'
+import Content from './routes/content'
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
       {
         path:"write",
         element:<Write />,
-        children: [
+        children: [ 
 
         ]
       },
@@ -52,6 +53,11 @@ const router = createBrowserRouter([
     path: "/create-account",
     element:<CreateAccount />
   },
+  {
+    path:"/content/:contentId",
+    element: <Content />,
+
+  }
 ])
 
 const GlobalStyles = createGlobalStyle `

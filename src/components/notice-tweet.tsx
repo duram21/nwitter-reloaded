@@ -1,9 +1,11 @@
-import { collection, getDocs, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../firebase";
 import Tweet from "./tweet";
 import { Unsubscribe } from "firebase/auth";
+import Title from "./writing-list";
+import { IWriting } from "../routes/notice";
 
 export interface ITweet {
   id: string;
@@ -21,24 +23,34 @@ const Wrapper = styled.div`
 `;
 
 type NoticeNum = {
-  num: string;
+  noticeName: string;
 }
 
-export default function NoticeTweet({num} : NoticeNum){
-  const [tweets, setTweets] = useState<ITweet[]>([]);
-  const aa = `notice/${num}/article`;
-  console.log(aa);
+export default function NoticeTweet({noticeName} : NoticeNum){
+  const [tweets, setTweets] = useState<IWriting[]>([]);
   const fecthTweets = async () => {
-    const tweetQuery = query(
-      collection(db, `notice/${num}/article`),
-      orderBy("createdAt", "desc"),
-      limit(25)
-    );
+    let tweetQuery = null;
+    if (noticeName === "all") {
+      tweetQuery = query(
+        collection(db, `writings`),
+        orderBy("createdAt", "desc"),
+        limit(25)
+      );
+    }
+    else {
+      tweetQuery = query(
+        collection(db, `writings`),
+        where("noticeName", "==", noticeName),
+        orderBy("createdAt", "desc"),
+        limit(25)
+      );
+    }
     const snapshot = await getDocs(tweetQuery);
     const tweets = snapshot.docs.map(doc => {
-      const { tweet, createdAt, userId, username, photo } = doc.data();
+      const {title, noticeName, createdAt, userId, username, photo } = doc.data();
       return {
-        tweet,
+        title,
+        noticeName,
         createdAt,
         userId,
         username,
@@ -51,9 +63,9 @@ export default function NoticeTweet({num} : NoticeNum){
   };
   useEffect(() => {
     fecthTweets();
-  }, [num]);
+  }, [noticeName]);
 
   return <Wrapper>
-    {tweets.map((tweet) => (<Tweet key={tweet.id} {...tweet}/>))}
+    {tweets.map((tweet) => (<Title key={tweet.id} {...tweet}/>))}
     </Wrapper>
 }
