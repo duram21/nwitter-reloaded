@@ -8,7 +8,7 @@ import NoticeTweet from "../components/notice-tweet";
 
 const Wrapper = styled.div`
   display: flex;
-  gap :10px;
+  gap :50px;
   flex-direction: column;
 `;
 
@@ -18,6 +18,42 @@ const NoticeWrapper = styled.div`
   gap: 10px;
   justify-content: center;
 `
+const NoticeBox = styled.div`
+  background: black;
+  padding: 0px 0px;
+  border: 1px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  width: 100px;
+  font-size: 20px;
+  input[type=radio]{
+    display:none;
+
+  }
+  :hover{
+    background: gray;
+    
+  }
+`;
+
+const Box = styled.div`
+  background: black;
+  padding: 0px 0px;
+  border: 1px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  width: 100px;
+  font-size: 20px;
+
+`;
 
 export interface IWriting {
   id: string;
@@ -62,17 +98,25 @@ export default function Notice(){
       fecthTweets();
     }, []);
     const changeNoticeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(e.target.id);
+      console.log(e);
       setNoticeName(e.target.id);
     }
   return <Wrapper>
     <NoticeWrapper>
-      <input onChange={changeNoticeName} type="radio" name="NameNotice" id="all"></input>
-      <label for="all">전체</label>
-      <input onChange={changeNoticeName} type="radio" name="NameNotice" id="notice1"></input>
-      <label for="notice1">게시판1</label>
-      <input onChange={changeNoticeName} type="radio" name="NameNotice" id="notice2"></input>
-      <label for="notice2">게시판2</label>
+        <NoticeBox>
+        <input onChange={changeNoticeName} type="radio"  name="NameNotice" id="all"></input>
+        <label for="all">
+          <Box>모든 글</Box>
+        </label>
+      </NoticeBox>
+      <NoticeBox>
+        <input onChange={changeNoticeName} type="radio" name="NameNotice" id="notice1"></input>
+        <label for="notice1"><Box>게시판1</Box></label>
+      </NoticeBox>
+      <NoticeBox>        
+        <input onChange={changeNoticeName} type="radio" name="NameNotice" id="notice2"></input>
+        <label for="notice2"><Box>게시판2</Box></label>
+      </NoticeBox>
       {/* {notices.map((notice) => (<NoticeList key={notice.id} {...notice} noticeNum={onNotice}/>))} */}
     </NoticeWrapper>
 

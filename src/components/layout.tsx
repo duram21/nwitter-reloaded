@@ -5,7 +5,7 @@ import { auth } from "../firebase";
   const Wrapper = styled.div`
     display: grid;
     gap: 20px;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 6fr;
     height: 100%;
     padding: 50px 0px;
     width: 100%;
@@ -15,7 +15,8 @@ import { auth } from "../firebase";
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 15px;
+    justify-content: flex-start;
   `;
   const MenuItem = styled.div`
     cursor: pointer;

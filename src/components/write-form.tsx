@@ -67,7 +67,8 @@ const SubmitBtn = styled.input`
   background-color: #1d9bf0;
   color: white;
   border: none;
-  padding: 10px 0px;
+  width: 100px;
+  padding: 10px 10px;
   border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
@@ -79,6 +80,7 @@ const SubmitBtn = styled.input`
 
 const SelectNoticeName =styled.select`
   background-color: white;
+  font-size: 17px;
 `;
 
 export default function WriteForm(){
@@ -147,11 +149,8 @@ export default function WriteForm(){
         <option value="notice4">notice4</option>
     </SelectNoticeName>
     <TitleArea required name="title" value={title} onChange={onTitleChange} placeholder="제목을 입력해주세요"/>
-    <TextArea required rows={20} maxLength={180} name="detail" value={detail} onChange={onChange} placeholder="방명록을 작성해주세요"/>
-    <AttachFileButton htmlFor="file">
-      {file ? "Photo added!" : "Add Photo"}
-    </AttachFileButton>
-    <AttachFileInput onChange={onFileChange} type="file" id="file" accept="image/*"/>
+    <TextArea required rows={20} maxLength={180} name="detail" value={detail} onChange={onChange} placeholder="글을 작성하세요"/>
+
     <SubmitBtn type="submit" value={isLoading ? "Posting....":"등록하기"}/>
   </Form>
 }
