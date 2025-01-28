@@ -120,6 +120,7 @@ export default function Notice(){
       {/* {notices.map((notice) => (<NoticeList key={notice.id} {...notice} noticeNum={onNotice}/>))} */}
     </NoticeWrapper>
 
+    
     {noticeName ? 
     <div>
       {/* <NoticeTweetForm num={noticeName}/> */}

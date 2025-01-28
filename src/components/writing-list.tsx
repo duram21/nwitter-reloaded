@@ -5,6 +5,7 @@ import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestor
 import { deleteObject, ref } from "firebase/storage";
 import { useState } from "react";
 import { IWriting } from "../routes/notice";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: grid;
@@ -12,6 +13,8 @@ const Wrapper = styled.div`
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 15px;
+  color:white;
+  
 `;
 const Column = styled.div`
   display: flex;
@@ -21,21 +24,23 @@ const Column = styled.div`
 const TItleTop = styled.div`
   display: flex;
   justify-content: space-between;
+  
 `;
 
 const Username = styled.span`
   font-weight: 600;
   font-size: 16px;
+  text-decoration: none;
 `;
 const Payload = styled.p`
   margin: 5px 20px;
   font-size: 18px;
-  
 `;
 
 
 export default function Title({ username, photo, title, noticeName, userId, id }: IWriting) {
   const [editMode, setEditMode] = useState(false);
+  const moveAddress = `/content/${id}`
   const user = auth.currentUser;
   const onDelete = async() => {
     const ok = confirm("Are you sure you want to delete this tweet?");
@@ -53,6 +58,7 @@ export default function Title({ username, photo, title, noticeName, userId, id }
     }
   }
   return (
+        <Link to={moveAddress} style={{textDecoration: "none"}}>
     <Wrapper>
         <TItleTop>
           <Username>{username}</Username>
@@ -60,6 +66,7 @@ export default function Title({ username, photo, title, noticeName, userId, id }
         </TItleTop>
         <Payload>{title}</Payload>
     </Wrapper>
+      </Link>
     
   );
 }

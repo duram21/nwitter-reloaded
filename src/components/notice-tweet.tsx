@@ -6,6 +6,7 @@ import Tweet from "./tweet";
 import { Unsubscribe } from "firebase/auth";
 import Title from "./writing-list";
 import { IWriting } from "../routes/notice";
+import { Link } from "react-router-dom";
 
 export interface ITweet {
   id: string;
@@ -20,6 +21,7 @@ const Wrapper = styled.div`
   display: flex;
   gap :10px;
   flex-direction: column;
+  text-decoration: none;
 `;
 
 type NoticeNum = {
