@@ -13,6 +13,9 @@ import ProtectedRoute from './components/protected-route'
 import Notice from './routes/notice'
 import Write from './routes/write'
 import Content from './routes/content'
+import Check from './components/check'
+import Make from './components/make'
+import Manage from './components/manage'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +46,27 @@ const router = createBrowserRouter([
 
         ]
       },
+      {
+        path:"check",
+        element:<Check />,
+        children: [
+
+        ]
+      },
+      {
+        path:"make",
+        element:<Make />,
+        children: [
+
+        ]
+      },
+      {
+        path:"manage",
+        element:<Manage />,
+        children: [
+
+        ]
+      }
     ]
   },
   {

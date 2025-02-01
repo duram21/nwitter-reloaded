@@ -145,8 +145,7 @@ export default function WriteForm(){
     <SelectNoticeName onChange={onNoticeNameChange} value={noticeName}>
         <option value="notice1">notice1</option>
         <option value="notice2">notice2</option>
-        <option value="notice3">notice3</option>
-        <option value="notice4">notice4</option>
+
     </SelectNoticeName>
     <TitleArea required name="title" value={title} onChange={onTitleChange} placeholder="제목을 입력해주세요"/>
     <TextArea required rows={20} maxLength={180} name="detail" value={detail} onChange={onChange} placeholder="글을 작성하세요"/>
