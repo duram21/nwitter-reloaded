@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import Project from "./project";
 
 const Wrapper = styled.form`
   display: flex;
@@ -29,6 +30,9 @@ export default function Make(){
       <input onChange={onChange} type="date" id="today" name="today-work">
       
       </input>
+
+    <Project/>
+      
 
     </Wrapper>
 }

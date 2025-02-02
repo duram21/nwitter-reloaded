@@ -52,6 +52,17 @@ const SubmitBtn = styled.input`
   }
 `;
 
+const ListWorkers = styled.div`
+  display:flex;
+  flex-direction: column;
+
+`
+const DisplayForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+`;
 
 export default function Manage(){
   const [isLoading, setLoading] = useState(false);
@@ -106,10 +117,59 @@ export default function Manage(){
   return <Wrapper>
       <h1> 근무 인원 </h1>
       
-      <Form onSubmit={onSubmit}>  
-        <TitleArea onChange={onChange} name="workerName" value={name} placeholder="근무자 이름"/>
-        <SubmitBtn type="submit" value="추가"/>
-      </Form>
+      <DisplayForm>
+        <ListWorkers>
+          {workers.map((worker) => (<Worker key={worker.id} {...worker}/>))} 
+        </ListWorkers>
+        <Form onSubmit={onSubmit}>  
+          <TitleArea onChange={onChange} name="workerName" value={name} placeholder="근무자 이름"/>
+          <SubmitBtn type="submit" value="추가"/>
+        </Form>
+      </DisplayForm>
 
     </Wrapper>
+}
+
+
+const NameWrapper = styled.div`
+  display: flex;
+  
+
+`;
+const NameBox = styled.div`
+  border: 2px solid white;
+  width: 100px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  justify-content: center;
+  justify-items: center;
+  height: 30px;
+  align-items: center;
+`;
+
+const DeleteButton = styled.button`
+  background-color: tomato;
+  color: white;
+  font-weight: 600;
+  border: 0;
+  font-size: 12px;
+  padding: 5px 10px;
+
+  text-transform: uppercase;
+  cursor: pointer;
+`;
+
+
+function Worker({id, name}) {
+  
+  
+
+
+  return  <NameWrapper>
+    <NameBox>
+      <DeleteButton >X</DeleteButton>
+      {name} 
+    </NameBox>
+
+  </NameWrapper>
 }
