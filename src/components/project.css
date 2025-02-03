@@ -8,14 +8,7 @@
   padding-inline-end: 50px;
   padding-inline-start: 90px;
 }
-#input_table{
-  width: 900px;
-  border: solid 1px white;
-}
-#input_table td, th{
-  padding: 1px;
-  border: solid 1px white;
-}
+
 body {
 font-family: '나눔고딕';
 }
@@ -51,14 +44,11 @@ input[type=checkbox]{
   flex-direction: col;
   
 }
-.cur_input_table{
-  width: 200px;   
-}
+
 h1{
   font-family:'Nanumgothic';
   font-size: 3em;
   text-align: center;
-  color: pink;;
   margin: 0;
 }
 background{
@@ -86,44 +76,12 @@ select{
       font-size: 25px;
       margin: 1;
   }
-  table{
-      border-color: white;
-      width: 100%;
-      text-align: center;
-      border-collapse: collapse;
-  }
+
   .result_table td:nth-child(2n){
       background-color: lightgray;
   }
-  .result_table{
-    
 
-  }
   .result_table td{
       height: 10px;
       border: solid 1px white;
-  }
-  th{
-      border: solid 1px white;
-      padding: 2px;
-      border: 2px solid #000;
-      font-family:'Nanumgothic';
-      
-  }
-  td{
-      border-color: white;
-      border: 1px solid white;
-      font-family:'Nanumgothic';
-  }
-  label {
-      font-size: 16px;
-      line-height: 1.9rem;
-      padding: 0.2em 0.4em;
-  }
-  [type="radio"]{
-      border: max(2px, 0.1em) solid gray;
-      border-radius: 50%;
-      width: 1.25em;
-      height: 1.25em;
-      transition: border 0.5s ease-in-out;
   }

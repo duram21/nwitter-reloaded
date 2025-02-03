@@ -23,7 +23,6 @@ export default function Make(){
     setMonth(str.substring(5, 7));
     setDay(str.substring(8, 10));
   }
-
   return <Wrapper>
       <h1>시작 날짜를 입력해주세요</h1>
       <h1>일주일 분량의 근무가 짜여집니다.</h1>
