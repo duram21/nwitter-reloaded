@@ -28,12 +28,7 @@ input[type=checkbox]{
   zoom:2.0;
   margin: 1px;
 }
-.sat{
-  color:blue;
-}
-.sun{
-  color:red;
-}
+
 .make{
   font-size:2em;
   height:2.5em;
@@ -73,7 +68,7 @@ select{
   }
   caption{
       font-family:'Nanumgothic';
-      font-size: 25px;
+      font-size: 40px;
       margin: 1;
   }
 

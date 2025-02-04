@@ -25,7 +25,7 @@ export default function Check(){
 
   return <Wrapper>
       <input onChange={onChange} type="date" id="today" name="today-work">
-
+        
       </input>
 
     </Wrapper>

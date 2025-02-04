@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import "./project.css"
 import { useEffect, useState } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 var Arr = [];
@@ -1164,8 +1164,13 @@ function processFixedNightWorkers() {
       }
     }
   }
-} function setDay() {
+} function setDay(e) {
+  e.preventDefault();
   var tmp = document.getElementById("today").value;
+  if(tmp.length === 0){
+    alert("날짜를 입력 후 버튼을 눌러주세요")
+    return;
+  }
   var year = tmp[0] + tmp[1] + tmp[2] + tmp[3];
   var month = tmp[5] + tmp[6];
   var day = tmp[8] + tmp[9];
@@ -1176,7 +1181,7 @@ function processFixedNightWorkers() {
   var days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   // 윤년 check
   if (((year % 100 != 0) && (year % 4 == 0)) || year % 400 == 0) days[2]++;
-  var week = ["목", "금", "토", "일", "월", "화", "수"];
+  var week = ["월", "화", "수", "목", "금", "토", "일"];
   for (var i = 0; i < 7; i++) {
     // update
     var update_id1 = "day" + String(i + 1) + "1";
@@ -1337,36 +1342,24 @@ function line_check(cur_k, cur_i, cur_j) {
   cur_index = 1;
   for (var i = 0; i < name_list.length; i++) {
     soldier_id[cur_index] = name_list[i];
-
-    for (let k = 0; k < 7; k++) {
-      for (let i = 0; i <= 13; i++) {
-        for (let j = 0; j < 5; j++) {
-          limit[cur_index][k][i][j] = 0;
-        }
-      }
-    }
     cur_index++;
   }
 }
-function makeSelect() {
-  const myTag = document.getElementById("personList");
-  console.log(myTag.innerHTML);
-  myTag.innerHTML = "";
-  for (let i = 0; i < Arr.length; i++) {
-    let wname = Arr[i];
-    let addText = '<li><label><input type="radio" name="workerList" onclick="handleRadio();" value="';
-    addText += String(i + 1);
-    addText += '">';
-    addText += wname;
-    addText += '</label></li>';
-    myTag.innerHTML += addText;
-  }
-} function handleSelectClick() {
+ function handleSelectClick() {
   submitInput();
   makeSelect();
 }
 function handleLimit() {
-  let val = document.querySelector('input[name="workerList"]:checked').value;
+  if(document.querySelector('input[name="workerList"]:checked') === null) return;
+  var name = document.querySelector('input[name="workerList"]:checked').value;
+  console.log(name);
+  let val = -1;
+  for(let i = 0 ; i < Arr.length; i++){
+    if(name === Arr[i]){
+      val =i + 1;
+      break;
+    }
+  }
   console.log(val);
   val = parseInt(val);
   // save input worker's limitation of work time
@@ -1404,8 +1397,16 @@ function handleLimit() {
     }
   }
 }
-function handleRadio() {
-  let val = document.querySelector('input[name="workerList"]:checked').value;
+function handleRadio(name) {
+  let val=-1;
+  for(let i = 0 ; i < Arr.length; i++){
+    if(Arr[i] === name){
+      console.log(123);
+      val= i +1;
+      break;
+    }
+  }
+  console.log(val);
   val = parseInt(val);
   console.log(val);
   var boxes = document.getElementsByName("time_lim");
@@ -1525,13 +1526,19 @@ function swapNightWorks() {
       
     
 const Wrapper = styled.div`
-  
+
 `;
 const InputTable = styled.table`
-  background-color: #112511;
+  background-color: #473c31;
   border: solid 1px white;
   width: 100%;
-  height: 50px;
+  font-weight: bold;
+  .sat{
+    color:blue;
+  }
+  .sun{
+    color:red;
+  }
   tr {
   }
   td, th{
@@ -1540,10 +1547,18 @@ const InputTable = styled.table`
     text-align: center;
     vertical-align: middle;
   }
+  caption{
+    padding : 10px;
+    font-family:'Nanumgothic';
+    font-size: 20px;
+    margin: 1;
+    border-radius: 5px;
+    border: dashed 2px white;
+  }
 `;
 
 const ResultTable = styled.table`
-  background-color: #112511;
+  background-color: #369136;
   border: solid 1px white;
   width: 100%;
   height: 50px;
@@ -1565,7 +1580,19 @@ const ResultTable = styled.table`
 const InputWrapper = styled.div`
   display : flex;
   gap: 20px;
+  align-items: stretch;
 
+`;
+
+const InputDate = styled.div`
+  display: flex;
+  input[type=date]{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+  }
+  p{
+    font-size : 20px;
+  }
 `;
 
 const InputList = styled.div`
@@ -1603,12 +1630,16 @@ const NameBox = styled.div`
   
 `;
 
-function NameTag({name, id}) {
+const SaveResult = styled.div`
+  
+`
 
+function NameTag({name, id}) {
+  const [idx, setIdx] = useState();
 
 
   return <NameWrapper>
-    <input type="radio"  name="NameNotice" id={id}></input>
+    <input type="radio" onChange={()=>handleRadio(name)}  name="workerList" id={id} value={name}></input>
     <label for={id}>
       <NameBox>
         <h1>{name}</h1>
@@ -1652,31 +1683,37 @@ export default function Project(){
   for(let i = 0; i < workers.length; i++){
     console.log(workers[i].name, workers[i].id);
   }
+
   return <Wrapper>
-    <h1>3대대 경작서</h1>
+
+        <p>시작 날짜를 입력해주세요!</p>
+    <InputDate>
+        <input type="date" id="today" name="today"/>
+        <button value="날짜입력" id="day_select" onClick={setDay}>날짜 입력</button>
+    </InputDate>
     <InputWrapper>
     <InputTable >
       <caption>근무 제한 사항</caption>
       <tbody><tr>
         <th></th>
-        <th colspan="1"><p id="day11">목</p></th>
-        <th colspan="1"><p id="day21">금</p></th>
-        <th class="sat" colspan="1"><p id="day31">토</p></th>
-        <th class="sun" colspan="1"><p id="day41">일</p></th>
-        <th colspan="1"><p id="day51">월</p></th>
-        <th colspan="1"><p id="day61">화</p></th>
-        <th colspan="1"><p id="day71">수</p></th>
-        <th colspan="1"> Time Check</th>
+        <th colspan="1"><p id="day11">월</p></th>
+        <th colspan="1"><p id="day21">화</p></th>
+        <th colspan="1"><p id="day31">수</p></th>
+        <th colspan="1"><p id="day41">목</p></th>
+        <th colspan="1"><p id="day51">금</p></th>
+        <th class="sat" colspan="1"><p id="day61">토</p></th>
+        <th class="sun" colspan="1"><p id="day71">일</p></th>
+        <th colspan="1">줄 체크</th>
       </tr>
         <tr>
           <td>06:00~08:00</td>
-          <td><input type="checkbox" name="time_lim" value="0" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="1" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="2" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="3" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="4" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="5" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="6" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="0" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="1" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="2" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="3" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="4" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="5" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="6" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(0, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(0, 2)}>❎</button>
@@ -1684,13 +1721,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>08:00~10:00</td>
-          <td><input type="checkbox" name="time_lim" value="7" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="8" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="9" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="10" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="11" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="12" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="13" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="7" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="8" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="9" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="10" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="11" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="12" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="13" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(1, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(1, 2)}>❎</button>
@@ -1698,13 +1735,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>10:00~12:00</td>
-          <td><input type="checkbox" name="time_lim" value="14" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="15" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="16" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="17" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="18" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="19" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="20" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="14" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="15" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="16" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="17" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="18" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="19" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="20" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(2, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(2, 2)}>❎</button>
@@ -1712,13 +1749,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>12:00~14:00</td>
-          <td><input type="checkbox" name="time_lim" value="21" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="22" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="23" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="24" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="25" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="26" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="27" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="21" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="22" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="23" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="24" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="25" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="26" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="27" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(3, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(3, 2)}>❎</button>
@@ -1726,13 +1763,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>14:00~16:00</td>
-          <td><input type="checkbox" name="time_lim" value="28" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="29" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="30" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="31" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="32" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="33" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="34" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="28" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="29" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="30" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="31" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="32" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="33" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="34" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(4, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(4, 2)}>❎</button>
@@ -1740,13 +1777,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>16:00~18:00</td>
-          <td><input type="checkbox" name="time_lim" value="35" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="36" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="37" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="38" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="39" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="40" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="41" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="35" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="36" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="37" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="38" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="39" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="40" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="41" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(5, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(5, 2)}>❎</button>
@@ -1754,13 +1791,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>18:00~20:00</td>
-          <td><input type="checkbox" name="time_lim" value="42" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="43" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="44" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="45" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="46" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="47" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="48" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="42" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="43" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="44" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="45" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="46" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="47" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="48" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(6, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(6, 2)}>❎</button>
@@ -1768,13 +1805,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>20:00~22:00</td>
-          <td><input type="checkbox" name="time_lim" value="49" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="50" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="51" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="52" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="53" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="54" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="55" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="49" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="50" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="51" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="52" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="53" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="54" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="55" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(7, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(7, 2)}>❎</button>
@@ -1782,13 +1819,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>22:00~00:00</td>
-          <td><input type="checkbox" name="time_lim" value="56" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="57" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="58" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="59" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="60" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="61" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="62" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="56" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="57" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="58" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="59" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="60" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="61" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="62" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(8, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(8, 2)}>❎</button>
@@ -1796,13 +1833,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>00:00~02:00</td>
-          <td><input type="checkbox" name="time_lim" value="63" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="64" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="65" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="66" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="67" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="68" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="69" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="63" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="64" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="65" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="66" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="67" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="68" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="69" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(9, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(9, 2)}>❎</button>
@@ -1810,13 +1847,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>02:00~04:00</td>
-          <td><input type="checkbox" name="time_lim" value="70" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="71" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="72" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="73" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="74" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="75" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="76" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="70" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="71" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="72" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="73" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="74" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="75" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="76" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(10, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(10, 2)}>❎</button>
@@ -1824,13 +1861,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>04:00~06:00</td>
-          <td><input type="checkbox" name="time_lim" value="77" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="78" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="79" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="80" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="81" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="82" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="83" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="77" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="78" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="79" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="80" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="81" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="82" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="83" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(11, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(11, 2)}>❎</button>
@@ -1851,26 +1888,26 @@ export default function Project(){
         </tr>
         <tr>
           <td>불침번 2</td>
-          <td><input type="checkbox" name="time_lim" value="91" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="92" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="93" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="94" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="95" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="96" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="97" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="91" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="92" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="93" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="94" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="95" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="96" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="97" onChange={handleLimit}/></td>
           <td>
             <button type="button" onClick={() => checkButton(13, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(13, 2)}>❎</button>
           </td></tr>
         <tr>
           <td>불침번 3</td>
-          <td><input type="checkbox" name="time_lim" value="98" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="99" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="100" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="101" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="102" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="103" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="104" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="98" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="99" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="100" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="101" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="102" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="103" onChange={handleLimit}/></td>
+          <td><input type="checkbox" name="time_lim" value="104" onChange={handleLimit}/></td>
           <td>
             <button type="button" onClick={() => checkButton(14, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(14, 2)}>❎</button>
@@ -1878,13 +1915,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>불침번 4</td>
-          <td><input type="checkbox" name="time_lim" value="105" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="106" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="107" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="108" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="109" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="110" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="111" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="105" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="106" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="107" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="108" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="109" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="110" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="111" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(15, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(15, 2)}>❎</button>
@@ -1892,13 +1929,13 @@ export default function Project(){
         </tr>
         <tr>
           <td>불침번 5</td>
-          <td><input type="checkbox" name="time_lim" value="112" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="113" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="114" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="115" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="116" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="117" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="118" onchange="handleLimit();" /></td>
+          <td><input type="checkbox" name="time_lim" value="112" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="113" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="114" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="115" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="116" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="117" onChange={handleLimit} /></td>
+          <td><input type="checkbox" name="time_lim" value="118" onChange={handleLimit} /></td>
           <td>
             <button type="button" onClick={() => checkButton(16, 2)}>✅</button>
             <button type="button" onClick={() => resetButton(16, 2)}>❎</button>
@@ -2350,7 +2387,75 @@ export default function Project(){
         
         </tbody></ResultTable>
 </div>
+  
+  <SaveResult>
+      <SaveBtn>
+
+      </SaveBtn>
+
+  </SaveResult>
 
   </Wrapper>
 
 };
+
+function SaveBtn () {
+    
+  const onSave = async() => {
+    console.log(yagan);
+    let date = document.getElementById("today").value;
+    if (date.length === 0) {
+      alert("날짜를 입력 후 버튼을 눌러주세요")
+      return;
+    }
+    console.log(date);
+    let year = date[0] + date[1] + date[2] + date[3];
+    let month = date[5] + date[6];
+    let day = date[8] + date[9];
+    year = parseInt(year);
+    month = parseInt(month);
+    day = parseInt(day);
+
+    let days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let dateArr = [];
+    // 윤년 check
+    if (((year % 100 != 0) && (year % 4 == 0)) || year % 400 == 0) days[2]++;
+    for (let i = 0; i < 7; i++) {
+      // update
+      let current_day = day + i;
+      let current_month = month;
+      let current_year = year;
+      if (current_day > days[current_month]) {
+        current_day -= days[current_month];
+        current_month++;
+        if (current_month == 13) {
+          current_month = 1;
+          current_year++;
+        }
+      }
+      let current_date;
+      current_date = `${String(current_year).padStart(4, "0")}-${String(current_month).padStart(2, "0")}-${String(current_day).padStart(2, "0")}`;
+      console.log(current_date);
+      let workData = [];
+      for(let j = 0 ; j <= 11; j ++){
+        workData.push(yagan[i][j][0]);
+        workData.push(yagan[i][j][1]);
+      }
+      for(let j =0; j < 5; j++){
+        workData.push(yagan[i][13][j]);
+      }
+      console.log(workData);
+      await setDoc(doc(db, "works", current_date), {
+        name: workData
+      });
+
+    }
+  }
+  
+
+  return <div>
+    <button onClick={onSave}>
+      저장하기
+    </button>
+  </div>
+}

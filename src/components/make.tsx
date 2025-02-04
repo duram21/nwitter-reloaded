@@ -5,10 +5,10 @@ import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Project from "./project";
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  
+  gap: 20px;
 `;
 
 export default function Make(){
@@ -24,11 +24,9 @@ export default function Make(){
     setDay(str.substring(8, 10));
   }
   return <Wrapper>
-      <h1>시작 날짜를 입력해주세요</h1>
+
       <h1>일주일 분량의 근무가 짜여집니다.</h1>
-      <input onChange={onChange} type="date" id="today" name="today-work">
-      
-      </input>
+
 
     <Project/>
       

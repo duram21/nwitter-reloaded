@@ -126,7 +126,7 @@ export default function Manage(){
           <SubmitBtn type="submit" value="추가"/>
         </Form>
       </DisplayForm>
-
+      
     </Wrapper>
 }
 
@@ -170,6 +170,6 @@ function Worker({id, name}) {
       <DeleteButton >X</DeleteButton>
       {name} 
     </NameBox>
-
+    
   </NameWrapper>
 }
