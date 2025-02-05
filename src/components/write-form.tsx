@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Form = styled.form`
   display: flex;
@@ -89,6 +90,7 @@ export default function WriteForm(){
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File|null>(null);
   const [noticeName, setNoticeName] = useState("notice1");
+  const navigate = useNavigate();
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if(e.target.name === "detail"){
       setDetail(e.target.value);
@@ -103,7 +105,7 @@ export default function WriteForm(){
     console.log(e);
     setNoticeName(e.target.value);
     console.log(noticeName);
-  }
+  }  
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {files} = e.target;
     if(files && files.length === 1){
@@ -112,6 +114,7 @@ export default function WriteForm(){
   }
   const onSubmit = async(e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  
     const user = auth.currentUser;
     if(!user || isLoading || detail === "" || detail.length > 180) return;
 
@@ -134,7 +137,10 @@ export default function WriteForm(){
         });
       }
       setDetail("");
+      setTitle("");
       setFile(null);
+      navigate("/notice");
+      
     } catch(e){
       console.log(e);
     } finally{

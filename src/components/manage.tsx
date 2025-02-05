@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { auth, db} from "../firebase";
@@ -6,13 +6,17 @@ import { auth, db} from "../firebase";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  h1{
+    font-size: 30px;
+  }
   
 `;
 
 
 const Form = styled.form`
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 10px;
 `;
 
@@ -23,8 +27,9 @@ const TitleArea = styled.input`
   border-radius: 20px;
   font-size: 16px;
   color: white;
+  height: 50px;
   background-color: black;
-  width: 100%;
+  width: 70%;
   resize: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -38,13 +43,13 @@ const TitleArea = styled.input`
 `;
 
 const SubmitBtn = styled.input`
-  background-color: #1d9bf0;
+  background-color: #359b7c;
   color: white;
   border: none;
   width: 100px;
   padding: 10px 10px;
   border-radius: 20px;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   &:hover,
   &:active {
@@ -53,9 +58,8 @@ const SubmitBtn = styled.input`
 `;
 
 const ListWorkers = styled.div`
-  display:flex;
-  flex-direction: column;
-
+  display:grid;
+  grid-template-columns: 1fr 1fr;  
 `
 const DisplayForm = styled.div`
   display: flex;
@@ -115,7 +119,7 @@ export default function Manage(){
 
 
   return <Wrapper>
-      <h1> 근무 인원 </h1>
+      <h1>근무자 명단</h1>
       
       <DisplayForm>
         <ListWorkers>
@@ -123,7 +127,7 @@ export default function Manage(){
         </ListWorkers>
         <Form onSubmit={onSubmit}>  
           <TitleArea onChange={onChange} name="workerName" value={name} placeholder="근무자 이름"/>
-          <SubmitBtn type="submit" value="추가"/>
+          <SubmitBtn type="submit" value="추가"></SubmitBtn>
         </Form>
       </DisplayForm>
       
@@ -140,11 +144,19 @@ const NameBox = styled.div`
   border: 2px solid white;
   width: 100px;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 3fr;
   justify-content: center;
   justify-items: center;
-  height: 30px;
+  height: 40px;
   align-items: center;
+  svg{
+    color: lightgreen;
+    border: solid 1px greenyellow;
+    border-radius: 5px;
+  }
+  p{
+    font-size: 18px;
+  }
 `;
 
 const DeleteButton = styled.button`
@@ -162,13 +174,29 @@ const DeleteButton = styled.button`
 
 function Worker({id, name}) {
   
-  
+  const onDelete = async() => {
+    let message = `${name} 명단에서 제외하겠습니까?`;
+    const ok = confirm(message);
+    if (!ok) return;
+    try {
+      await deleteDoc(doc(db, "workers", id));
+
+    } catch (e) {
+      console.log(e);
+    } finally {
+
+    }
+  }
 
 
   return  <NameWrapper>
     <NameBox>
-      <DeleteButton >X</DeleteButton>
-      {name} 
+
+        <svg onClick={onDelete} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+        </svg>
+
+      <p>{name}</p> 
     </NameBox>
     
   </NameWrapper>

@@ -1526,8 +1526,17 @@ function swapNightWorks() {
       
     
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap : 10px;
 
+  .make{
+    font-size: 1.5em;
+    height:2em;
+    font-family:'Nanumgothic';
+  }
 `;
+
 const InputTable = styled.table`
   background-color: #473c31;
   border: solid 1px white;
@@ -1539,8 +1548,7 @@ const InputTable = styled.table`
   .sun{
     color:red;
   }
-  tr {
-  }
+
   td, th{
     padding: 3px;
     border: solid 1px white;
@@ -1562,26 +1570,42 @@ const ResultTable = styled.table`
   border: solid 1px white;
   width: 100%;
   height: 50px;
-  tr {
-    
-  }
+  font-weight: bold;
+  font-size: 15px;
   td, th{
-    padding: 3px;
+    padding: 8px;
     border: solid 1px white;
     text-align: center;
     vertical-align: middle;
+  }
+  caption{
+    padding : 10px;
+    font-family:'Nanumgothic';
+    font-size: 20px;
+    margin: 1;
+    border-radius: 5px;
+    border: dashed 2px white;
   }
 
   td:nth-child(2n){
         background-color: #5c0d0d; 
     }
+
+  .sat{
+    color:blue;
+  }
+  .sun{
+    color:red;
+  }
+  tr {
+  }
 `;
 
 const InputWrapper = styled.div`
   display : flex;
   gap: 20px;
   align-items: stretch;
-
+  
 `;
 
 const InputDate = styled.div`
@@ -1618,7 +1642,12 @@ const NameWrapper = styled.div`
       background-color:gray;
     }
   }
-  `;
+  h1{
+  font-family:'Nanumgothic';
+  text-align: center;
+
+}
+`;
 
 const NameBox = styled.div`
   background: black;
@@ -1631,8 +1660,39 @@ const NameBox = styled.div`
 `;
 
 const SaveResult = styled.div`
-  
+  button{
+  font-size:1em;
+  height:2.5em;
+  font-family:'Nanumgothic';
+}
 `
+
+const FixedInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  select{
+    width: 200px;
+    padding:5px;
+    border:1px solid #999;
+    font-family:'Nanumgothic';
+    border-radius:3px;
+    -moz-apperance: none;
+    -webkit-apperance: none;
+    font-size: 15px;
+  }
+`;
+
+const FixedCCTV = styled.div`
+  display:flex;
+  align-items: stretch;
+
+`;
+
+const FixedBool = styled.div`
+    display:flex;
+    align-items: stretch;
+`;
 
 function NameTag({name, id}) {
   const [idx, setIdx] = useState();
@@ -2009,8 +2069,9 @@ export default function Project(){
       } )}
     </InputList>
     </InputWrapper>
-    <div><h4>CCTV 고정 근무자 입력</h4>
-
+    <FixedInput>
+      <h4>CCTV 고정 근무자 입력</h4>
+      <FixedCCTV>
       <select id="fixed_day">
         <option id="day13" value="0">목</option>
         <option id="day23" value="1">금</option>
@@ -2033,360 +2094,361 @@ export default function Project(){
         <option value="9">00:00~02:00</option>
         <option value="10">02:00~04:00</option>
         <option value="11">04:00~06:00</option>
-      </select><select id="work_type">
+      </select>
+      <select id="work_type">
         <option value="0">탄약고/무기고</option>
         <option value="1">주둔지</option>
       </select>
       <input placeholder="이름을 입력해주세요" type="text" id="fixed_name" />
       <button value="입력하기" id="fixed_submit" onclick="fixed_submit_button();">입력하기</button>
-    </div>
+  
+    </FixedCCTV>
+    <h4>불침번 고정 근무자 입력</h4>
+    <FixedBool>
+        <select id="fixed_day2">
+          <option id="day14" value="0">목</option>
+          <option id="day24" value="1">금</option>
+          <option class="sat" id="day34" value="2">토</option>
+          <option class="sun" id="day44" value="3">일</option>
+          <option id="day54" value="4">월</option>
+          <option id="day64" value="5">화</option>
+          <option id="day74" value="6">수</option>
+        </select>
+        <select id="bool_type">
+          <option value="0">불침번1</option>
+          <option value="1">불침번2</option>
+          <option value="2">불침번3</option>
+          <option value="3">불침번4</option>
+          <option value="4">불침번5</option>
+        </select>
+        <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
+        <button value="입력하기" id="fixed_submit2" onclick="fixed_submit_button2();">입력하기</button>
       
-    <div><h4>불침번 고정 근무자 입력</h4>
-      <select id="fixed_day2">
-        <option id="day14" value="0">목</option>
-        <option id="day24" value="1">금</option>
-        <option class="sat" id="day34" value="2">토</option>
-        <option class="sun" id="day44" value="3">일</option>
-        <option id="day54" value="4">월</option>
-        <option id="day64" value="5">화</option>
-        <option id="day74" value="6">수</option>
-      </select>
-      <select id="bool_type">
-        <option value="0">불침번1</option>
-        <option value="1">불침번2</option>
-        <option value="2">불침번3</option>
-        <option value="3">불침번4</option>
-        <option value="4">불침번5</option>
-      </select>
-      <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
-      <button value="입력하기" id="fixed_submit2" onclick="fixed_submit_button2();">입력하기</button>
-    </div>
-
-    
+    </FixedBool>
+    </FixedInput>
     <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
-
-
-<div >
-    <ResultTable  class="result_table">
-    <caption>경작서</caption>
-        <tbody><tr>
-            <th></th>
-            <th colspan="2"><p id="day12">목</p></th>
-            <th colspan="2"><p id="day22">금</p></th>
-            <th class="sat" colspan="2"><p id="day32">토</p></th>
-            <th class="sun" colspan="2"><p id="day42">일</p></th>
-            <th colspan="2"><p id="day52">월</p></th>
-            <th colspan="2"><p id="day62">화</p></th>
-            <th colspan="2"><p id="day72">수</p></th>
+    
+    <ResultTable className="result_table">
+      <caption>경작서</caption>
+      <tbody><tr>
+        <th></th>
+        <th colspan="2"><p id="day12">목</p></th>
+        <th colspan="2"><p id="day22">금</p></th>
+        <th class="sat" colspan="2"><p id="day32">토</p></th>
+        <th class="sun" colspan="2"><p id="day42">일</p></th>
+        <th colspan="2"><p id="day52">월</p></th>
+        <th colspan="2"><p id="day62">화</p></th>
+        <th colspan="2"><p id="day72">수</p></th>
+      </tr>
+        <tr>
+          <td>cctv 구분</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
+          <td>탄약고/무기고</td>
+          <td>주둔지</td>
         </tr>
         <tr>
-            <td>cctv 구분</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-            <td>탄약고/무기고</td>
-            <td>주둔지</td>
-        </tr>
-        <tr>
-            <td>06:00~08:00</td>
-            <td><p id="data0"></p></td>
-            <td><p id="data1"></p></td>
-            <td><p id="data1000"></p></td>
-            <td><p id="data1001"></p></td>
-            <td><p id="data2000"></p></td>
-            <td><p id="data2001"></p></td>
-            <td><p id="data3000"></p></td>
-            <td><p id="data3001"></p></td>
-            <td><p id="data4000"></p></td>
-            <td><p id="data4001"></p></td>
-            <td><p id="data5000"></p></td>
-            <td><p id="data5001"></p></td>
-            <td><p id="data6000"></p></td>
-            <td><p id="data6001"></p></td>
+          <td>06:00~08:00</td>
+          <td><p id="data0"></p></td>
+          <td><p id="data1"></p></td>
+          <td><p id="data1000"></p></td>
+          <td><p id="data1001"></p></td>
+          <td><p id="data2000"></p></td>
+          <td><p id="data2001"></p></td>
+          <td><p id="data3000"></p></td>
+          <td><p id="data3001"></p></td>
+          <td><p id="data4000"></p></td>
+          <td><p id="data4001"></p></td>
+          <td><p id="data5000"></p></td>
+          <td><p id="data5001"></p></td>
+          <td><p id="data6000"></p></td>
+          <td><p id="data6001"></p></td>
         </tr><tr>
-            <td>08:00~10:00</td>
-            <td><p id="data10"></p></td>
-            <td><p id="data11"></p></td>
-            <td><p id="data1010"></p></td>
-            <td><p id="data1011"></p></td>
-            <td><p id="data2010"></p></td>
-            <td><p id="data2011"></p></td>
-            <td><p id="data3010"></p></td>
-            <td><p id="data3011"></p></td>
-            <td><p id="data4010"></p></td>
-            <td><p id="data4011"></p></td>
-            <td><p id="data5010"></p></td>
-            <td><p id="data5011"></p></td>
-            <td><p id="data6010"></p></td>
-            <td><p id="data6011"></p></td>
+          <td>08:00~10:00</td>
+          <td><p id="data10"></p></td>
+          <td><p id="data11"></p></td>
+          <td><p id="data1010"></p></td>
+          <td><p id="data1011"></p></td>
+          <td><p id="data2010"></p></td>
+          <td><p id="data2011"></p></td>
+          <td><p id="data3010"></p></td>
+          <td><p id="data3011"></p></td>
+          <td><p id="data4010"></p></td>
+          <td><p id="data4011"></p></td>
+          <td><p id="data5010"></p></td>
+          <td><p id="data5011"></p></td>
+          <td><p id="data6010"></p></td>
+          <td><p id="data6011"></p></td>
         </tr>
         <tr>
-            <td>10:00~12:00</td>
-            <td><p id="data20"></p></td>
-            <td><p id="data21"></p></td>
-            <td><p id="data1020"></p></td>
-            <td><p id="data1021"></p></td>
-            <td><p id="data2020"></p></td>
-            <td><p id="data2021"></p></td>
-            <td><p id="data3020"></p></td>
-            <td><p id="data3021"></p></td>
-            <td><p id="data4020"></p></td>
-            <td><p id="data4021"></p></td>
-            <td><p id="data5020"></p></td>
-            <td><p id="data5021"></p></td>
-            <td><p id="data6020"></p></td>
-            <td><p id="data6021"></p></td>
+          <td>10:00~12:00</td>
+          <td><p id="data20"></p></td>
+          <td><p id="data21"></p></td>
+          <td><p id="data1020"></p></td>
+          <td><p id="data1021"></p></td>
+          <td><p id="data2020"></p></td>
+          <td><p id="data2021"></p></td>
+          <td><p id="data3020"></p></td>
+          <td><p id="data3021"></p></td>
+          <td><p id="data4020"></p></td>
+          <td><p id="data4021"></p></td>
+          <td><p id="data5020"></p></td>
+          <td><p id="data5021"></p></td>
+          <td><p id="data6020"></p></td>
+          <td><p id="data6021"></p></td>
         </tr>
         <tr>
-            <td>12:00~14:00</td>
-            <td><p id="data30"></p></td>
-            <td><p id="data31"></p></td>
-            <td><p id="data1030"></p></td>
-            <td><p id="data1031"></p></td>
-            <td><p id="data2030"></p></td>
-            <td><p id="data2031"></p></td>
-            <td><p id="data3030"></p></td>
-            <td><p id="data3031"></p></td>
-            <td><p id="data4030"></p></td>
-            <td><p id="data4031"></p></td>
-            <td><p id="data5030"></p></td>
-            <td><p id="data5031"></p></td>
-            <td><p id="data6030"></p></td>
-            <td><p id="data6031"></p></td>
+          <td>12:00~14:00</td>
+          <td><p id="data30"></p></td>
+          <td><p id="data31"></p></td>
+          <td><p id="data1030"></p></td>
+          <td><p id="data1031"></p></td>
+          <td><p id="data2030"></p></td>
+          <td><p id="data2031"></p></td>
+          <td><p id="data3030"></p></td>
+          <td><p id="data3031"></p></td>
+          <td><p id="data4030"></p></td>
+          <td><p id="data4031"></p></td>
+          <td><p id="data5030"></p></td>
+          <td><p id="data5031"></p></td>
+          <td><p id="data6030"></p></td>
+          <td><p id="data6031"></p></td>
         </tr>
         <tr>
-            <td>14:00~16:00</td>
-            <td><p id="data40"></p></td>
-            <td><p id="data41"></p></td>
-            <td><p id="data1040"></p></td>
-            <td><p id="data1041"></p></td>
-            <td><p id="data2040"></p></td>
-            <td><p id="data2041"></p></td>
-            <td><p id="data3040"></p></td>
-            <td><p id="data3041"></p></td>
-            <td><p id="data4040"></p></td>
-            <td><p id="data4041"></p></td>
-            <td><p id="data5040"></p></td>
-            <td><p id="data5041"></p></td>
-            <td><p id="data6040"></p></td>
-            <td><p id="data6041"></p></td>
-        </tr>        
-        <tr>
-            <td>16:00~18:00</td>
-            <td><p id="data50"></p></td>
-            <td><p id="data51"></p></td>
-            <td><p id="data1050"></p></td>
-            <td><p id="data1051"></p></td>
-            <td><p id="data2050"></p></td>
-            <td><p id="data2051"></p></td>
-            <td><p id="data3050"></p></td>
-            <td><p id="data3051"></p></td>
-            <td><p id="data4050"></p></td>
-            <td><p id="data4051"></p></td>
-            <td><p id="data5050"></p></td>
-            <td><p id="data5051"></p></td>
-            <td><p id="data6050"></p></td>
-            <td><p id="data6051"></p></td>
+          <td>14:00~16:00</td>
+          <td><p id="data40"></p></td>
+          <td><p id="data41"></p></td>
+          <td><p id="data1040"></p></td>
+          <td><p id="data1041"></p></td>
+          <td><p id="data2040"></p></td>
+          <td><p id="data2041"></p></td>
+          <td><p id="data3040"></p></td>
+          <td><p id="data3041"></p></td>
+          <td><p id="data4040"></p></td>
+          <td><p id="data4041"></p></td>
+          <td><p id="data5040"></p></td>
+          <td><p id="data5041"></p></td>
+          <td><p id="data6040"></p></td>
+          <td><p id="data6041"></p></td>
         </tr>
         <tr>
-            <td>18:00~20:00</td>
-            <td><p id="data60"></p></td>
-            <td><p id="data61"></p></td>
-            <td><p id="data1060"></p></td>
-            <td><p id="data1061"></p></td>
-            <td><p id="data2060"></p></td>
-            <td><p id="data2061"></p></td>
-            <td><p id="data3060"></p></td>
-            <td><p id="data3061"></p></td>
-            <td><p id="data4060"></p></td>
-            <td><p id="data4061"></p></td>
-            <td><p id="data5060"></p></td>
-            <td><p id="data5061"></p></td>
-            <td><p id="data6060"></p></td>
-            <td><p id="data6061"></p></td>
+          <td>16:00~18:00</td>
+          <td><p id="data50"></p></td>
+          <td><p id="data51"></p></td>
+          <td><p id="data1050"></p></td>
+          <td><p id="data1051"></p></td>
+          <td><p id="data2050"></p></td>
+          <td><p id="data2051"></p></td>
+          <td><p id="data3050"></p></td>
+          <td><p id="data3051"></p></td>
+          <td><p id="data4050"></p></td>
+          <td><p id="data4051"></p></td>
+          <td><p id="data5050"></p></td>
+          <td><p id="data5051"></p></td>
+          <td><p id="data6050"></p></td>
+          <td><p id="data6051"></p></td>
         </tr>
         <tr>
-            <td>20:00~22:00</td>
-            <td><p id="data70"></p></td>
-            <td><p id="data71"></p></td>
-            <td><p id="data1070"></p></td>
-            <td><p id="data1071"></p></td>
-            <td><p id="data2070"></p></td>
-            <td><p id="data2071"></p></td>
-            <td><p id="data3070"></p></td>
-            <td><p id="data3071"></p></td>
-            <td><p id="data4070"></p></td>
-            <td><p id="data4071"></p></td>
-            <td><p id="data5070"></p></td>
-            <td><p id="data5071"></p></td>
-            <td><p id="data6070"></p></td>
-            <td><p id="data6071"></p></td>
+          <td>18:00~20:00</td>
+          <td><p id="data60"></p></td>
+          <td><p id="data61"></p></td>
+          <td><p id="data1060"></p></td>
+          <td><p id="data1061"></p></td>
+          <td><p id="data2060"></p></td>
+          <td><p id="data2061"></p></td>
+          <td><p id="data3060"></p></td>
+          <td><p id="data3061"></p></td>
+          <td><p id="data4060"></p></td>
+          <td><p id="data4061"></p></td>
+          <td><p id="data5060"></p></td>
+          <td><p id="data5061"></p></td>
+          <td><p id="data6060"></p></td>
+          <td><p id="data6061"></p></td>
         </tr>
         <tr>
-            <td>22:00~00:00</td>
-            <td><p id="data80"></p></td>
-            <td><p id="data81"></p></td>
-            <td><p id="data1080"></p></td>
-            <td><p id="data1081"></p></td>
-            <td><p id="data2080"></p></td>
-            <td><p id="data2081"></p></td>
-            <td><p id="data3080"></p></td>
-            <td><p id="data3081"></p></td>
-            <td><p id="data4080"></p></td>
-            <td><p id="data4081"></p></td>
-            <td><p id="data5080"></p></td>
-            <td><p id="data5081"></p></td>
-            <td><p id="data6080"></p></td>
-            <td><p id="data6081"></p></td>
+          <td>20:00~22:00</td>
+          <td><p id="data70"></p></td>
+          <td><p id="data71"></p></td>
+          <td><p id="data1070"></p></td>
+          <td><p id="data1071"></p></td>
+          <td><p id="data2070"></p></td>
+          <td><p id="data2071"></p></td>
+          <td><p id="data3070"></p></td>
+          <td><p id="data3071"></p></td>
+          <td><p id="data4070"></p></td>
+          <td><p id="data4071"></p></td>
+          <td><p id="data5070"></p></td>
+          <td><p id="data5071"></p></td>
+          <td><p id="data6070"></p></td>
+          <td><p id="data6071"></p></td>
         </tr>
         <tr>
-            <td>00:00~02:00</td>
-            <td><p id="data90"></p></td>
-            <td><p id="data91"></p></td>
-            <td><p id="data1090"></p></td>
-            <td><p id="data1091"></p></td>
-            <td><p id="data2090"></p></td>
-            <td><p id="data2091"></p></td>
-            <td><p id="data3090"></p></td>
-            <td><p id="data3091"></p></td>
-            <td><p id="data4090"></p></td>
-            <td><p id="data4091"></p></td>
-            <td><p id="data5090"></p></td>
-            <td><p id="data5091"></p></td>
-            <td><p id="data6090"></p></td>
-            <td><p id="data6091"></p></td>
+          <td>22:00~00:00</td>
+          <td><p id="data80"></p></td>
+          <td><p id="data81"></p></td>
+          <td><p id="data1080"></p></td>
+          <td><p id="data1081"></p></td>
+          <td><p id="data2080"></p></td>
+          <td><p id="data2081"></p></td>
+          <td><p id="data3080"></p></td>
+          <td><p id="data3081"></p></td>
+          <td><p id="data4080"></p></td>
+          <td><p id="data4081"></p></td>
+          <td><p id="data5080"></p></td>
+          <td><p id="data5081"></p></td>
+          <td><p id="data6080"></p></td>
+          <td><p id="data6081"></p></td>
         </tr>
         <tr>
-            <td>02:00~04:00</td>
-            <td><p id="data100"></p></td>
-            <td><p id="data101"></p></td>
-            <td><p id="data1100"></p></td>
-            <td><p id="data1101"></p></td>
-            <td><p id="data2100"></p></td>
-            <td><p id="data2101"></p></td>
-            <td><p id="data3100"></p></td>
-            <td><p id="data3101"></p></td>
-            <td><p id="data4100"></p></td>
-            <td><p id="data4101"></p></td>
-            <td><p id="data5100"></p></td>
-            <td><p id="data5101"></p></td>
-            <td><p id="data6100"></p></td>
-            <td><p id="data6101"></p></td>
+          <td>00:00~02:00</td>
+          <td><p id="data90"></p></td>
+          <td><p id="data91"></p></td>
+          <td><p id="data1090"></p></td>
+          <td><p id="data1091"></p></td>
+          <td><p id="data2090"></p></td>
+          <td><p id="data2091"></p></td>
+          <td><p id="data3090"></p></td>
+          <td><p id="data3091"></p></td>
+          <td><p id="data4090"></p></td>
+          <td><p id="data4091"></p></td>
+          <td><p id="data5090"></p></td>
+          <td><p id="data5091"></p></td>
+          <td><p id="data6090"></p></td>
+          <td><p id="data6091"></p></td>
         </tr>
         <tr>
-            <td>04:00~06:00</td>
-            <td><p id="data110"></p></td>
-            <td><p id="data111"></p></td>
-            <td><p id="data1110"></p></td>
-            <td><p id="data1111"></p></td>
-            <td><p id="data2110"></p></td>
-            <td><p id="data2111"></p></td>
-            <td><p id="data3110"></p></td>
-            <td><p id="data3111"></p></td>
-            <td><p id="data4110"></p></td>
-            <td><p id="data4111"></p></td>
-            <td><p id="data5110"></p></td>
-            <td><p id="data5111"></p></td>
-            <td><p id="data6110"></p></td>
-            <td><p id="data6111"></p></td>
+          <td>02:00~04:00</td>
+          <td><p id="data100"></p></td>
+          <td><p id="data101"></p></td>
+          <td><p id="data1100"></p></td>
+          <td><p id="data1101"></p></td>
+          <td><p id="data2100"></p></td>
+          <td><p id="data2101"></p></td>
+          <td><p id="data3100"></p></td>
+          <td><p id="data3101"></p></td>
+          <td><p id="data4100"></p></td>
+          <td><p id="data4101"></p></td>
+          <td><p id="data5100"></p></td>
+          <td><p id="data5101"></p></td>
+          <td><p id="data6100"></p></td>
+          <td><p id="data6101"></p></td>
         </tr>
         <tr>
-            <td>불침번1</td>
-            <td><p id="data130"></p></td>
-            <td></td>
-            <td><p id="data1130"></p></td>
-            <td></td>
-            <td><p id="data2130"></p></td>
-            <td></td>
-            <td><p id="data3130"></p></td>
-            <td></td>
-            <td><p id="data4130"></p></td>
-            <td></td>
-            <td><p id="data5130"></p></td>
-            <td></td>
-            <td><p id="data6130"></p></td>
-            <td></td>
+          <td>04:00~06:00</td>
+          <td><p id="data110"></p></td>
+          <td><p id="data111"></p></td>
+          <td><p id="data1110"></p></td>
+          <td><p id="data1111"></p></td>
+          <td><p id="data2110"></p></td>
+          <td><p id="data2111"></p></td>
+          <td><p id="data3110"></p></td>
+          <td><p id="data3111"></p></td>
+          <td><p id="data4110"></p></td>
+          <td><p id="data4111"></p></td>
+          <td><p id="data5110"></p></td>
+          <td><p id="data5111"></p></td>
+          <td><p id="data6110"></p></td>
+          <td><p id="data6111"></p></td>
         </tr>
         <tr>
-            <td>불침번2</td>
-            <td><p id="data131"></p></td>
-            <td></td>
-            <td><p id="data1131"></p></td>
-            <td></td>
-            <td><p id="data2131"></p></td>
-            <td></td>
-            <td><p id="data3131"></p></td>
-            <td></td>
-            <td><p id="data4131"></p></td>
-            <td></td>
-            <td><p id="data5131"></p></td>
-            <td></td>
-            <td><p id="data6131"></p></td>
-            <td></td>
+          <td>불침번1</td>
+          <td><p id="data130"></p></td>
+          <td></td>
+          <td><p id="data1130"></p></td>
+          <td></td>
+          <td><p id="data2130"></p></td>
+          <td></td>
+          <td><p id="data3130"></p></td>
+          <td></td>
+          <td><p id="data4130"></p></td>
+          <td></td>
+          <td><p id="data5130"></p></td>
+          <td></td>
+          <td><p id="data6130"></p></td>
+          <td></td>
         </tr>
         <tr>
-            <td>불침번3</td>
-            <td><p id="data132"></p></td>
-            <td></td>
-            <td><p id="data1132"></p></td>
-            <td></td>
-            <td><p id="data2132"></p></td>
-            <td></td>
-            <td><p id="data3132"></p></td>
-            <td></td>
-            <td><p id="data4132"></p></td>
-            <td></td>
-            <td><p id="data5132"></p></td>
-            <td></td>
-            <td><p id="data6132"></p></td>
-            <td></td>
+          <td>불침번2</td>
+          <td><p id="data131"></p></td>
+          <td></td>
+          <td><p id="data1131"></p></td>
+          <td></td>
+          <td><p id="data2131"></p></td>
+          <td></td>
+          <td><p id="data3131"></p></td>
+          <td></td>
+          <td><p id="data4131"></p></td>
+          <td></td>
+          <td><p id="data5131"></p></td>
+          <td></td>
+          <td><p id="data6131"></p></td>
+          <td></td>
         </tr>
         <tr>
-            <td>불침번4</td>
-            <td><p id="data133"></p></td>
-            <td></td>
-            <td><p id="data1133"></p></td>
-            <td></td>
-            <td><p id="data2133"></p></td>
-            <td></td>
-            <td><p id="data3133"></p></td>
-            <td></td>
-            <td><p id="data4133"></p></td>
-            <td></td>
-            <td><p id="data5133"></p></td>
-            <td></td>
-            <td><p id="data6133"></p></td>
-            <td></td>
+          <td>불침번3</td>
+          <td><p id="data132"></p></td>
+          <td></td>
+          <td><p id="data1132"></p></td>
+          <td></td>
+          <td><p id="data2132"></p></td>
+          <td></td>
+          <td><p id="data3132"></p></td>
+          <td></td>
+          <td><p id="data4132"></p></td>
+          <td></td>
+          <td><p id="data5132"></p></td>
+          <td></td>
+          <td><p id="data6132"></p></td>
+          <td></td>
         </tr>
         <tr>
-            <td>불침번5</td>
-            <td><p id="data134"></p></td>
-            <td></td>
-            <td><p id="data1134"></p></td>
-            <td></td>
-            <td><p id="data2134"></p></td>
-            <td></td>
-            <td><p id="data3134"></p></td>
-            <td></td>
-            <td><p id="data4134"></p></td>
-            <td></td>
-            <td><p id="data5134"></p></td>
-            <td></td>
-            <td><p id="data6134"></p></td>
-            <td></td>
+          <td>불침번4</td>
+          <td><p id="data133"></p></td>
+          <td></td>
+          <td><p id="data1133"></p></td>
+          <td></td>
+          <td><p id="data2133"></p></td>
+          <td></td>
+          <td><p id="data3133"></p></td>
+          <td></td>
+          <td><p id="data4133"></p></td>
+          <td></td>
+          <td><p id="data5133"></p></td>
+          <td></td>
+          <td><p id="data6133"></p></td>
+          <td></td>
         </tr>
-        
-        </tbody></ResultTable>
-</div>
+        <tr>
+          <td>불침번5</td>
+          <td><p id="data134"></p></td>
+          <td></td>
+          <td><p id="data1134"></p></td>
+          <td></td>
+          <td><p id="data2134"></p></td>
+          <td></td>
+          <td><p id="data3134"></p></td>
+          <td></td>
+          <td><p id="data4134"></p></td>
+          <td></td>
+          <td><p id="data5134"></p></td>
+          <td></td>
+          <td><p id="data6134"></p></td>
+          <td></td>
+        </tr>
+
+      </tbody>
+    </ResultTable>
+
   
   <SaveResult>
       <SaveBtn>
@@ -2452,7 +2514,6 @@ function SaveBtn () {
     }
   }
   
-
   return <div>
     <button onClick={onSave}>
       저장하기
