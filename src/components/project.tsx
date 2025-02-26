@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import "./project.css"
 import { useEffect, useState } from "react";
 import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -2514,6 +2513,7 @@ function SaveBtn () {
     }
   }
   
+
   return <div>
     <button onClick={onSave}>
       저장하기
