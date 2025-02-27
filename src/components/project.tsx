@@ -1537,7 +1537,7 @@ const Wrapper = styled.div`
 `;
 
 const InputTable = styled.table`
-  background-color: #473c31;
+  background-color: #2e2b29;
   border: solid 1px white;
   width: 100%;
   font-weight: bold;
@@ -1550,6 +1550,7 @@ const InputTable = styled.table`
 
   td, th{
     padding: 3px;
+    height: 30px;
     border: solid 1px white;
     text-align: center;
     vertical-align: middle;
@@ -1562,10 +1563,31 @@ const InputTable = styled.table`
     border-radius: 5px;
     border: dashed 2px white;
   }
+  td{
+    padding: 0;
+  }
+  input[type="checkbox"]{
+    height: 30px;
+    width: 100%;
+    margin: 0;
+    -webkit-appearance: none; /* 기본 체크박스 모양 제거 */
+    background-color: #fff; /* 배경색 */
+    border: 1px solid #333; /* 테두리 설정 */
+    border-radius: 0px; /* 둥근 모서리 */
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked{
+    background-color: #4caf50; /* 체크되었을 때 배경색 */
+    border-color: #4caf50; /* 테두리 색상 */
+
+  }
+  button{
+    padding: 0px;
+  }
 `;
 
 const ResultTable = styled.table`
-  background-color: #369136;
+  background-color: #2e2b29;
   border: solid 1px white;
   width: 100%;
   height: 50px;
@@ -1587,7 +1609,7 @@ const ResultTable = styled.table`
   }
 
   td:nth-child(2n){
-        background-color: #5c0d0d; 
+        background-color: #3a3131; 
     }
 
   .sat{
@@ -1651,11 +1673,18 @@ const NameWrapper = styled.div`
 const NameBox = styled.div`
   background: black;
   padding: 0px 0px;
+  height: 30px;
+  width: 150px;
   gap: 5px;
   display: flex;
-  flex-direction:column;
   justify-content: center;
-  
+  align-items: center;
+`;
+
+const ChkBox = styled.div`
+   background: #ff0000;
+   height: 30px;
+   width: 100%;
 `;
 
 const SaveResult = styled.div`
@@ -1685,12 +1714,23 @@ const FixedInput = styled.div`
 const FixedCCTV = styled.div`
   display:flex;
   align-items: stretch;
-
+  .sat{
+      color: blue;
+    }
+    .sun{
+      color: red;
+    }
 `;
 
 const FixedBool = styled.div`
     display:flex;
     align-items: stretch;
+    .sat{
+      color: blue;
+    }
+    .sun{
+      color: red;
+    }
 `;
 
 function NameTag({name, id}) {
@@ -1702,7 +1742,7 @@ function NameTag({name, id}) {
     <label for={id}>
       <NameBox>
         <h1>{name}</h1>
-        <h1>{id}</h1>
+        {/* <h1>{id}</h1> */}
       </NameBox>
     </label>
   </NameWrapper>
@@ -1734,21 +1774,17 @@ export default function Project(){
   };
   useEffect(() => {
     fecthWorkers();
-    console.log("실행됨");
   }, [flag]);
 
-  console.log(workers);
-  console.log("헤헤헤헤", Arr);
   for(let i = 0; i < workers.length; i++){
     console.log(workers[i].name, workers[i].id);
   }
 
   return <Wrapper>
 
-        <p>시작 날짜를 입력해주세요!</p>
+        <p>시작 날짜(월요일)를 입력해주세요!</p>
     <InputDate>
-        <input type="date" id="today" name="today"/>
-        <button value="날짜입력" id="day_select" onClick={setDay}>날짜 입력</button>
+        <input type="date" id="today" name="today" onChange={setDay}/>
     </InputDate>
     <InputWrapper>
     <InputTable >
@@ -1766,7 +1802,12 @@ export default function Project(){
       </tr>
         <tr>
           <td>06:00~08:00</td>
-          <td><input type="checkbox" name="time_lim" value="0" onChange={handleLimit} /></td>
+          <td>
+            <input id="chkBox0" type="checkbox" name="time_lim" value="0" onChange={handleLimit} />
+            {/* <label for="chkBox0">
+              <ChkBox></ChkBox>
+            </label>  */}
+          </td>
           <td><input type="checkbox" name="time_lim" value="1" onChange={handleLimit} /></td>
           <td><input type="checkbox" name="time_lim" value="2" onChange={handleLimit} /></td>
           <td><input type="checkbox" name="time_lim" value="3" onChange={handleLimit} /></td>
@@ -2072,13 +2113,13 @@ export default function Project(){
       <h4>CCTV 고정 근무자 입력</h4>
       <FixedCCTV>
       <select id="fixed_day">
-        <option id="day13" value="0">목</option>
-        <option id="day23" value="1">금</option>
-        <option className="sat" id="day33" value="2">토</option>
-        <option className="sun" id="day43" value="3">일</option>
-        <option id="day53" value="4">월</option>
-        <option id="day63" value="5">화</option>
-        <option id="day73" value="6">수</option>
+        <option id="day13" value="0">월</option>
+        <option id="day23" value="1">화</option>
+        <option  id="day33" value="2">수</option>
+        <option id="day43" value="3">목</option>
+        <option id="day53" value="4">금</option>
+        <option className="sat" id="day63" value="5">토</option>
+        <option className="sun" id="day73" value="6">일</option>
       </select>
       <select id="fixed_time">
         <option value="0">06:00~08:00</option>
@@ -2099,19 +2140,19 @@ export default function Project(){
         <option value="1">주둔지</option>
       </select>
       <input placeholder="이름을 입력해주세요" type="text" id="fixed_name" />
-      <button value="입력하기" id="fixed_submit" onclick="fixed_submit_button();">입력하기</button>
+      <button value="입력하기" id="fixed_submit" onClick={fixed_submit_button}>입력하기</button>
   
     </FixedCCTV>
     <h4>불침번 고정 근무자 입력</h4>
     <FixedBool>
         <select id="fixed_day2">
-          <option id="day14" value="0">목</option>
-          <option id="day24" value="1">금</option>
-          <option class="sat" id="day34" value="2">토</option>
-          <option class="sun" id="day44" value="3">일</option>
-          <option id="day54" value="4">월</option>
-          <option id="day64" value="5">화</option>
-          <option id="day74" value="6">수</option>
+          <option id="day14" value="0">월</option>
+          <option id="day24" value="1">화</option>
+          <option  id="day34" value="2">수</option>
+          <option  id="day44" value="3">목</option>
+          <option id="day54" value="4">금</option>
+          <option className="sat" id="day64" value="5">토</option>
+          <option className="sun" id="day74" value="6">일</option>
         </select>
         <select id="bool_type">
           <option value="0">불침번1</option>
@@ -2121,7 +2162,7 @@ export default function Project(){
           <option value="4">불침번5</option>
         </select>
         <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
-        <button value="입력하기" id="fixed_submit2" onclick="fixed_submit_button2();">입력하기</button>
+        <button value="입력하기" id="fixed_submit2" onClick={fixed_submit_button2}>입력하기</button>
       
     </FixedBool>
     </FixedInput>
@@ -2131,13 +2172,13 @@ export default function Project(){
       <caption>경작서</caption>
       <tbody><tr>
         <th></th>
-        <th colspan="2"><p id="day12">목</p></th>
-        <th colspan="2"><p id="day22">금</p></th>
-        <th class="sat" colspan="2"><p id="day32">토</p></th>
-        <th class="sun" colspan="2"><p id="day42">일</p></th>
-        <th colspan="2"><p id="day52">월</p></th>
-        <th colspan="2"><p id="day62">화</p></th>
-        <th colspan="2"><p id="day72">수</p></th>
+        <th colspan="2"><p id="day12">월</p></th>
+        <th colspan="2"><p id="day22">화</p></th>
+        <th colspan="2"><p id="day32">수</p></th>
+        <th colspan="2"><p id="day42">목</p></th>
+        <th colspan="2"><p id="day52">금</p></th>
+        <th class="sat" colspan="2"><p id="day62">토</p></th>
+        <th class="sun" colspan="2"><p id="day72">일</p></th>
       </tr>
         <tr>
           <td>cctv 구분</td>
@@ -2509,8 +2550,8 @@ function SaveBtn () {
       await setDoc(doc(db, "works", current_date), {
         name: workData
       });
-
     }
+    alert("저장 되었습니다.")
   }
   
 

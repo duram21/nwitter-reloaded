@@ -66,6 +66,11 @@ const router = createBrowserRouter([
         children: [
 
         ]
+      },
+      {
+        path:"/content/:contentId",
+        element: <Content />,
+    
       }
     ]
   },
@@ -77,11 +82,6 @@ const router = createBrowserRouter([
     path: "/create-account",
     element:<CreateAccount />
   },
-  {
-    path:"/content/:contentId",
-    element: <Content />,
-
-  }
 ])
 
 const GlobalStyles = createGlobalStyle `
