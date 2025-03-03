@@ -22,16 +22,13 @@ const TodayWork = styled.div`
   }
   border: 2px dashed white;
   padding : 10px;
-
 `;
 const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  /* display: grid; */
+  display: flex;
   gap: 50px;
   
   ${TodayWork}{
-    grid-row: span 2;
   
   }
 `;
@@ -70,6 +67,12 @@ const RecentWritings = styled.div`
   border: 2px dashed white;
   padding : 10px;
 `
+
+const LeftMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap : 50px;
+`;
 
 const NoticeDetail = styled.div`
   display: flex;
@@ -112,6 +115,7 @@ export default function Home() {
   }, []);
   return (
   <Wrapper>
+    <LeftMenu>
       <Menu>
         <Link to="/make" style={{ textDecoration: "none" }}>
           <MenuItem>근무표 만들기</MenuItem>
@@ -124,10 +128,6 @@ export default function Home() {
         </Link>
       </Menu>
 
-      <TodayWork>
-        <h>{today} 근무표</h>
-        <DisplayWork dateData={today}> </DisplayWork>
-      </TodayWork>
       <RecentWritings>
         <NoticeDetail>
           <h>최근 글</h>
@@ -142,6 +142,12 @@ export default function Home() {
         </NoticeDetail>
         <NoticeTweet noticeName={"all"}></NoticeTweet>
       </RecentWritings>
+
+    </LeftMenu>
+      <TodayWork>
+        <h>{today} 근무표</h>
+        <DisplayWork dateData={today}> </DisplayWork>
+      </TodayWork>
   </Wrapper>
   )
 }

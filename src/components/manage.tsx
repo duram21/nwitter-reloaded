@@ -6,6 +6,7 @@ import { auth, db} from "../firebase";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
   h1{
     font-size: 30px;

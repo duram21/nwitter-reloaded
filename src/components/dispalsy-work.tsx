@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 const DisplayBox = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
+  min-width: 500px;
 `
 
 const Box = styled.div`

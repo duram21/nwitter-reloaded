@@ -2,12 +2,29 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
 
+
+const TitleArea = styled.div`
+  display: flex;
+  justify-content: flex-start;
+    border: white  1px;
+    background-color: #000000;
+    p{
+      font-size: 40px;
+      color: #9b6161;
+    }
+`;
+
   const Wrapper = styled.div`
     display: grid;
     gap: 20px;
+    grid-template-rows: 50px 10fr;
     grid-template-columns: 1fr 15fr;
     height: 100%;
     padding: 50px 0px;
+
+    ${TitleArea}{
+      grid-column: span 2;
+    }
 
   `;
   const Menu = styled.div`
@@ -55,6 +72,9 @@ export default function Layout(){
 
   return (
     <Wrapper>
+      <TitleArea>
+        <p>근무를 열심히😊</p>
+      </TitleArea>
       <Menu>
         <Link to="/" style={{textDecoration: "none"}}>
           <MenuItem>

@@ -1536,6 +1536,18 @@ const Wrapper = styled.div`
   }
 `;
 
+const ButtonPart = styled.div`
+  height: 100px;
+  display:flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
+  button{
+    height: 100px;
+  }
+`
+
 const InputTable = styled.table`
   background-color: #2e2b29;
   border: solid 1px white;
@@ -1562,6 +1574,7 @@ const InputTable = styled.table`
     margin: 1;
     border-radius: 5px;
     border: dashed 2px white;
+    background-color: #c22049;
   }
   td{
     padding: 0;
@@ -1606,6 +1619,7 @@ const ResultTable = styled.table`
     margin: 1;
     border-radius: 5px;
     border: dashed 2px white;
+    background-color: #b46734;
   }
 
   td:nth-child(2n){
@@ -1617,8 +1631,6 @@ const ResultTable = styled.table`
   }
   .sun{
     color:red;
-  }
-  tr {
   }
 `;
 
@@ -1788,7 +1800,7 @@ export default function Project(){
     </InputDate>
     <InputWrapper>
     <InputTable >
-      <caption>근무 제한 사항</caption>
+      <caption>근무 제한 사항 입력란</caption>
       <tbody><tr>
         <th></th>
         <th colspan="1"><p id="day11">월</p></th>
@@ -2166,8 +2178,13 @@ export default function Project(){
       
     </FixedBool>
     </FixedInput>
-    <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
-    
+    <ButtonPart>
+      <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
+
+      <SaveResult>
+        <SaveBtn/>
+      </SaveResult>
+    </ButtonPart>
     <ResultTable className="result_table">
       <caption>경작서</caption>
       <tbody><tr>
@@ -2488,14 +2505,7 @@ export default function Project(){
 
       </tbody>
     </ResultTable>
-
   
-  <SaveResult>
-      <SaveBtn>
-
-      </SaveBtn>
-
-  </SaveResult>
 
   </Wrapper>
 
