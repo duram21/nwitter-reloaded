@@ -16,6 +16,8 @@ const TodayWork = styled.div`
   align-items: center;
   align-content: center;
   gap : 10px;
+  width: 560px;
+  height: 910px;
   h{
     font-size: 20px;
 

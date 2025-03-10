@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import ToggleList from "./limit-list";
 
 var Arr = [];
 
@@ -1163,11 +1164,9 @@ function processFixedNightWorkers() {
       }
     }
   }
-} function setDay(e) {
-  e.preventDefault();
-  var tmp = document.getElementById("today").value;
+} function setDay(dateStr) {
+  var tmp = dateStr;
   if(tmp.length === 0){
-    alert("날짜를 입력 후 버튼을 눌러주세요")
     return;
   }
   var year = tmp[0] + tmp[1] + tmp[2] + tmp[3];
@@ -1641,16 +1640,6 @@ const InputWrapper = styled.div`
   
 `;
 
-const InputDate = styled.div`
-  display: flex;
-  input[type=date]{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-  }
-  p{
-    font-size : 20px;
-  }
-`;
 
 const InputList = styled.div`
   
@@ -1707,43 +1696,87 @@ const SaveResult = styled.div`
 }
 `
 
+const FixedWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  `
+
 const FixedInput = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  select{
-    width: 200px;
-    padding:5px;
-    border:1px solid #999;
-    font-family:'Nanumgothic';
-    border-radius:3px;
-    -moz-apperance: none;
-    -webkit-apperance: none;
-    font-size: 15px;
+  background-color:  #2d8d78;
+  padding: 15px;
+  border: solid 2px white;
+  width: 100%;
+
+  /* select & input 공통 스타일 */
+  select, input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
   }
+
+  /* select, input 포커스 효과 */
+  select:focus, input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  }
+
+
+    button {
+    width: 200px;
+    padding: 12px;
+    background-color: #52ac74;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  }
+
+  /* 버튼 호버 효과 */
+  button:hover {
+    background-color: #0056b3;
+  }
+
+
+
+
+  h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+  }
+
 `;
 
-const FixedCCTV = styled.div`
+const FixedSelect = styled.div`
   display:flex;
-  align-items: stretch;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
   .sat{
       color: blue;
+      font-weight: bold;
     }
     .sun{
       color: red;
+      font-weight: bold;
     }
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const FixedBool = styled.div`
-    display:flex;
-    align-items: stretch;
-    .sat{
-      color: blue;
-    }
-    .sun{
-      color: red;
-    }
-`;
 
 function NameTag({name, id}) {
   const [idx, setIdx] = useState();
@@ -1760,7 +1793,7 @@ function NameTag({name, id}) {
   </NameWrapper>
 }
 
-export default function Project(){
+export default function Project({date}){
 
   const [workers, setWorkers] = useState([]);
   const [name, setName] = useState("");
@@ -1787,17 +1820,16 @@ export default function Project(){
   useEffect(() => {
     fecthWorkers();
   }, [flag]);
-
+  useEffect(() => {
+    setDay(date);  
+  }, [date])
   for(let i = 0; i < workers.length; i++){
     console.log(workers[i].name, workers[i].id);
   }
 
   return <Wrapper>
 
-        <p>시작 날짜(월요일)를 입력해주세요!</p>
-    <InputDate>
-        <input type="date" id="today" name="today" onChange={setDay}/>
-    </InputDate>
+
     <InputWrapper>
     <InputTable >
       <caption>근무 제한 사항 입력란</caption>
@@ -2121,70 +2153,67 @@ export default function Project(){
       } )}
     </InputList>
     </InputWrapper>
-    <FixedInput>
-      <h4>CCTV 고정 근무자 입력</h4>
-      <FixedCCTV>
-      <select id="fixed_day">
-        <option id="day13" value="0">월</option>
-        <option id="day23" value="1">화</option>
-        <option  id="day33" value="2">수</option>
-        <option id="day43" value="3">목</option>
-        <option id="day53" value="4">금</option>
-        <option className="sat" id="day63" value="5">토</option>
-        <option className="sun" id="day73" value="6">일</option>
-      </select>
-      <select id="fixed_time">
-        <option value="0">06:00~08:00</option>
-        <option value="1">08:00~10:00</option>
-        <option value="2">10:00~12:00</option>
-        <option value="3">12:00~14:00</option>
-        <option value="4">14:00~16:00</option>
-        <option value="5">16:00~18:00</option>
-        <option value="6">18:00~20:00</option>
-        <option value="7">20:00~22:00</option>
-        <option value="8">22:00~00:00</option>
-        <option value="9">00:00~02:00</option>
-        <option value="10">02:00~04:00</option>
-        <option value="11">04:00~06:00</option>
-      </select>
-      <select id="work_type">
-        <option value="0">탄약고/무기고</option>
-        <option value="1">주둔지</option>
-      </select>
-      <input placeholder="이름을 입력해주세요" type="text" id="fixed_name" />
-      <button value="입력하기" id="fixed_submit" onClick={fixed_submit_button}>입력하기</button>
-  
-    </FixedCCTV>
-    <h4>불침번 고정 근무자 입력</h4>
-    <FixedBool>
-        <select id="fixed_day2">
-          <option id="day14" value="0">월</option>
-          <option id="day24" value="1">화</option>
-          <option  id="day34" value="2">수</option>
-          <option  id="day44" value="3">목</option>
-          <option id="day54" value="4">금</option>
-          <option className="sat" id="day64" value="5">토</option>
-          <option className="sun" id="day74" value="6">일</option>
-        </select>
-        <select id="bool_type">
-          <option value="0">불침번1</option>
-          <option value="1">불침번2</option>
-          <option value="2">불침번3</option>
-          <option value="3">불침번4</option>
-          <option value="4">불침번5</option>
-        </select>
-        <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
-        <button value="입력하기" id="fixed_submit2" onClick={fixed_submit_button2}>입력하기</button>
-      
-    </FixedBool>
-    </FixedInput>
-    <ButtonPart>
-      <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
+    <FixedWrapper>
+      <FixedInput>
+        <h4>CCTV 고정 근무자 입력</h4>
+        <FixedSelect>
+          <select id="fixed_day">
+            <option id="day13" value="0">월</option>
+            <option id="day23" value="1">화</option>
+            <option id="day33" value="2">수</option>
+            <option id="day43" value="3">목</option>
+            <option id="day53" value="4">금</option>
+            <option className="sat" id="day63" value="5">토</option>
+            <option className="sun" id="day73" value="6">일</option>
+          </select>
+          <select id="fixed_time">
+            <option value="0">06:00~08:00</option>
+            <option value="1">08:00~10:00</option>
+            <option value="2">10:00~12:00</option>
+            <option value="3">12:00~14:00</option>
+            <option value="4">14:00~16:00</option>
+            <option value="5">16:00~18:00</option>
+            <option value="6">18:00~20:00</option>
+            <option value="7">20:00~22:00</option>
+            <option value="8">22:00~00:00</option>
+            <option value="9">00:00~02:00</option>
+            <option value="10">02:00~04:00</option>
+            <option value="11">04:00~06:00</option>
+          </select>
+          <select id="work_type">
+            <option value="0">탄약고/무기고</option>
+            <option value="1">주둔지</option>
+          </select>
+          <input placeholder="이름을 입력해주세요" type="text" id="fixed_name" />
+          <button value="입력하기" id="fixed_submit" onClick={fixed_submit_button}>입력하기</button>
 
-      <SaveResult>
-        <SaveBtn/>
-      </SaveResult>
-    </ButtonPart>
+        </FixedSelect>
+      </FixedInput>
+      <FixedInput>
+        <h4>불침번 고정 근무자 입력</h4>
+        <FixedSelect>
+          <select id="fixed_day2">
+            <option id="day14" value="0">월</option>
+            <option id="day24" value="1">화</option>
+            <option id="day34" value="2">수</option>
+            <option id="day44" value="3">목</option>
+            <option id="day54" value="4">금</option>
+            <option className="sat" id="day64" value="5">토</option>
+            <option className="sun" id="day74" value="6">일</option>
+          </select>
+          <select id="bool_type">
+            <option value="0">불침번1</option>
+            <option value="1">불침번2</option>
+            <option value="2">불침번3</option>
+            <option value="3">불침번4</option>
+            <option value="4">불침번5</option>
+          </select>
+          <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
+          <button value="입력하기" id="fixed_submit2" onClick={fixed_submit_button2}>입력하기</button>
+
+        </FixedSelect>
+      </FixedInput>
+    </FixedWrapper>
     <ResultTable className="result_table">
       <caption>경작서</caption>
       <tbody><tr>
@@ -2505,7 +2534,14 @@ export default function Project(){
 
       </tbody>
     </ResultTable>
-  
+      
+    <ButtonPart>
+      <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
+
+      <SaveResult>
+        <SaveBtn/>
+      </SaveResult>
+    </ButtonPart>
 
   </Wrapper>
 
