@@ -5,7 +5,6 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { collection, doc, DocumentReference, getDocs, limit, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { ITweet } from "../components/timeline";
-import Tweet from "../components/tweet";
 
 const Wrapper = styled.div`
   display: flex;
@@ -196,10 +195,10 @@ export default function Profile() {
       </NamePart>
     </MyProfile>
     <MyContents>
-      <h1>내가 쓴 글</h1>
+      {/* <h1>내가 쓴 글</h1>
       <Tweets>
         {tweets.map(tweet => <Tweet key={tweet.id} {...tweet} />)}
-      </Tweets>
+      </Tweets> */}
     </MyContents>
   </Wrapper>
 }

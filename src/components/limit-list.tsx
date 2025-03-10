@@ -6,13 +6,7 @@ import styled from "styled-components";
 
 
 
-export function Button({ children, onClick, className }) {
-  return (
-    <button onClick={onClick} className={`px-4 py-2 bg-blue-500 text-white rounded ${className}`}>
-      {children}
-    </button>
-  );
-}
+
 
 function setDay(date) {
   let year = date[0] + date[1] + date[2] + date[3];
@@ -113,13 +107,13 @@ export default function ToggleList({date}) {
 
   return (
     <Wrapper>
-      <Button onClick={() => setIsOpen(!isOpen)} className="listButton">
+      <button onClick={() => setIsOpen(!isOpen)} className="listButton">
         {week.length === 7 ? 
           <p>{week[0]} 부터<br/>  {week[6]} 까지 </p>
 
         : ""}
         {isOpen ? "근무 제한 목록 숨기기" : "근무 제한 목록 보기"}
-      </Button>
+      </button>
       {isOpen && flag ? (
         <motion.ul
           initial={{ opacity: 0, height: 0 }}

@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import PostTweetForm from "../components/post-tweet-form";
-import { auth } from "../firebase";
-import Timeline from "../components/timeline";
-import Notice from "./notice";
+
 import { Link } from "react-router-dom";
 import DisplayWork from "../components/dispalsy-work";
 import { useEffect, useState } from "react";

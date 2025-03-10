@@ -161,10 +161,11 @@ export default function Manage(){
   const [isLoading, setLoading] = useState(false);
   const [workers, setWorkers] = useState([]);
   const [name, setName] = useState("");
-  const [flag, setFlag] = useState();
+
   const [date, setDate] = useState("");
   const [limitName, setLimitName] = useState("");
   const [limitDetail, setLimitDetail] = useState("");
+  
   const fecthWorkers = async () => {
     const tweetQuery = query(
       collection(db, "workers"),

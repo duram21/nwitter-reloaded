@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IWriting } from "./notice";
 import { useEffect, useState } from "react";
 import { collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
@@ -14,18 +14,12 @@ const Wrapper = styled.div`
 
   width: 100%;
 `;
-const Column = styled.div`
-  display: flex;
-  height: 200px;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
 
 const Username = styled.span`
   font-weight: 600;
   font-size: 15px;
 `;
+
 const Detail = styled.p`
   margin: 10px 0px;
   font-size: 18px;

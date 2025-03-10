@@ -28,20 +28,10 @@ const InputDate = styled.div`
 `;
 
 export default function Make(){
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
   const [date, setDate] = useState("");
 
   const onDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
-  }
-  
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const str = e.target.value;
-    setYear(str.substring(0, 4));
-    setMonth(str.substring(5, 7));
-    setDay(str.substring(8, 10));
   }
   
   return <Wrapper>

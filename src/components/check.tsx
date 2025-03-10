@@ -18,25 +18,6 @@ const Wrapper = styled.div`
 `;
 
 
-const Box = styled.div`
-  border: solid 1px white;
-  height : 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #1d1b1b;
-`;
-
-const BoolChim = styled.div`
-  background-color: #1d1b1b;
-  border: solid 1px white;
-  height : 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-column: span 2;
-`;
-
 export default function Check(){
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
@@ -55,7 +36,7 @@ export default function Check(){
 
 
   return <Wrapper>
-    <h>날짜를 선택해주세요</h>
+    <p>날짜를 선택해주세요</p>
     <input onChange={(e) => onChange(e)} type="date" id="today" name="today-work">
       </input>
       <DisplayWork dateData={today}></DisplayWork>
