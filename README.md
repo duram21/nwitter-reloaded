@@ -1,3 +1,5 @@
+근무 작성을 자동화 해주는 프로젝트
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
