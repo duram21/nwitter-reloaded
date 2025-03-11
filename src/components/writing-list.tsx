@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
@@ -11,14 +10,12 @@ const Wrapper = styled.div`
   display: grid;
   grid-template: 1fr 1fr / 1fr;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid black;
   border-radius: 15px;
-  color:white;
+  color: black;
+  font-weight: bold;
+  background-color: white;
   
-`;
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const TItleTop = styled.div`

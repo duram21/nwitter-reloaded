@@ -1476,6 +1476,7 @@ function printCheckResult() {
     }
   }
 }
+
 function swapNightWorks() {
   let swapFlag = 0;
   let cnt = 0;
@@ -1528,28 +1529,41 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap : 10px;
 
-  .make{
-    font-size: 1.5em;
-    height:2em;
-    font-family:'Nanumgothic';
-  }
+
 `;
 
 const ButtonPart = styled.div`
-  height: 100px;
+
   display:flex;
   flex-direction: row; 
   justify-content: space-between;
+  margin-top: 10px;
   /* display: grid;
   grid-template-columns: 1fr 1fr; */
-  button{
-    height: 100px;
+  margin-bottom: 10px;
+  button, .saveButton {
+    width: 250px;
+    padding: 12px;
+    background-color: #754F44;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
   }
+
+  /* 버튼 호버 효과 */
+  button:hover {
+    background-color: #C16200;
+  }
+
 `
 
 const InputTable = styled.table`
-  background-color: #2e2b29;
-  border: solid 1px white;
+  background-color: #beebd0;
+  border: solid 1px black;
   width: 100%;
   font-weight: bold;
   .sat{
@@ -1562,7 +1576,8 @@ const InputTable = styled.table`
   td, th{
     padding: 3px;
     height: 30px;
-    border: solid 1px white;
+    color:black;
+    border: solid 2px black;
     text-align: center;
     vertical-align: middle;
   }
@@ -1571,26 +1586,24 @@ const InputTable = styled.table`
     font-family:'Nanumgothic';
     font-size: 20px;
     margin: 1;
+    color: #285943;
     border-radius: 5px;
-    border: dashed 2px white;
-    background-color: #c22049;
+    border: solid 2px black;
+    background-color: #8CD790;
   }
   td{
     padding: 0;
   }
   input[type="checkbox"]{
-    height: 30px;
     width: 100%;
-    margin: 0;
+    height: 30px;
     -webkit-appearance: none; /* 기본 체크박스 모양 제거 */
     background-color: #fff; /* 배경색 */
-    border: 1px solid #333; /* 테두리 설정 */
-    border-radius: 0px; /* 둥근 모서리 */
+    margin: 0px;    
     cursor: pointer;
   }
   input[type="checkbox"]:checked{
-    background-color: #4caf50; /* 체크되었을 때 배경색 */
-    border-color: #4caf50; /* 테두리 색상 */
+    background-color: #56A902; /* 체크되었을 때 배경색 */
 
   }
   button{
@@ -1599,31 +1612,32 @@ const InputTable = styled.table`
 `;
 
 const ResultTable = styled.table`
-  background-color: #2e2b29;
+  background-color: #FBFFB9;
   border: solid 1px white;
+  color: black;
   width: 100%;
   height: 50px;
   font-weight: bold;
   font-size: 15px;
   td, th{
     padding: 8px;
-    border: solid 1px white;
+    border: solid 2px #754F44;
     text-align: center;
     vertical-align: middle;
+  }
+  .data{
+    background-color: white;
   }
   caption{
     padding : 10px;
     font-family:'Nanumgothic';
     font-size: 20px;
     margin: 1;
+    color: #EC7357;
     border-radius: 5px;
-    border: dashed 2px white;
-    background-color: #b46734;
+    border: solid 2px #754F44;
+    background-color: #FDD692;
   }
-
-  td:nth-child(2n){
-        background-color: #3a3131; 
-    }
 
   .sat{
     color:blue;
@@ -1646,7 +1660,7 @@ const InputList = styled.div`
 `;
 
 const NameWrapper = styled.div`
-  border: solid 1px white;
+  border: solid 1px black;
   display:flex;
   flex-direction: column;
   input[type=radio]{
@@ -1661,19 +1675,21 @@ const NameWrapper = styled.div`
   
   input:checked + label{
     div{
-      background-color:gray;
+      background-color: #548687
     }
   }
   h1{
-  font-family:'Nanumgothic';
-  text-align: center;
+    font-family:'Nanumgothic';
+    text-align: center;
+    color:white;
 
 }
 `;
 
 const NameBox = styled.div`
-  background: black;
+  background: #8FBC94;
   padding: 0px 0px;
+  font-weight: bold;
   height: 30px;
   width: 150px;
   gap: 5px;
@@ -1682,11 +1698,6 @@ const NameBox = styled.div`
   align-items: center;
 `;
 
-const ChkBox = styled.div`
-   background: #ff0000;
-   height: 30px;
-   width: 100%;
-`;
 
 const SaveResult = styled.div`
   button{
@@ -1699,27 +1710,30 @@ const SaveResult = styled.div`
 const FixedWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  `
+  gap: 10px;
+  margin-bottom: 50px;
+  margin-top: 10px;
+`
 
 const FixedInput = styled.div`
   display: flex;
   flex-direction: column;
-  background-color:  #2d8d78;
+  background-color:  #3ac569;
   padding: 15px;
-  border: solid 2px white;
+  border: solid 2px black;
+  border-radius: 8px;
   width: 100%;
-
   /* select & input 공통 스타일 */
   select, input{
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: 1px solid #000000;
+    border-radius: 8px;
     font-size: 14px;
     transition: all 0.2s ease-in-out;
   }
 
-  /* select, input 포커스 효과 */
+
   select:focus, input:focus {
     outline: none;
     border-color: #007bff;
@@ -1730,6 +1744,7 @@ const FixedInput = styled.div`
     button {
     width: 200px;
     padding: 12px;
+    margin-top: 10px;
     background-color: #52ac74;
     color: white;
     font-size: 16px;
@@ -1740,13 +1755,10 @@ const FixedInput = styled.div`
     transition: background 0.2s ease-in-out;
   }
 
-  /* 버튼 호버 효과 */
+
   button:hover {
-    background-color: #0056b3;
+    background-color: #06975b;
   }
-
-
-
 
   h4 {
     margin-bottom: 10px;
@@ -1776,6 +1788,20 @@ const FixedSelect = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
+
+const MakeWrapper = styled.div`
+  background-color: white;
+  padding : 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`
+
+const ResultWrapper = styled.div`
+  background-color: white;
+  padding : 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`
 
 
 function NameTag({name, id}) {
@@ -1829,720 +1855,721 @@ export default function Project({date}){
 
   return <Wrapper>
 
+    <MakeWrapper>
+      <InputWrapper>
+      <InputTable >
+        <caption>근무 제한 사항 입력란</caption>
+        <tbody><tr>
+          <th></th>
+          <th colspan="1"><p id="day11">월</p></th>
+          <th colspan="1"><p id="day21">화</p></th>
+          <th colspan="1"><p id="day31">수</p></th>
+          <th colspan="1"><p id="day41">목</p></th>
+          <th colspan="1"><p id="day51">금</p></th>
+          <th class="sat" colspan="1"><p id="day61">토</p></th>
+          <th class="sun" colspan="1"><p id="day71">일</p></th>
+          <th colspan="1">줄 체크</th>
+        </tr>
+          <tr>
+            <td>06:00~08:00</td>
+            <td>
+              <input id="chkBox0" type="checkbox" name="time_lim" value="0" onChange={handleLimit} />
+              {/* <label for="chkBox0">
+                <ChkBox></ChkBox>
+              </label>  */}
+            </td>
+            <td><input type="checkbox" name="time_lim" value="1" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="2" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="3" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="4" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="5" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="6" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(0, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(0, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>08:00~10:00</td>
+            <td><input type="checkbox" name="time_lim" value="7" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="8" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="9" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="10" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="11" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="12" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="13" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(1, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(1, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>10:00~12:00</td>
+            <td><input type="checkbox" name="time_lim" value="14" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="15" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="16" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="17" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="18" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="19" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="20" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(2, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(2, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>12:00~14:00</td>
+            <td><input type="checkbox" name="time_lim" value="21" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="22" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="23" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="24" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="25" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="26" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="27" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(3, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(3, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>14:00~16:00</td>
+            <td><input type="checkbox" name="time_lim" value="28" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="29" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="30" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="31" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="32" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="33" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="34" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(4, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(4, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>16:00~18:00</td>
+            <td><input type="checkbox" name="time_lim" value="35" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="36" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="37" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="38" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="39" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="40" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="41" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(5, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(5, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>18:00~20:00</td>
+            <td><input type="checkbox" name="time_lim" value="42" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="43" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="44" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="45" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="46" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="47" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="48" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(6, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(6, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>20:00~22:00</td>
+            <td><input type="checkbox" name="time_lim" value="49" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="50" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="51" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="52" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="53" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="54" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="55" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(7, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(7, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>22:00~00:00</td>
+            <td><input type="checkbox" name="time_lim" value="56" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="57" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="58" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="59" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="60" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="61" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="62" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(8, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(8, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>00:00~02:00</td>
+            <td><input type="checkbox" name="time_lim" value="63" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="64" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="65" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="66" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="67" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="68" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="69" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(9, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(9, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>02:00~04:00</td>
+            <td><input type="checkbox" name="time_lim" value="70" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="71" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="72" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="73" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="74" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="75" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="76" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(10, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(10, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>04:00~06:00</td>
+            <td><input type="checkbox" name="time_lim" value="77" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="78" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="79" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="80" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="81" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="82" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="83" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(11, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(11, 2)}>❎</button>
+            </td>
+          </tr><tr>
+            <td>불침번 1</td>
+            <td><input type="checkbox" name="time_lim" value="84" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="85" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="86" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="87" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="88" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="89" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="90" onchange="handleLimit();" /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(12, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(12, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>불침번 2</td>
+            <td><input type="checkbox" name="time_lim" value="91" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="92" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="93" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="94" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="95" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="96" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="97" onChange={handleLimit}/></td>
+            <td>
+              <button type="button" onClick={() => checkButton(13, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(13, 2)}>❎</button>
+            </td></tr>
+          <tr>
+            <td>불침번 3</td>
+            <td><input type="checkbox" name="time_lim" value="98" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="99" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="100" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="101" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="102" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="103" onChange={handleLimit}/></td>
+            <td><input type="checkbox" name="time_lim" value="104" onChange={handleLimit}/></td>
+            <td>
+              <button type="button" onClick={() => checkButton(14, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(14, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>불침번 4</td>
+            <td><input type="checkbox" name="time_lim" value="105" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="106" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="107" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="108" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="109" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="110" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="111" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(15, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(15, 2)}>❎</button>
+            </td>
+          </tr>
+          <tr>
+            <td>불침번 5</td>
+            <td><input type="checkbox" name="time_lim" value="112" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="113" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="114" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="115" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="116" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="117" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="118" onChange={handleLimit} /></td>
+            <td>
+              <button type="button" onClick={() => checkButton(16, 2)}>✅</button>
+              <button type="button" onClick={() => resetButton(16, 2)}>❎</button>
+            </td>
+          </tr>
 
-    <InputWrapper>
-    <InputTable >
-      <caption>근무 제한 사항 입력란</caption>
-      <tbody><tr>
-        <th></th>
-        <th colspan="1"><p id="day11">월</p></th>
-        <th colspan="1"><p id="day21">화</p></th>
-        <th colspan="1"><p id="day31">수</p></th>
-        <th colspan="1"><p id="day41">목</p></th>
-        <th colspan="1"><p id="day51">금</p></th>
-        <th class="sat" colspan="1"><p id="day61">토</p></th>
-        <th class="sun" colspan="1"><p id="day71">일</p></th>
-        <th colspan="1">줄 체크</th>
-      </tr>
-        <tr>
-          <td>06:00~08:00</td>
-          <td>
-            <input id="chkBox0" type="checkbox" name="time_lim" value="0" onChange={handleLimit} />
-            {/* <label for="chkBox0">
-              <ChkBox></ChkBox>
-            </label>  */}
-          </td>
-          <td><input type="checkbox" name="time_lim" value="1" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="2" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="3" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="4" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="5" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="6" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(0, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(0, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>08:00~10:00</td>
-          <td><input type="checkbox" name="time_lim" value="7" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="8" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="9" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="10" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="11" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="12" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="13" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(1, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(1, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>10:00~12:00</td>
-          <td><input type="checkbox" name="time_lim" value="14" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="15" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="16" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="17" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="18" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="19" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="20" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(2, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(2, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>12:00~14:00</td>
-          <td><input type="checkbox" name="time_lim" value="21" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="22" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="23" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="24" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="25" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="26" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="27" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(3, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(3, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>14:00~16:00</td>
-          <td><input type="checkbox" name="time_lim" value="28" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="29" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="30" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="31" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="32" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="33" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="34" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(4, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(4, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>16:00~18:00</td>
-          <td><input type="checkbox" name="time_lim" value="35" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="36" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="37" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="38" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="39" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="40" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="41" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(5, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(5, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>18:00~20:00</td>
-          <td><input type="checkbox" name="time_lim" value="42" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="43" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="44" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="45" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="46" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="47" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="48" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(6, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(6, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>20:00~22:00</td>
-          <td><input type="checkbox" name="time_lim" value="49" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="50" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="51" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="52" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="53" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="54" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="55" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(7, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(7, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>22:00~00:00</td>
-          <td><input type="checkbox" name="time_lim" value="56" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="57" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="58" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="59" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="60" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="61" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="62" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(8, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(8, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>00:00~02:00</td>
-          <td><input type="checkbox" name="time_lim" value="63" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="64" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="65" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="66" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="67" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="68" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="69" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(9, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(9, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>02:00~04:00</td>
-          <td><input type="checkbox" name="time_lim" value="70" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="71" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="72" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="73" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="74" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="75" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="76" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(10, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(10, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>04:00~06:00</td>
-          <td><input type="checkbox" name="time_lim" value="77" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="78" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="79" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="80" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="81" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="82" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="83" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(11, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(11, 2)}>❎</button>
-          </td>
-        </tr><tr>
-          <td>불침번 1</td>
-          <td><input type="checkbox" name="time_lim" value="84" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="85" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="86" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="87" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="88" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="89" onchange="handleLimit();" /></td>
-          <td><input type="checkbox" name="time_lim" value="90" onchange="handleLimit();" /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(12, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(12, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>불침번 2</td>
-          <td><input type="checkbox" name="time_lim" value="91" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="92" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="93" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="94" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="95" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="96" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="97" onChange={handleLimit}/></td>
-          <td>
-            <button type="button" onClick={() => checkButton(13, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(13, 2)}>❎</button>
-          </td></tr>
-        <tr>
-          <td>불침번 3</td>
-          <td><input type="checkbox" name="time_lim" value="98" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="99" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="100" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="101" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="102" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="103" onChange={handleLimit}/></td>
-          <td><input type="checkbox" name="time_lim" value="104" onChange={handleLimit}/></td>
-          <td>
-            <button type="button" onClick={() => checkButton(14, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(14, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>불침번 4</td>
-          <td><input type="checkbox" name="time_lim" value="105" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="106" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="107" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="108" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="109" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="110" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="111" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(15, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(15, 2)}>❎</button>
-          </td>
-        </tr>
-        <tr>
-          <td>불침번 5</td>
-          <td><input type="checkbox" name="time_lim" value="112" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="113" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="114" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="115" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="116" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="117" onChange={handleLimit} /></td>
-          <td><input type="checkbox" name="time_lim" value="118" onChange={handleLimit} /></td>
-          <td>
-            <button type="button" onClick={() => checkButton(16, 2)}>✅</button>
-            <button type="button" onClick={() => resetButton(16, 2)}>❎</button>
-          </td>
-        </tr>
+          <tr>
+            <td>Day Check</td>
+            <td>
+              <button type="button" onClick={() => checkButton(0, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(0, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(1, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(1, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(2, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(2, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(3, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(3, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(4, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(4, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(5, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(5, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(6, 1)}>✅</button>
+              <button type="button" onClick={() => resetButton(6, 1)}>❎</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => checkButton(0, 3)}>✅</button>
+              <button type="button" onClick={() => resetButton(0, 3)}>❎</button>
+            </td>
+          </tr><tr>
+            <td>야간 해제</td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(0)}>❌</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(1)}>❌</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(2)}>❌</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(3)}>❌</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(4)}>❌</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(5)}>❌</button>
+            </td>
+            <td>
+              <button type="button" onClick={() => resetNightWorks(6)}>❌</button>
+            </td>
+          </tr>
 
-        <tr>
-          <td>Day Check</td>
-          <td>
-            <button type="button" onClick={() => checkButton(0, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(0, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(1, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(1, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(2, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(2, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(3, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(3, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(4, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(4, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(5, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(5, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(6, 1)}>✅</button>
-            <button type="button" onClick={() => resetButton(6, 1)}>❎</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => checkButton(0, 3)}>✅</button>
-            <button type="button" onClick={() => resetButton(0, 3)}>❎</button>
-          </td>
-        </tr><tr>
-          <td>야간 해제</td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(0)}>❌</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(1)}>❌</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(2)}>❌</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(3)}>❌</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(4)}>❌</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(5)}>❌</button>
-          </td>
-          <td>
-            <button type="button" onClick={() => resetNightWorks(6)}>❌</button>
-          </td>
-        </tr>
+        </tbody>
+      </InputTable>
+      <InputList>
+        {workers.map(worker => {
+          return <NameTag name={worker.name} id={worker.id}></NameTag>
+        } )}
+      </InputList>
+      </InputWrapper>
+      <FixedWrapper>
+        <FixedInput>
+          <h4>CCTV 고정 근무자 입력</h4>
+          <FixedSelect>
+            <select id="fixed_day">
+              <option id="day13" value="0">월</option>
+              <option id="day23" value="1">화</option>
+              <option id="day33" value="2">수</option>
+              <option id="day43" value="3">목</option>
+              <option id="day53" value="4">금</option>
+              <option className="sat" id="day63" value="5">토</option>
+              <option className="sun" id="day73" value="6">일</option>
+            </select>
+            <select id="fixed_time">
+              <option value="0">06:00~08:00</option>
+              <option value="1">08:00~10:00</option>
+              <option value="2">10:00~12:00</option>
+              <option value="3">12:00~14:00</option>
+              <option value="4">14:00~16:00</option>
+              <option value="5">16:00~18:00</option>
+              <option value="6">18:00~20:00</option>
+              <option value="7">20:00~22:00</option>
+              <option value="8">22:00~00:00</option>
+              <option value="9">00:00~02:00</option>
+              <option value="10">02:00~04:00</option>
+              <option value="11">04:00~06:00</option>
+            </select>
+            <select id="work_type">
+              <option value="0">탄약고/무기고</option>
+              <option value="1">주둔지</option>
+            </select>
+            <input placeholder="이름을 입력해주세요" type="text" id="fixed_name" />
+            <button value="입력하기" id="fixed_submit" onClick={fixed_submit_button}>입력하기</button>
 
-      </tbody>
-    </InputTable>
-    <InputList>
-      {workers.map(worker => {
-        return <NameTag name={worker.name} id={worker.id}></NameTag>
-      } )}
-    </InputList>
-    </InputWrapper>
-    <FixedWrapper>
-      <FixedInput>
-        <h4>CCTV 고정 근무자 입력</h4>
-        <FixedSelect>
-          <select id="fixed_day">
-            <option id="day13" value="0">월</option>
-            <option id="day23" value="1">화</option>
-            <option id="day33" value="2">수</option>
-            <option id="day43" value="3">목</option>
-            <option id="day53" value="4">금</option>
-            <option className="sat" id="day63" value="5">토</option>
-            <option className="sun" id="day73" value="6">일</option>
-          </select>
-          <select id="fixed_time">
-            <option value="0">06:00~08:00</option>
-            <option value="1">08:00~10:00</option>
-            <option value="2">10:00~12:00</option>
-            <option value="3">12:00~14:00</option>
-            <option value="4">14:00~16:00</option>
-            <option value="5">16:00~18:00</option>
-            <option value="6">18:00~20:00</option>
-            <option value="7">20:00~22:00</option>
-            <option value="8">22:00~00:00</option>
-            <option value="9">00:00~02:00</option>
-            <option value="10">02:00~04:00</option>
-            <option value="11">04:00~06:00</option>
-          </select>
-          <select id="work_type">
-            <option value="0">탄약고/무기고</option>
-            <option value="1">주둔지</option>
-          </select>
-          <input placeholder="이름을 입력해주세요" type="text" id="fixed_name" />
-          <button value="입력하기" id="fixed_submit" onClick={fixed_submit_button}>입력하기</button>
+          </FixedSelect>
+        </FixedInput>
+        <FixedInput>
+          <h4>불침번 고정 근무자 입력</h4>
+          <FixedSelect>
+            <select id="fixed_day2">
+              <option id="day14" value="0">월</option>
+              <option id="day24" value="1">화</option>
+              <option id="day34" value="2">수</option>
+              <option id="day44" value="3">목</option>
+              <option id="day54" value="4">금</option>
+              <option className="sat" id="day64" value="5">토</option>
+              <option className="sun" id="day74" value="6">일</option>
+            </select>
+            <select id="bool_type">
+              <option value="0">불침번1</option>
+              <option value="1">불침번2</option>
+              <option value="2">불침번3</option>
+              <option value="3">불침번4</option>
+              <option value="4">불침번5</option>
+            </select>
+            <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
+            <button value="입력하기" id="fixed_submit2" onClick={fixed_submit_button2}>입력하기</button>
 
-        </FixedSelect>
-      </FixedInput>
-      <FixedInput>
-        <h4>불침번 고정 근무자 입력</h4>
-        <FixedSelect>
-          <select id="fixed_day2">
-            <option id="day14" value="0">월</option>
-            <option id="day24" value="1">화</option>
-            <option id="day34" value="2">수</option>
-            <option id="day44" value="3">목</option>
-            <option id="day54" value="4">금</option>
-            <option className="sat" id="day64" value="5">토</option>
-            <option className="sun" id="day74" value="6">일</option>
-          </select>
-          <select id="bool_type">
-            <option value="0">불침번1</option>
-            <option value="1">불침번2</option>
-            <option value="2">불침번3</option>
-            <option value="3">불침번4</option>
-            <option value="4">불침번5</option>
-          </select>
-          <input placeholder="이름을 입력해주세요" type="text" id="fixed_name2" />
-          <button value="입력하기" id="fixed_submit2" onClick={fixed_submit_button2}>입력하기</button>
+          </FixedSelect>
+        </FixedInput>
+      </FixedWrapper>
+    </MakeWrapper>
 
-        </FixedSelect>
-      </FixedInput>
-    </FixedWrapper>
-    <ResultTable className="result_table">
-      <caption>경작서</caption>
-      <tbody><tr>
-        <th></th>
-        <th colspan="2"><p id="day12">월</p></th>
-        <th colspan="2"><p id="day22">화</p></th>
-        <th colspan="2"><p id="day32">수</p></th>
-        <th colspan="2"><p id="day42">목</p></th>
-        <th colspan="2"><p id="day52">금</p></th>
-        <th class="sat" colspan="2"><p id="day62">토</p></th>
-        <th class="sun" colspan="2"><p id="day72">일</p></th>
-      </tr>
-        <tr>
-          <td>cctv 구분</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
-          <td>탄약고/무기고</td>
-          <td>주둔지</td>
+    <ResultWrapper>
+      <ResultTable className="result_table">
+        <caption>경작서</caption>
+        <tbody><tr>
+          <th></th>
+          <th colspan="2"><p id="day12">월</p></th>
+          <th colspan="2"><p id="day22">화</p></th>
+          <th colspan="2"><p id="day32">수</p></th>
+          <th colspan="2"><p id="day42">목</p></th>
+          <th colspan="2"><p id="day52">금</p></th>
+          <th class="sat" colspan="2"><p id="day62">토</p></th>
+          <th class="sun" colspan="2"><p id="day72">일</p></th>
         </tr>
-        <tr>
-          <td>06:00~08:00</td>
-          <td><p id="data0"></p></td>
-          <td><p id="data1"></p></td>
-          <td><p id="data1000"></p></td>
-          <td><p id="data1001"></p></td>
-          <td><p id="data2000"></p></td>
-          <td><p id="data2001"></p></td>
-          <td><p id="data3000"></p></td>
-          <td><p id="data3001"></p></td>
-          <td><p id="data4000"></p></td>
-          <td><p id="data4001"></p></td>
-          <td><p id="data5000"></p></td>
-          <td><p id="data5001"></p></td>
-          <td><p id="data6000"></p></td>
-          <td><p id="data6001"></p></td>
-        </tr><tr>
-          <td>08:00~10:00</td>
-          <td><p id="data10"></p></td>
-          <td><p id="data11"></p></td>
-          <td><p id="data1010"></p></td>
-          <td><p id="data1011"></p></td>
-          <td><p id="data2010"></p></td>
-          <td><p id="data2011"></p></td>
-          <td><p id="data3010"></p></td>
-          <td><p id="data3011"></p></td>
-          <td><p id="data4010"></p></td>
-          <td><p id="data4011"></p></td>
-          <td><p id="data5010"></p></td>
-          <td><p id="data5011"></p></td>
-          <td><p id="data6010"></p></td>
-          <td><p id="data6011"></p></td>
-        </tr>
-        <tr>
-          <td>10:00~12:00</td>
-          <td><p id="data20"></p></td>
-          <td><p id="data21"></p></td>
-          <td><p id="data1020"></p></td>
-          <td><p id="data1021"></p></td>
-          <td><p id="data2020"></p></td>
-          <td><p id="data2021"></p></td>
-          <td><p id="data3020"></p></td>
-          <td><p id="data3021"></p></td>
-          <td><p id="data4020"></p></td>
-          <td><p id="data4021"></p></td>
-          <td><p id="data5020"></p></td>
-          <td><p id="data5021"></p></td>
-          <td><p id="data6020"></p></td>
-          <td><p id="data6021"></p></td>
-        </tr>
-        <tr>
-          <td>12:00~14:00</td>
-          <td><p id="data30"></p></td>
-          <td><p id="data31"></p></td>
-          <td><p id="data1030"></p></td>
-          <td><p id="data1031"></p></td>
-          <td><p id="data2030"></p></td>
-          <td><p id="data2031"></p></td>
-          <td><p id="data3030"></p></td>
-          <td><p id="data3031"></p></td>
-          <td><p id="data4030"></p></td>
-          <td><p id="data4031"></p></td>
-          <td><p id="data5030"></p></td>
-          <td><p id="data5031"></p></td>
-          <td><p id="data6030"></p></td>
-          <td><p id="data6031"></p></td>
-        </tr>
-        <tr>
-          <td>14:00~16:00</td>
-          <td><p id="data40"></p></td>
-          <td><p id="data41"></p></td>
-          <td><p id="data1040"></p></td>
-          <td><p id="data1041"></p></td>
-          <td><p id="data2040"></p></td>
-          <td><p id="data2041"></p></td>
-          <td><p id="data3040"></p></td>
-          <td><p id="data3041"></p></td>
-          <td><p id="data4040"></p></td>
-          <td><p id="data4041"></p></td>
-          <td><p id="data5040"></p></td>
-          <td><p id="data5041"></p></td>
-          <td><p id="data6040"></p></td>
-          <td><p id="data6041"></p></td>
-        </tr>
-        <tr>
-          <td>16:00~18:00</td>
-          <td><p id="data50"></p></td>
-          <td><p id="data51"></p></td>
-          <td><p id="data1050"></p></td>
-          <td><p id="data1051"></p></td>
-          <td><p id="data2050"></p></td>
-          <td><p id="data2051"></p></td>
-          <td><p id="data3050"></p></td>
-          <td><p id="data3051"></p></td>
-          <td><p id="data4050"></p></td>
-          <td><p id="data4051"></p></td>
-          <td><p id="data5050"></p></td>
-          <td><p id="data5051"></p></td>
-          <td><p id="data6050"></p></td>
-          <td><p id="data6051"></p></td>
-        </tr>
-        <tr>
-          <td>18:00~20:00</td>
-          <td><p id="data60"></p></td>
-          <td><p id="data61"></p></td>
-          <td><p id="data1060"></p></td>
-          <td><p id="data1061"></p></td>
-          <td><p id="data2060"></p></td>
-          <td><p id="data2061"></p></td>
-          <td><p id="data3060"></p></td>
-          <td><p id="data3061"></p></td>
-          <td><p id="data4060"></p></td>
-          <td><p id="data4061"></p></td>
-          <td><p id="data5060"></p></td>
-          <td><p id="data5061"></p></td>
-          <td><p id="data6060"></p></td>
-          <td><p id="data6061"></p></td>
-        </tr>
-        <tr>
-          <td>20:00~22:00</td>
-          <td><p id="data70"></p></td>
-          <td><p id="data71"></p></td>
-          <td><p id="data1070"></p></td>
-          <td><p id="data1071"></p></td>
-          <td><p id="data2070"></p></td>
-          <td><p id="data2071"></p></td>
-          <td><p id="data3070"></p></td>
-          <td><p id="data3071"></p></td>
-          <td><p id="data4070"></p></td>
-          <td><p id="data4071"></p></td>
-          <td><p id="data5070"></p></td>
-          <td><p id="data5071"></p></td>
-          <td><p id="data6070"></p></td>
-          <td><p id="data6071"></p></td>
-        </tr>
-        <tr>
-          <td>22:00~00:00</td>
-          <td><p id="data80"></p></td>
-          <td><p id="data81"></p></td>
-          <td><p id="data1080"></p></td>
-          <td><p id="data1081"></p></td>
-          <td><p id="data2080"></p></td>
-          <td><p id="data2081"></p></td>
-          <td><p id="data3080"></p></td>
-          <td><p id="data3081"></p></td>
-          <td><p id="data4080"></p></td>
-          <td><p id="data4081"></p></td>
-          <td><p id="data5080"></p></td>
-          <td><p id="data5081"></p></td>
-          <td><p id="data6080"></p></td>
-          <td><p id="data6081"></p></td>
-        </tr>
-        <tr>
-          <td>00:00~02:00</td>
-          <td><p id="data90"></p></td>
-          <td><p id="data91"></p></td>
-          <td><p id="data1090"></p></td>
-          <td><p id="data1091"></p></td>
-          <td><p id="data2090"></p></td>
-          <td><p id="data2091"></p></td>
-          <td><p id="data3090"></p></td>
-          <td><p id="data3091"></p></td>
-          <td><p id="data4090"></p></td>
-          <td><p id="data4091"></p></td>
-          <td><p id="data5090"></p></td>
-          <td><p id="data5091"></p></td>
-          <td><p id="data6090"></p></td>
-          <td><p id="data6091"></p></td>
-        </tr>
-        <tr>
-          <td>02:00~04:00</td>
-          <td><p id="data100"></p></td>
-          <td><p id="data101"></p></td>
-          <td><p id="data1100"></p></td>
-          <td><p id="data1101"></p></td>
-          <td><p id="data2100"></p></td>
-          <td><p id="data2101"></p></td>
-          <td><p id="data3100"></p></td>
-          <td><p id="data3101"></p></td>
-          <td><p id="data4100"></p></td>
-          <td><p id="data4101"></p></td>
-          <td><p id="data5100"></p></td>
-          <td><p id="data5101"></p></td>
-          <td><p id="data6100"></p></td>
-          <td><p id="data6101"></p></td>
-        </tr>
-        <tr>
-          <td>04:00~06:00</td>
-          <td><p id="data110"></p></td>
-          <td><p id="data111"></p></td>
-          <td><p id="data1110"></p></td>
-          <td><p id="data1111"></p></td>
-          <td><p id="data2110"></p></td>
-          <td><p id="data2111"></p></td>
-          <td><p id="data3110"></p></td>
-          <td><p id="data3111"></p></td>
-          <td><p id="data4110"></p></td>
-          <td><p id="data4111"></p></td>
-          <td><p id="data5110"></p></td>
-          <td><p id="data5111"></p></td>
-          <td><p id="data6110"></p></td>
-          <td><p id="data6111"></p></td>
-        </tr>
-        <tr>
-          <td>불침번1</td>
-          <td><p id="data130"></p></td>
-          <td></td>
-          <td><p id="data1130"></p></td>
-          <td></td>
-          <td><p id="data2130"></p></td>
-          <td></td>
-          <td><p id="data3130"></p></td>
-          <td></td>
-          <td><p id="data4130"></p></td>
-          <td></td>
-          <td><p id="data5130"></p></td>
-          <td></td>
-          <td><p id="data6130"></p></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>불침번2</td>
-          <td><p id="data131"></p></td>
-          <td></td>
-          <td><p id="data1131"></p></td>
-          <td></td>
-          <td><p id="data2131"></p></td>
-          <td></td>
-          <td><p id="data3131"></p></td>
-          <td></td>
-          <td><p id="data4131"></p></td>
-          <td></td>
-          <td><p id="data5131"></p></td>
-          <td></td>
-          <td><p id="data6131"></p></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>불침번3</td>
-          <td><p id="data132"></p></td>
-          <td></td>
-          <td><p id="data1132"></p></td>
-          <td></td>
-          <td><p id="data2132"></p></td>
-          <td></td>
-          <td><p id="data3132"></p></td>
-          <td></td>
-          <td><p id="data4132"></p></td>
-          <td></td>
-          <td><p id="data5132"></p></td>
-          <td></td>
-          <td><p id="data6132"></p></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>불침번4</td>
-          <td><p id="data133"></p></td>
-          <td></td>
-          <td><p id="data1133"></p></td>
-          <td></td>
-          <td><p id="data2133"></p></td>
-          <td></td>
-          <td><p id="data3133"></p></td>
-          <td></td>
-          <td><p id="data4133"></p></td>
-          <td></td>
-          <td><p id="data5133"></p></td>
-          <td></td>
-          <td><p id="data6133"></p></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>불침번5</td>
-          <td><p id="data134"></p></td>
-          <td></td>
-          <td><p id="data1134"></p></td>
-          <td></td>
-          <td><p id="data2134"></p></td>
-          <td></td>
-          <td><p id="data3134"></p></td>
-          <td></td>
-          <td><p id="data4134"></p></td>
-          <td></td>
-          <td><p id="data5134"></p></td>
-          <td></td>
-          <td><p id="data6134"></p></td>
-          <td></td>
-        </tr>
+          <tr>
+            <td>cctv 구분</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+            <td>탄약고/무기고</td>
+            <td>주둔지</td>
+          </tr>
+          <tr>
+            <td>06:00~08:00</td>
+            <td className="data"><p id="data0"></p></td>
+            <td className="data"><p id="data1"></p></td>
+            <td className="data"><p id="data1000"></p></td>
+            <td className="data"><p id="data1001"></p></td>
+            <td className="data"><p id="data2000"></p></td>
+            <td className="data"><p id="data2001"></p></td>
+            <td className="data"><p id="data3000"></p></td>
+            <td className="data"><p id="data3001"></p></td>
+            <td className="data"><p id="data4000"></p></td>
+            <td className="data"><p id="data4001"></p></td>
+            <td className="data"><p id="data5000"></p></td>
+            <td className="data"><p id="data5001"></p></td>
+            <td className="data"><p id="data6000"></p></td>
+            <td className="data"><p id="data6001"></p></td>
+          </tr><tr>
+            <td>08:00~10:00</td>
+            <td className="data"><p id="data10"></p></td>
+            <td className="data"><p id="data11"></p></td>
+            <td className="data"><p id="data1010"></p></td>
+            <td className="data"><p id="data1011"></p></td>
+            <td className="data"><p id="data2010"></p></td>
+            <td className="data"><p id="data2011"></p></td>
+            <td className="data"><p id="data3010"></p></td>
+            <td className="data"><p id="data3011"></p></td>
+            <td className="data"><p id="data4010"></p></td>
+            <td className="data"><p id="data4011"></p></td>
+            <td className="data"><p id="data5010"></p></td>
+            <td className="data"><p id="data5011"></p></td>
+            <td className="data"><p id="data6010"></p></td>
+            <td className="data"><p id="data6011"></p></td>
+          </tr>
+          <tr>
+            <td>10:00~12:00</td>
+            <td className="data"><p id="data20"></p></td>
+            <td className="data"><p id="data21"></p></td>
+            <td className="data"><p id="data1020"></p></td>
+            <td className="data"><p id="data1021"></p></td>
+            <td className="data"><p id="data2020"></p></td>
+            <td className="data"><p id="data2021"></p></td>
+            <td className="data"><p id="data3020"></p></td>
+            <td className="data"><p id="data3021"></p></td>
+            <td className="data"><p id="data4020"></p></td>
+            <td className="data"><p id="data4021"></p></td>
+            <td className="data"><p id="data5020"></p></td>
+            <td className="data"><p id="data5021"></p></td>
+            <td className="data"><p id="data6020"></p></td>
+            <td className="data"><p id="data6021"></p></td>
+          </tr>
+          <tr>
+            <td>12:00~14:00</td>
+            <td className="data"><p id="data30"></p></td>
+            <td className="data"><p id="data31"></p></td>
+            <td className="data"><p id="data1030"></p></td>
+            <td className="data"><p id="data1031"></p></td>
+            <td className="data"><p id="data2030"></p></td>
+            <td className="data"><p id="data2031"></p></td>
+            <td className="data"><p id="data3030"></p></td>
+            <td className="data"><p id="data3031"></p></td>
+            <td className="data"><p id="data4030"></p></td>
+            <td className="data"><p id="data4031"></p></td>
+            <td className="data"><p id="data5030"></p></td>
+            <td className="data"><p id="data5031"></p></td>
+            <td className="data"><p id="data6030"></p></td>
+            <td className="data"><p id="data6031"></p></td>
+          </tr>
+          <tr>
+            <td>14:00~16:00</td>
+            <td className="data"><p id="data40"></p></td>
+            <td className="data"><p id="data41"></p></td>
+            <td className="data"><p id="data1040"></p></td>
+            <td className="data"><p id="data1041"></p></td>
+            <td className="data"><p id="data2040"></p></td>
+            <td className="data"><p id="data2041"></p></td>
+            <td className="data"><p id="data3040"></p></td>
+            <td className="data"><p id="data3041"></p></td>
+            <td className="data"><p id="data4040"></p></td>
+            <td className="data"><p id="data4041"></p></td>
+            <td className="data"><p id="data5040"></p></td>
+            <td className="data"><p id="data5041"></p></td>
+            <td className="data"><p id="data6040"></p></td>
+            <td className="data"><p id="data6041"></p></td>
+          </tr>
+          <tr>
+            <td>16:00~18:00</td>
+            <td className="data"><p id="data50"></p></td>
+            <td className="data"><p id="data51"></p></td>
+            <td className="data"><p id="data1050"></p></td>
+            <td className="data"><p id="data1051"></p></td>
+            <td className="data"><p id="data2050"></p></td>
+            <td className="data"><p id="data2051"></p></td>
+            <td className="data"><p id="data3050"></p></td>
+            <td className="data"><p id="data3051"></p></td>
+            <td className="data"><p id="data4050"></p></td>
+            <td className="data"><p id="data4051"></p></td>
+            <td className="data"><p id="data5050"></p></td>
+            <td className="data"><p id="data5051"></p></td>
+            <td className="data"><p id="data6050"></p></td>
+            <td className="data"><p id="data6051"></p></td>
+          </tr>
+          <tr>
+            <td>18:00~20:00</td>
+            <td className="data"><p id="data60"></p></td>
+            <td className="data"><p id="data61"></p></td>
+            <td className="data"><p id="data1060"></p></td>
+            <td className="data"><p id="data1061"></p></td>
+            <td className="data"><p id="data2060"></p></td>
+            <td className="data"><p id="data2061"></p></td>
+            <td className="data"><p id="data3060"></p></td>
+            <td className="data"><p id="data3061"></p></td>
+            <td className="data"><p id="data4060"></p></td>
+            <td className="data"><p id="data4061"></p></td>
+            <td className="data"><p id="data5060"></p></td>
+            <td className="data"><p id="data5061"></p></td>
+            <td className="data"><p id="data6060"></p></td>
+            <td className="data"><p id="data6061"></p></td>
+          </tr>
+          <tr>
+            <td>20:00~22:00</td>
+            <td className="data"><p id="data70"></p></td>
+            <td className="data"><p id="data71"></p></td>
+            <td className="data"><p id="data1070"></p></td>
+            <td className="data"><p id="data1071"></p></td>
+            <td className="data"><p id="data2070"></p></td>
+            <td className="data"><p id="data2071"></p></td>
+            <td className="data"><p id="data3070"></p></td>
+            <td className="data"><p id="data3071"></p></td>
+            <td className="data"><p id="data4070"></p></td>
+            <td className="data"><p id="data4071"></p></td>
+            <td className="data"><p id="data5070"></p></td>
+            <td className="data"><p id="data5071"></p></td>
+            <td className="data"><p id="data6070"></p></td>
+            <td className="data"><p id="data6071"></p></td>
+          </tr>
+          <tr>
+            <td>22:00~00:00</td>
+            <td className="data"><p id="data80"></p></td>
+            <td className="data"><p id="data81"></p></td>
+            <td className="data"><p id="data1080"></p></td>
+            <td className="data"><p id="data1081"></p></td>
+            <td className="data"><p id="data2080"></p></td>
+            <td className="data"><p id="data2081"></p></td>
+            <td className="data"><p id="data3080"></p></td>
+            <td className="data"><p id="data3081"></p></td>
+            <td className="data"><p id="data4080"></p></td>
+            <td className="data"><p id="data4081"></p></td>
+            <td className="data"><p id="data5080"></p></td>
+            <td className="data"><p id="data5081"></p></td>
+            <td className="data"><p id="data6080"></p></td>
+            <td className="data"><p id="data6081"></p></td>
+          </tr>
+          <tr>
+            <td>00:00~02:00</td>
+            <td className="data"><p id="data90"></p></td>
+            <td className="data"><p id="data91"></p></td>
+            <td className="data"><p id="data1090"></p></td>
+            <td className="data"><p id="data1091"></p></td>
+            <td className="data"><p id="data2090"></p></td>
+            <td className="data"><p id="data2091"></p></td>
+            <td className="data"><p id="data3090"></p></td>
+            <td className="data"><p id="data3091"></p></td>
+            <td className="data"><p id="data4090"></p></td>
+            <td className="data"><p id="data4091"></p></td>
+            <td className="data"><p id="data5090"></p></td>
+            <td className="data"><p id="data5091"></p></td>
+            <td className="data"><p id="data6090"></p></td>
+            <td className="data"><p id="data6091"></p></td>
+          </tr>
+          <tr>
+            <td>02:00~04:00</td>
+            <td className="data"><p id="data100"></p></td>
+            <td className="data"><p id="data101"></p></td>
+            <td className="data"><p id="data1100"></p></td>
+            <td className="data"><p id="data1101"></p></td>
+            <td className="data"><p id="data2100"></p></td>
+            <td className="data"><p id="data2101"></p></td>
+            <td className="data"><p id="data3100"></p></td>
+            <td className="data"><p id="data3101"></p></td>
+            <td className="data"><p id="data4100"></p></td>
+            <td className="data"><p id="data4101"></p></td>
+            <td className="data"><p id="data5100"></p></td>
+            <td className="data"><p id="data5101"></p></td>
+            <td className="data"><p id="data6100"></p></td>
+            <td className="data"><p id="data6101"></p></td>
+          </tr>
+          <tr>
+            <td>04:00~06:00</td>
+            <td className="data"><p id="data110"></p></td>
+            <td className="data"><p id="data111"></p></td>
+            <td className="data"><p id="data1110"></p></td>
+            <td className="data"><p id="data1111"></p></td>
+            <td className="data"><p id="data2110"></p></td>
+            <td className="data"><p id="data2111"></p></td>
+            <td className="data"><p id="data3110"></p></td>
+            <td className="data"><p id="data3111"></p></td>
+            <td className="data"><p id="data4110"></p></td>
+            <td className="data"><p id="data4111"></p></td>
+            <td className="data"><p id="data5110"></p></td>
+            <td className="data"><p id="data5111"></p></td>
+            <td className="data"><p id="data6110"></p></td>
+            <td className="data"><p id="data6111"></p></td>
+          </tr>
+          <tr>
+            <td>불침번1</td>
+            <td className="data"><p id="data130"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data1130"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data2130"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data3130"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data4130"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data5130"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data6130"></p></td>
+            <td className="data"></td>
+          </tr>
+          <tr>
+            <td>불침번2</td>
+            <td className="data"><p id="data131"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data1131"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data2131"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data3131"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data4131"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data5131"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data6131"></p></td>
+            <td className="data"></td>
+          </tr>
+          <tr>
+            <td>불침번3</td>
+            <td className="data"><p id="data132"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data1132"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data2132"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data3132"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data4132"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data5132"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data6132"></p></td>
+            <td className="data"></td>
+          </tr>
+          <tr>
+            <td>불침번4</td>
+            <td className="data"><p id="data133"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data1133"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data2133"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data3133"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data4133"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data5133"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data6133"></p></td>
+            <td className="data"></td>
+          </tr>
+          <tr>
+            <td>불침번5</td>
+            <td className="data"><p id="data134"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data1134"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data2134"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data3134"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data4134"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data5134"></p></td>
+            <td className="data"></td>
+            <td className="data"><p id="data6134"></p></td>
+            <td className="data"></td>
+          </tr>
 
-      </tbody>
-    </ResultTable>
-      
-    <ButtonPart>
-      <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
-
-      <SaveResult>
-        <SaveBtn/>
-      </SaveResult>
-    </ButtonPart>
-
+        </tbody>
+      </ResultTable>
+      <ButtonPart>
+        <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
+        <SaveResult>
+          <SaveBtn/>
+        </SaveResult>
+      </ButtonPart>
+    </ResultWrapper>
   </Wrapper>
 
 };
@@ -2602,7 +2629,7 @@ function SaveBtn () {
   
 
   return <div>
-    <button onClick={onSave}>
+    <button onClick={onSave} className="saveButton">
       저장하기
     </button>
   </div>

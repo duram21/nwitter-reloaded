@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { collection, doc, DocumentReference, getDocs, limit, orderBy, query, updateDoc, where } from "firebase/firestore";
-import { ITweet } from "../components/timeline";
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,7 +102,7 @@ const NamePart = styled.div`
 export default function Profile() {
   const user =auth.currentUser;
   const [avatar, setAvatar] = useState(user?.photoURL);
-  const [tweets, setTweets] = useState<ITweet[]>([]);
+  // const [tweets, setTweets] = useState<ITweet[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [newName, setNewName] = useState(user?.displayName);
   const onAvatarChange = async(e:React.ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,8 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { auth, db} from "../firebase";
+import { Unsubscribe } from "firebase/auth";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +14,6 @@ const Wrapper = styled.div`
   }
   
 `;
-
 
 const Form = styled.form`
   display: flex;
@@ -72,21 +72,30 @@ const WorkerBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: dashed 2px white;
-  padding: 15px;
+  gap: 10px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 400px;
+  margin: 0 auto;
 
   input{
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border: 1px solid #201e1e;
+    background-color: white;
     border-radius: 5px;
     font-size: 16px;
+    color: black;
   }
 
   h1{
-    margin-bottom: 30px;
+    color: black;
     text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
   
   button {
@@ -95,22 +104,22 @@ const WorkerBox = styled.div`
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s ease;
-    
     border: 1px solid #ccc;
     border-radius: 5px;
   }
 `
 
 const InputBox = styled.div`
-    display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 16px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      min-width: 500px;
-      margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 500px;
+  margin: 0 auto;
+  margin-bottom: 20px;
   input, textarea,
   button {
     width: 100%;
@@ -134,7 +143,7 @@ const InputBox = styled.div`
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
-
+  
   button {
     background-color: #127c3b;
     color: white;
@@ -142,7 +151,7 @@ const InputBox = styled.div`
     cursor: pointer;
     transition: background 0.3s ease;
   }
-
+  
   button:hover {
     background-color: #0056b3;
   }
@@ -153,37 +162,104 @@ const InputBox = styled.div`
   p{
     color: black;
     text-align: center;
-    font-size: 20px;
+    font-size: 22px;
+    margin-bottom: 10px;
     font-weight: bold;
   }
+  `
+  interface WorkerData{
+    id: string;
+    name: string;
+  }
+
+const LimitBox = styled.div`
+  display: flex;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const LimitWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
 `
+
 export default function Manage(){
   const [isLoading, setLoading] = useState(false);
-  const [workers, setWorkers] = useState([]);
+  const [workers, setWorkers] = useState<WorkerData[]>([]);
   const [name, setName] = useState("");
-
+  
   const [date, setDate] = useState("");
   const [limitName, setLimitName] = useState("");
   const [limitDetail, setLimitDetail] = useState("");
-  
-  const fecthWorkers = async () => {
-    const tweetQuery = query(
-      collection(db, "workers"),
-    );
-    const snapshot = await getDocs(tweetQuery);
-    const workers = snapshot.docs.map(doc => {
-      const { name } = doc.data();
-      return {
-        name,
-        id: doc.id,
-      }
-    })
-    setWorkers(workers);
-  };
+
+  interface Item{
+    date: string;
+    name: string;
+    detail: string;
+  }
+  const [limitList, setLimitList] = useState<Item[]>([]);
+
+
   useEffect(() => {
+    let unsubscribe : Unsubscribe | null = null;
+
+    const fecthWorkers = async () => {
+      const workersQuery = query(
+        collection(db, "workers"),
+      );
+      unsubscribe = await onSnapshot(workersQuery, (snapshot) => {
+        const workers = snapshot.docs.map(doc => {
+         const { name } = doc.data();
+         return {
+           name,
+           id: doc.id,
+         };
+       });
+       setWorkers(workers);
+      })
+    };
+
+
     fecthWorkers();
     console.log("실행됨");
+    return() => {
+      unsubscribe && unsubscribe();
+    }
   }, []);
+
+  useEffect(() => {
+    if(date == "") return;
+    let unsubscribe : Unsubscribe | null = null;
+
+    const fetchLimits = async() => {
+      const limitsQuery = query(
+        collection(db, "limitations", date, "data")
+      );
+      unsubscribe = await onSnapshot(limitsQuery, (snapshot) => {
+        const limits = snapshot.docs.map(doc => {
+          const {name, detail } = doc.data();
+          return {
+            name,
+            date,
+            detail,
+            id: doc.id,
+          };
+          
+        });
+        setLimitList(limits);
+      });
+    }
+    
+    fetchLimits();
+
+    return() => {
+      unsubscribe && unsubscribe();
+    }
+  }, [date]);
 
   const onSubmit = async(e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -215,10 +291,10 @@ export default function Manage(){
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLimitName(e.target.value);
   }
-  const onDetailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onDetailChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setLimitDetail(e.target.value);
   }
-  const onLimitSubmit = async(e : React.FormEvent<HTMLFormElement>) => {
+  const onLimitSubmit = async(e : React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const user = auth.currentUser;
     if(!user || isLoading || limitName === "" || limitDetail === "") return;
@@ -245,7 +321,7 @@ export default function Manage(){
 
   return <Wrapper>
     <WorkerBox>
-      <h1>근무자 명단</h1>
+      <h1>근무자 명단 관리</h1>
       <DisplayForm>
         <Form onSubmit={onSubmit}>  
           <TitleArea onChange={onChange} name="workerName" value={name} placeholder="근무자 이름"/>
@@ -256,6 +332,7 @@ export default function Manage(){
         </ListWorkers>
       </DisplayForm>
     </WorkerBox>
+    <LimitWrapper>
       <InputBox>
         <p>근무 제한 사항 입력</p>
         <input type="date" value={date} onChange={onDateChange}></input>
@@ -263,6 +340,12 @@ export default function Manage(){
         <textarea  onChange={onDetailChange} placeholder="근무 제한 사항 내용" value={limitDetail}></textarea>
         <button onClick={onLimitSubmit}>제출</button>
       </InputBox>
+      <LimitBox>
+      {limitList.map((item, index) => (
+            <List date={item.date} name={item.name} detail={item.detail}/>
+          ))}
+      </LimitBox>
+    </LimitWrapper>
     </Wrapper>
 }
 
@@ -273,7 +356,7 @@ const NameWrapper = styled.div`
 
 `;
 const NameBox = styled.div`
-  border: 2px solid white;
+  border: 2px solid black;
   width: 200px;
   display: grid;
   padding: 5px;
@@ -281,17 +364,20 @@ const NameBox = styled.div`
   justify-content: center;
   justify-items: center;
   align-items: center;
+  background-color: #FFEEE4;
   svg{
-    color: lightgreen;
+    color: #020202;
     border-radius: 5px;
   }
   p{
     font-size: 18px;
+    font-weight: bold;
+    color: black;
   }
 `;
 
 
-function Worker({id, name}) {
+function Worker({id, name} : WorkerData) {
   
   const onDelete = async() => {
     let message = `${name} 명단에서 제외하겠습니까?`;
@@ -310,12 +396,67 @@ function Worker({id, name}) {
 
   return <NameWrapper>
     <NameBox>
-
-      <svg onClick={onDelete} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <svg onClick={onDelete} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
       </svg>
-
       <p>{name}</p>
     </NameBox>
   </NameWrapper>
+}
+
+interface LimitData{
+  date: string;
+  name: string;
+  detail: string;
+}
+
+const ListWrapper = styled.div`
+  display: flex;
+  /* grid-template-columns: 30px 100px 100px 1fr; */
+
+  align-items: center;
+  border: 1px solid black; /* gray-400 */
+  background-color: #FFEEE4; /* gray-100 */
+  border-radius: 8px;
+  margin-bottom: 5px;
+  gap : 30px;
+  max-width: 500px;
+  p {
+    margin: 4px 0;
+  }
+
+  .title {
+    color: #374151; /* gray-700 */
+    font-weight: 600;
+  }
+
+  .detail {
+    color: #4b5563; /* gray-600 */
+    margin-top: 4px;
+  }
+
+  .infoPart{
+
+  }
+
+  .detailPart{
+    width: 250px;
+  }
+
+`
+
+
+function List({date, name, detail} : LimitData) {
+
+  return <ListWrapper>
+    <input type="checkbox"></input>
+    <div className="infoPart">
+      <p className="title">📅 {date}</p>
+      <p className="title">👤 {name}</p>
+    </div>
+    <div className="detailPart">
+      <p className="detail">📝 {detail}</p>
+    </div>
+
+  </ListWrapper>
 }

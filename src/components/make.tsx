@@ -1,8 +1,5 @@
-import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import styled from "styled-components";
-import { auth, db, storage } from "../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Project from "./project";
 import ToggleList from "./limit-list";
 
@@ -28,7 +25,7 @@ const InputDate = styled.div`
 `;
 
 export default function Make(){
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<string>("");
 
   const onDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
@@ -43,7 +40,7 @@ export default function Make(){
       <input type="date" id="today" name="today" onChange={onDate} />
     </InputDate>
 
-    <ToggleList date={date}> </ToggleList>
+    <ToggleList date={date}/>
 
 
     <Project date={date}/>

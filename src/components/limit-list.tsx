@@ -5,17 +5,13 @@ import { db } from "../firebase";
 import styled from "styled-components";
 
 
-
-
-
-function setDay(date) {
-  let year = date[0] + date[1] + date[2] + date[3];
-  let month = date[5] + date[6];
-  let day = date[8] + date[9];
-  year = parseInt(year);
-  month = parseInt(month);
-  day = parseInt(day);
-
+function setDay(date: string) {
+  let strYear = date[0] + date[1] + date[2] + date[3];
+  let strMonth = date[5] + date[6];
+  let strDay = date[8] + date[9];
+  let year = parseInt(strYear);
+  let month = parseInt(strMonth);
+  let day = parseInt(strDay);
   let days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   let dateArr = [];
   // 윤년 check
@@ -45,8 +41,12 @@ const Wrapper = styled.div`
   /* flex-direction: column; */
   gap: 10px;
 
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  width: 1400px;
   .listButton {
-  background-color:  #2d8d78;
+  background-color:  #519D9E;
   color: white;
   padding: 10px 16px;
   border-radius: 8px;
@@ -60,15 +60,24 @@ const Wrapper = styled.div`
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
   }
-  
+  p{
+    font-weight: bold;
+  }
 `;
 
+interface PropsToggleList {
+  date: string;
+}
 
-
-export default function ToggleList({date}) {
+export default function ToggleList({date} : PropsToggleList) {
   const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useState([]);
-  const [week, setWeek] = useState([]);
+  interface Item{
+    date: string;
+    name: string;
+    detail: string;
+  }
+  const [items, setItems] = useState<Item[]>([]);
+  const [week, setWeek] = useState<string[]>([]);
   const [flag, setFlag] = useState(false);
   console.log(week);
   const fecthWorkers = async () => {
@@ -112,7 +121,7 @@ export default function ToggleList({date}) {
           <p>{week[0]} 부터<br/>  {week[6]} 까지 </p>
 
         : ""}
-        {isOpen ? "근무 제한 목록 숨기기" : "근무 제한 목록 보기"}
+        {isOpen ? <p>근무 제한 목록 숨기기</p> : <p>근무 제한 목록 보기</p>}
       </button>
       {isOpen && flag ? (
         <motion.ul
@@ -135,38 +144,67 @@ export default function ToggleList({date}) {
 const ListWrapper = styled.div`
   display: flex;
   /* grid-template-columns: 30px 100px 100px 1fr; */
-  height: 30px;
-  min-width: 1000px;
+  min-width: 900px;
   align-items: center;
   border: 1px solid #9ca3af; /* gray-400 */
   background-color: #f3f4f6; /* gray-100 */
   border-radius: 8px;
   margin-bottom: 5px;
   gap : 30px;
-
+  input{
+    width: 20px;
+    height: 20px;
+  }
   p {
     margin: 4px 0;
   }
-
+  .limitDiv{
+    display:flex;
+    margin: 4px 0;
+  }
   .title {
     color: #374151; /* gray-700 */
     font-weight: 600;
+    width: 150px;
   }
-
+  .name{
+    color: #374151; /* gray-700 */
+    font-weight: 600;
+    width: 150px;
+  }
   .detail {
     color: #4b5563; /* gray-600 */
     margin-top: 4px;
+    width: 710px;
   }
 
 `
 
-function List({date, name, detail}) {
+interface LimitData{
+  date: string;
+  name: string;
+  detail: string;
+}
+
+function List({date, name, detail} : LimitData) {
 
   return <ListWrapper>
     <input type="checkbox"></input>
-    <p className="title">📅 {date}</p>
-    <p className="title">👤 {name}</p>
-    <p className="detail">📝 {detail}</p>
+    <div className="limitDiv">
+      <p>📅</p>
+      <p className="title">{date}</p>
+
+    </div>
+    <div className="limitDiv">
+      <p>👤</p>
+      <p className="name">{name}</p>
+
+    </div>
+    <div className="limitDiv">
+      <p>📝</p>
+      <p className="detail"> {detail}</p>
+
+    </div>
 
   </ListWrapper>
 }

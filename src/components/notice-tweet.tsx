@@ -22,6 +22,7 @@ const Wrapper = styled.div`
   gap :10px;
   flex-direction: column;
   text-decoration: none;
+  /* background-color: */
 `;
 
 type NoticeNum = {

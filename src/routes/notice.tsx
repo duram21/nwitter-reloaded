@@ -17,12 +17,15 @@ const NoticeWrapper = styled.div`
   flex-direction: row;
   gap: 10px;
   justify-content: center;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
 `
 const NoticeBox = styled.div`
   background: black;
   padding: 0px 0px;
-  border: 1px solid white;
-  border-radius: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,16 +38,15 @@ const NoticeBox = styled.div`
 
   }
   :hover{
-    background: gray;
-    
+    background-color: #f7dcdc;
   }
 `;
 
 const Box = styled.div`
-  background: black;
+  background: #ffffff;
   padding: 0px 0px;
-  border: 1px solid white;
-  border-radius: 10px;
+  border: 2px solid black;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;

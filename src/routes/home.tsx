@@ -14,12 +14,15 @@ const TodayWork = styled.div`
   align-content: center;
   gap : 10px;
   width: 560px;
-  height: 910px;
-  h{
-    font-size: 20px;
-
+  height: 950px;
+  .workTable{
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+    padding: 5px;
   }
-  border: 2px dashed white;
+  background-color: white;
+  border: 3px solid #bb94e9;
   padding : 10px;
 `;
 const Wrapper = styled.div`
@@ -38,14 +41,17 @@ const Menu = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  border: 2px dashed white;
-  padding : 10px;
+  border-radius: 8px;
+  border: 3px solid #bb94e9;
+  background-color: white;
+  padding : 30px;
 `;
 
 const MenuItem = styled.div`
     color: white;
-    background-color: black;
-    font-size: 20px;
+    background-color: #fec8c9;
+    font-size: 25px;
+    font-weight: bold;
     border: 1px solid white;
     border-radius: 30px;
     padding: 20px;
@@ -59,11 +65,13 @@ const RecentWritings = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  background-color: white; 
+  border-radius: 8px;
+  border: 3px solid #bb94e9;
   gap : 10px;
   h{
     font-size: 20px;
   }
-  border: 2px dashed white;
   padding : 10px;
 `
 
@@ -78,17 +86,24 @@ const NoticeDetail = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  color: black;
+  .recentWriting{
+    font-size: 20px;
+  }
 `
 
 const MenuSvg = styled.div`
     cursor: pointer;
-    color: white;
+    color: #3b8686;
+    background-color: #88dba3;
+    padding: 10px;
+    border-radius: 8px;
     display: flex;
     font-size: 13px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: black;
+
     svg {
       width: 30px;
       fill: black;
@@ -129,23 +144,23 @@ export default function Home() {
 
       <RecentWritings>
         <NoticeDetail>
-          <h>최근 글</h>
+          <p className="recentWriting">최근 글</p>
           <Link to="/notice" style={{ textDecoration: "none" }}>
             <MenuSvg>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
               <h1>더보기</h1>
             </MenuSvg>
           </Link>
         </NoticeDetail>
-        <NoticeTweet noticeName={"all"}></NoticeTweet>
+        <NoticeTweet noticeName={"all"}/>
       </RecentWritings>
 
     </LeftMenu>
       <TodayWork>
-        <h>{today} 근무표</h>
-        <DisplayWork dateData={today}> </DisplayWork>
+        <p className="workTable">{today} 근무표</p>
+        <DisplayWork dateData={today}/>
       </TodayWork>
   </Wrapper>
   )
