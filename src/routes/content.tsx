@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { IWriting } from "./notice";
 import { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query} from "firebase/firestore";
 import { auth, db } from "../firebase";
 import styled from "styled-components";
 
@@ -92,26 +92,24 @@ export default function Content() {
       collection(db, "writings"),
     );
     const snapshot = await getDocs(tweetQuery);
-    const notices = snapshot.docs.map(doc => {
-      if(doc.id === params.contentId){
+    const notices : IWriting[]  = snapshot.docs.map(doc => {
         const { detail, createdAt, userId, username, title, noticeName} = doc.data();
         return {
-          detail,
-          createdAt,
-          userId,
-          username,
-          title,
+          detail: detail || '',
+          createdAt: createdAt || '',
+          userId: userId || '',
+          username: username || '',
+          title: title || '',
           id : doc.id,
-          noticeName,
+          noticeName: noticeName || '',
         }
-      }
-      else{
-        return null;
-      }
-    })
-    console.log(notices);
+      })
+
+
+
+    const addr = params.contentId;
     for(let i = 0 ; i < notices.length; i++){
-      if(notices[i]){
+      if(notices[i].id == addr){
         setContent(notices[i]);
         setLoading(false);
         break;
@@ -127,7 +125,9 @@ export default function Content() {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== content?.userId) return;
     try {
-      await deleteDoc(doc(db, "writings", content?.id));
+      if(content?.id){
+        await deleteDoc(doc(db, "writings", content?.id));
+      }
       navigate("/notice");
     } catch (e) {
       console.log(e);

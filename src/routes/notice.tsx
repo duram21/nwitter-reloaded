@@ -61,11 +61,11 @@ export interface IWriting {
   id: string;
   noticeName: string;
   photo?: string;
-  detail: string;
-  title: string;
+  detail?: string;
+  title?: string;
   userId:string;
   username:string;
-  createdAt?:number;
+  createdAt:number;
 }
 
 export interface INotice{

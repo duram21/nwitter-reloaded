@@ -1,8 +1,4 @@
 import { styled } from "styled-components";
-import { auth, db, storage } from "../firebase";
-import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
-import { useState } from "react";
 import { IWriting } from "../routes/notice";
 import { Link } from "react-router-dom";
 
@@ -35,25 +31,9 @@ const Payload = styled.p`
 `;
 
 
-export default function Title({ username, photo, title, noticeName, userId, id }: IWriting) {
-  const [editMode, setEditMode] = useState(false);
+export default function Title({ username, title, noticeName, id }: IWriting) {
   const moveAddress = `/content/${id}`
-  const user = auth.currentUser;
-  const onDelete = async() => {
-    const ok = confirm("Are you sure you want to delete this tweet?");
-    if(!ok || user?.uid !== userId) return;
-    try {
-      await deleteDoc(doc(db, "tweets", id));
-      if(photo){
-        const photoRef = ref(storage, `tweets/${user.uid}/${id}`);
-        await deleteObject(photoRef);
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
 
-    }
-  }
   return (
         <Link to={moveAddress} style={{textDecoration: "none"}}>
     <Wrapper>

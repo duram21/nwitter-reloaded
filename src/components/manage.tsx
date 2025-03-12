@@ -267,7 +267,7 @@ export default function Manage(){
     if(!user || isLoading || name === "") return;
     try{
       setLoading(true);
-      const doc = await addDoc(collection(db, "workers"), {
+      await addDoc(collection(db, "workers"), {
         name,
       });
       
@@ -300,7 +300,7 @@ export default function Manage(){
     if(!user || isLoading || limitName === "" || limitDetail === "") return;
     try{
       setLoading(true);
-      const doc = await addDoc(collection(db, "limitations", date, "data"), {
+      await addDoc(collection(db, "limitations", date, "data"), {
         name: limitName,
         detail: limitDetail,
       });
@@ -341,7 +341,7 @@ export default function Manage(){
         <button onClick={onLimitSubmit}>제출</button>
       </InputBox>
       <LimitBox>
-      {limitList.map((item, index) => (
+      {limitList.map((item) => (
             <List date={item.date} name={item.name} detail={item.detail}/>
           ))}
       </LimitBox>
