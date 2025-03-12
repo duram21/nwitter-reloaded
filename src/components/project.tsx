@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import ToggleList from "./limit-list";
 
-var Arr = [];
+
+
+let Arr : string[] = [];
 
 // this array stores index information about soldiers
-var soldier_id = new Array(100);
-var cur_index = 1;
+let soldier_id = new Array(100);
+let cur_index = 1;
 
 
 // check array for availability 
@@ -34,13 +35,12 @@ for (var i = 0; i < 5; i++) {
 }
 
 // array for random idx
-var random_idx_i = new Array(100);
-var random_idx_j = new Array(100);
-var random_idx_k = new Array(100);
+var random_idx_i : number[] = new Array(100);
+var random_idx_j : number[] = new Array(100);
 
 
 // 근무 개수를 count 해주는 배열 
-var cnt = new Array(100);
+let cnt: string[][]  = new Array(100);
 for (var i = 0; i < 100; i++) {
   cnt[i] = new Array();
 }
@@ -88,13 +88,12 @@ function init() {
   }
   random_idx_i = new Array(100);
   random_idx_j = new Array(100);
-  random_idx_k = new Array(100);
   work_min = 0;
   human_cnt = new Array(100);
   for (var i = 1; i < 100; i++) human_cnt[i] = 0;
 }
 
-function start_program(e) {
+function start_program(e: React.MouseEvent<HTMLButtonElement>) {
   e.preventDefault();
   init();
   submitInput();
@@ -158,8 +157,6 @@ function start_program(e) {
               imposArr.push(k * 1000 + i * 10 + j);
           }
 
-          var select_flag = 0;
-          var tmp_k, tmp_i, tmp_j;
           make_random_idx(8, 13, 1); // make random index of i to select random time table
           make_random_idx(0, 4, 2);
           for (var a = 8; a <= 13; a++) {
@@ -183,7 +180,6 @@ function start_program(e) {
                 }
                 if (dup_flag == 0 && limit[worker_idx][kkk][iii][jjj] == 0) {
                   select_flag = 1;
-                  tmp_k = kkk; tmp_j = jjj; tmp_i = iii;
                   var tflag = CheckSameTime(kkk, iii, jjj, worker);
                   if (tflag)
                     posArr.push(kkk * 1000 + iii * 10 + jjj);
@@ -250,7 +246,6 @@ function start_program(e) {
                   if (dup_flag) continue;
                   // find such swap thing
                   var selected_flag = 0;
-                  var to_k, to_i, to_j;
                   for (var a = 0; a < 7; a++) {
                     for (var o = 13; o >= 8; o--) {
                       for (var p = 4; p >= 0; p--) {
@@ -271,7 +266,6 @@ function start_program(e) {
 
                         if (to_dup_flag || limit[to_worker_idx][a][b][c]) continue;
                         selected_flag = 1;
-                        to_k = a; to_j = c; to_i = b;
                         var from_tflag = CheckSameTime(kkk, iii, jjj, worker);
                         var to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
                         if (from_tflag && to_tflag) {
@@ -334,8 +328,8 @@ function start_program(e) {
               updateResult();
               console.log("안된경우 2");
             }
-            var worker = cnt[work_min].splice(del_idx, 1);
-            worker = worker[0];
+            let workers : string[] = cnt[work_min].splice(del_idx, 1);
+            worker = workers[0];
             cnt[work_min + 1].push(worker);
             human_cnt[work_min]--;
             human_cnt[work_min + 1]++;
@@ -390,7 +384,6 @@ function start_program(e) {
           }
 
           var select_flag = 0;
-          var tmp_k, tmp_i, tmp_j;
 
           make_random_idx(1, 7, 1);
           make_random_idx(0, 1, 2);
@@ -415,7 +408,6 @@ function start_program(e) {
                 var con_flag = check_day(kkk, iii, worker);
                 if (dup_flag == 0 && con_flag && limit[worker_idx][kkk][iii][jjj] == 0) {
                   select_flag = 1;
-                  tmp_k = kkk; tmp_j = jjj; tmp_i = iii;
                   var tflag = CheckSameTime(kkk, iii, jjj, worker);
                   if (tflag)
                     posArr.push(kkk * 1000 + iii * 10 + jjj);
@@ -481,7 +473,6 @@ function start_program(e) {
                   if (dup_flag || !con_flag) continue;
                   // find such swap thing
                   var selected_flag = 0;
-                  var to_k, to_i, to_j;
                   for (var a = 0; a < 7; a++) {
                     for (var o = 7; o >= 1; o--) {
                       for (var p = 1; p >= 0; p--) {
@@ -500,7 +491,6 @@ function start_program(e) {
                         var to_con_flag = check_day(a, b, yagan[kkk][iii][jjj]);
                         if (to_dup_flag || !to_con_flag || limit[to_worker_idx][a][b][c]) continue;
                         selected_flag = 1;
-                        to_k = a; to_j = c; to_i = b;
 
                         var from_tflag = CheckSameTime(kkk, iii, jjj, worker);
                         var to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
@@ -568,8 +558,8 @@ function start_program(e) {
               console.log("안된경우 4");
               updateResult();
             }
-            var worker = cnt[work_min].splice(del_idx, 1);
-            worker = worker[0];
+            let workers : string[] = cnt[work_min].splice(del_idx, 1);
+            worker = workers[0];
             cnt[work_min + 1].push(worker);
             human_cnt[work_min]--;
             human_cnt[work_min + 1]++;
@@ -588,7 +578,8 @@ function start_program(e) {
   updateResult();
   printWork();
   updateResult();
-  // cntResult();
+
+
   updateResult();
   printCheckResult();
   console.log(yagan);
@@ -646,7 +637,6 @@ function dayWork() {
           }
 
           var select_flag = 0;
-          var tmp_k, tmp_i, tmp_j;
 
           make_random_idx(1, 7, 1);
           make_random_idx(0, 1, 2);
@@ -671,7 +661,6 @@ function dayWork() {
                 var con_flag = check_day(kkk, iii, worker);
                 if (dup_flag == 0 && con_flag && limit[worker_idx][kkk][iii][jjj] == 0) {
                   select_flag = 1;
-                  tmp_k = kkk; tmp_j = jjj; tmp_i = iii;
                   var tflag = CheckSameTime(kkk, iii, jjj, worker);
                   if (tflag)
                     posArr.push(kkk * 1000 + iii * 10 + jjj);
@@ -737,7 +726,6 @@ function dayWork() {
                   if (dup_flag || !con_flag) continue;
                   // find such swap thing
                   var selected_flag = 0;
-                  var to_k, to_i, to_j;
                   for (var a = 0; a < 7; a++) {
                     for (var o = 7; o >= 1; o--) {
                       for (var p = 1; p >= 0; p--) {
@@ -756,7 +744,6 @@ function dayWork() {
                         var to_con_flag = check_day(a, b, yagan[kkk][iii][jjj]);
                         if (to_dup_flag || !to_con_flag || limit[to_worker_idx][a][b][c]) continue;
                         selected_flag = 1;
-                        to_k = a; to_j = c; to_i = b;
 
                         var from_tflag = CheckSameTime(kkk, iii, jjj, worker);
                         var to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
@@ -824,8 +811,8 @@ function dayWork() {
               console.log("안된경우 4");
               updateResult();
             }
-            var worker = cnt[work_min].splice(del_idx, 1);
-            worker = worker[0];
+            const workers: string[] = cnt[work_min].splice(del_idx, 1);
+            worker = workers[0];
             cnt[work_min + 1].push(worker);
             human_cnt[work_min]--;
             human_cnt[work_min + 1]++;
@@ -844,10 +831,10 @@ function dayWork() {
   updateResult();
   printWork();
   updateResult();
-  //cntResult();
+
   updateResult();
   printCheckResult();
-} function CheckSameTime(kk, ii, jj, name) {
+} function CheckSameTime(kk: number, ii: number, jj: number, name: string) {
   var flag = 1;
   //if (name == "") return 0;
   // 불침번이랑 CCTV 나누어야 하지 않을까요?
@@ -901,9 +888,9 @@ function printWork() {
 }
 
 // function for add worker to time table
-function add_work(del_idx, k, i, j) {
-  var worker = cnt[work_min].splice(del_idx, 1);
-  worker = worker[0];
+function add_work(del_idx: number, k: number, i: number, j: number) {
+  const workers : string[] = cnt[work_min].splice(del_idx, 1);
+  let worker: string = workers[0];
   cnt[work_min + 1].push(worker);
 
   human_cnt[work_min]--;
@@ -915,7 +902,7 @@ function add_work(del_idx, k, i, j) {
   console.log("추가중");
 }
 // function for check work consecutively
-function check_day(day, idx, name) {
+function check_day(day: number, idx: number, name: string) {
   var possible = 1;
   // consider the situation that works consequtively -> day-night or night-day
   if (idx == 1) {
@@ -953,7 +940,7 @@ function check_day(day, idx, name) {
   return possible;
 }
 // make random index  flag=1 i, flag=2 j, flag=3 k!
-function make_random_idx(st, en, flag) {
+function make_random_idx(st: number, en: number, flag: number) {
   var gap = en - st + 1;
   var buf = new Array(gap);
   var visited = new Array(100);
@@ -987,119 +974,94 @@ function make_random_idx(st, en, flag) {
     }
   }
 }
-// function for input button
-function click_button() {
-  if (!document.getElementById("input_name").value) {
-    console.log("안돼야됨");
-    return 0;
-  }
-  // save input worker's name
-  var worker_name = document.getElementById("input_name").value;
-  // push worker's information to initial array
-  var str = worker_name;
-  Arr.push(str);
-  soldier_id[cur_index] = str;
-  printHQstr(str);
 
-  // save input worker's limitation of work time
-  var limit_value_arr = new Array();
-  const soldier_limit = document.getElementsByName("time_lim");
-  for (var i = 0; i < soldier_limit.length; i++) {
-    if (soldier_limit[i].checked == true) limit_value_arr.push(soldier_limit[i].value);
-  }
-  for (var i = 0; i < limit_value_arr.length; i++) {
-    var num = parseInt(limit_value_arr[i]);
-    console.log(num);
-    // cctv worker
-    if (num < 84) {
-      var a = num % 7;
-      var b = parseInt(num / 7);
-      limit[cur_index][num % 7][parseInt(num / 7)][0] = 1;
-      limit[cur_index][num % 7][parseInt(num / 7)][1] = 1;
-      if (b == 0 && a >= 1) {
-        limit[cur_index][a - 1][12][0] = 1;
-        limit[cur_index][a - 1][12][1] = 1;
+// InputTable의 ✔ 버튼을 눌렀을 때, 행/열의 checkbutton이 체크되도록 하는 함수
+function checkButton(n: number, flag: number) {
+  const boxes = document.getElementsByName("time_lim");
+  if (flag == 1) {
+    for (var i = 0; i < boxes.length; i++) {
+      if (i % 7 == n){
+        const cur_box = boxes[i] as HTMLInputElement;
+        cur_box.checked = true;
       }
     }
-    // 불침번
-    else {
-      var a = num % 7;
-      var b = parseInt(num / 7) - 12;
-      limit[cur_index][a][13][b] = 1;
+  }
+  else if (flag == 2) {
+    for (var i = 0; i < boxes.length; i++) {
+      if (Math.floor(i / 7) == n) {
+        const cur_box = boxes[i] as HTMLInputElement;
+        cur_box.checked = true;
+      }
     }
   }
-  cur_index++;
-  input_name.value = "";
-  resetButton(-1, 3);
+  else if (flag == 3) {
+    for (var i = 0; i < boxes.length; i++) {
+      const cur_box = boxes[i] as HTMLInputElement;
+      cur_box.checked = true;
+    }
+  }
+  handleLimit();
 }
 
-function checkButton(n, flag) {
-  var boxes = document.getElementsByName("time_lim");
+// InputTable의 ✔ 버튼을 눌렀을 때, 행/열의 checkbutton이 체크 해제되도록 하는 함수
+function resetButton(n: number, flag: number) {
+  const boxes = document.getElementsByName("time_lim");
   if (flag == 1) {
     for (var i = 0; i < boxes.length; i++) {
-      if (boxes[i].value % 7 == n) boxes[i].checked = true;
+      if (i % 7 == n){
+        const cur_box = boxes[i] as HTMLInputElement;
+        cur_box.checked = false;
+      }
     }
   }
   else if (flag == 2) {
     for (var i = 0; i < boxes.length; i++) {
-      if (Math.floor(boxes[i].value / 7) == n) boxes[i].checked = true;
+      if (Math.floor(i / 7) == n) {
+        const cur_box = boxes[i] as HTMLInputElement;
+        cur_box.checked = false;
+      }
     }
   }
   else if (flag == 3) {
     for (var i = 0; i < boxes.length; i++) {
-      boxes[i].checked = true;
-    }
-  }
-  console.log("누름")
-  handleLimit();
-}
-function resetButton(n, flag) {
-  var boxes = document.getElementsByName("time_lim");
-  if (flag == 1) {
-    for (var i = 0; i < boxes.length; i++) {
-      if (boxes[i].value % 7 == n) boxes[i].checked = false;
-    }
-  }
-  else if (flag == 2) {
-    for (var i = 0; i < boxes.length; i++) {
-      if (Math.floor(boxes[i].value / 7) == n) boxes[i].checked = false;
-    }
-  }
-  else if (flag == 3) {
-    for (var i = 0; i < boxes.length; i++) {
-      boxes[i].checked = false;
+      const cur_box = boxes[i] as HTMLInputElement;
+      cur_box.checked = false;
     }
   }
   handleLimit();
-} function enterKey() {
-  if (window.event.keyCode == 13) {
-    if (input_name.value) click_button();
-  }
-} function fixed_submit_button() {
-  var day = document.getElementById("fixed_day");
-  var time = document.getElementById("fixed_time");
+}
+
+// 고정 근무자를 선택하여 ResultTable에 반영하는 함수
+function fixed_submit_button() {
+  const day = document.getElementById("fixed_day") as HTMLSelectElement;
+  const time = document.getElementById("fixed_time") as HTMLSelectElement;
+  if (day == null || time == null) return;
   if (time.selectedIndex <= 11) {
-    var pos = document.getElementById("work_type");
-    buf_yagan[day.selectedIndex][time.selectedIndex][pos.selectedIndex] = document.getElementById("fixed_name").value;
-    yagan[day.selectedIndex][time.selectedIndex][pos.selectedIndex] = document.getElementById("fixed_name").value;
+    const pos = document.getElementById("work_type") as HTMLSelectElement;
+    const name = (document.getElementById("fixed_name") as HTMLSelectElement).value;
+    buf_yagan[day.selectedIndex][time.selectedIndex][pos.selectedIndex] = name;
+    yagan[day.selectedIndex][time.selectedIndex][pos.selectedIndex] = name;
     if (time.selectedIndex == 0 && day.selectedIndex >= 1) {
-      buf_yagan[day.selectedIndex - 1][12][pos.selectedIndex] = document.getElementById("fixed_name").value;
+      buf_yagan[day.selectedIndex - 1][12][pos.selectedIndex] = name;
     }
   }
   updateResult();
-  cntResult();
 }
+// 불침번 고정 근무자를 선택하여 ResultTable에 반영하는 함수
 function fixed_submit_button2() {
-  var day = document.getElementById("fixed_day2");
-  var pos = document.getElementById("bool_type");
-  buf_yagan[day.selectedIndex][13][pos.selectedIndex] = document.getElementById("fixed_name2").value;
-  yagan[day.selectedIndex][13][pos.selectedIndex] = document.getElementById("fixed_name2").value;
+  var day = document.getElementById("fixed_day2") as HTMLSelectElement;
+  var pos = document.getElementById("bool_type") as HTMLSelectElement;
+  if (day == null || pos == null) return;
+  const name = (document.getElementById("fixed_name2") as HTMLSelectElement).value;
+  buf_yagan[day.selectedIndex][13][pos.selectedIndex] = name;
+  yagan[day.selectedIndex][13][pos.selectedIndex] = name;
+
   updateResult();
-  cntResult();
 }
+
 function processFixedNightWorkers() {
   for (var i = 0; i < Arr.length; i++) {
-    var cur_worker = Arr[i];
+    const cur_worker = Arr[i];
     var cntWork = 0;
     for (var a = 0; a < 7; a++) {
       for (var b = 0; b <= 13; b++) {
@@ -1121,7 +1083,9 @@ function processFixedNightWorkers() {
       break;
     }
   }
-} function processFixedDayWorkers() {
+} 
+
+function processFixedDayWorkers() {
   for (var i = 0; i < Arr.length; i++) {
     var cur_worker = Arr[i];
     var cntWork = 0;
@@ -1132,15 +1096,15 @@ function processFixedNightWorkers() {
         }
       }
     }
-    var min_idx, worker_idx;
+    let min_idx = 0 , worker_idx;
     for (var j = 0; j < 100; j++) {
-      var tmp = cnt[j].findIndex(n => n === cur_worker);
+      let tmp = cnt[j].findIndex(n => n === cur_worker);
       if (tmp == -1) continue;
       min_idx = j;
       worker_idx = tmp;
       break;
     }
-    var tmp = cnt[min_idx].splice(worker_idx, 1);
+
     cnt[cntWork + min_idx].push(cur_worker);
     human_cnt[min_idx]--;
     human_cnt[cntWork + min_idx]++;
@@ -1160,21 +1124,22 @@ function processFixedNightWorkers() {
         if (i < 13 && j > 1) continue;
         var val = k * 1000 + i * 10 + j;
         var str_data = "data" + String(val);
-        document.getElementById(str_data).innerText = yagan[k][i][j];
+        const element = document.getElementById(str_data);
+        if(element) element.innerText = yagan[k][i][j];
       }
     }
   }
-} function setDay(dateStr) {
-  var tmp = dateStr;
+} function setDay(dateStr: string) {
+  const tmp = dateStr;
   if(tmp.length === 0){
     return;
   }
-  var year = tmp[0] + tmp[1] + tmp[2] + tmp[3];
-  var month = tmp[5] + tmp[6];
-  var day = tmp[8] + tmp[9];
-  year = parseInt(year);
-  month = parseInt(month);
-  day = parseInt(day);
+  let year_str = tmp[0] + tmp[1] + tmp[2] + tmp[3];
+  let month_str = tmp[5] + tmp[6];
+  let day_str = tmp[8] + tmp[9];
+  let year = parseInt(year_str);
+  let month = parseInt(month_str);
+  let day = parseInt(day_str);
 
   var days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   // 윤년 check
@@ -1188,10 +1153,12 @@ function processFixedNightWorkers() {
     var update_id4 = "day" + String(i + 1) + "4";
     var update_str = String(month) + "/" + String(day) + " " + week[i];
     console.log(update_id1, update_id2, update_str);
-    document.getElementById(update_id1).innerText = update_str;
-    document.getElementById(update_id2).innerText = update_str;
-    document.getElementById(update_id3).innerText = update_str;
-    document.getElementById(update_id4).innerText = update_str;
+    let element : HTMLElement | null = null;
+    if(element = document.getElementById(update_id1)) element.innerText = update_str;
+    if(element = document.getElementById(update_id2)) element.innerText = update_str;
+    if(element = document.getElementById(update_id3)) element.innerText = update_str;
+    if(element = document.getElementById(update_id4)) element.innerText = update_str;
+
     day++;
     if (day > days[month]) {
       day -= days[month];
@@ -1216,7 +1183,6 @@ function deleteWorker() {
       }
     }
   }
-  printHQstr();
 } var visited = new Array(7);
 for (var i = 0; i < 7; i++) {
   visited[i] = new Array(20);
@@ -1233,7 +1199,7 @@ function lastCheck() {
   while (!impos_flag) {
     impos_flag = 1;
     // 전체적으로 균등한 지 확인
-    var select_i, select_j, select_k;
+    let select_i: number = 0, select_j: number = 0, select_k: number = 0;
     for (var k = 0; k < 7; k++) {
       for (var i = 1; i <= 7; i++) {
         for (var j = 0; j < 5; j++) {
@@ -1287,7 +1253,7 @@ function lastCheck() {
     }
   }
 }
-function line_check(cur_k, cur_i, cur_j) {
+function line_check(cur_k: number, cur_i : number, cur_j: number) {
   var flag = 1;
   for (var k = 0; k < 7; k++) {
     if (k == cur_k) continue;
@@ -1310,32 +1276,11 @@ function line_check(cur_k, cur_i, cur_j) {
     if (!flag) break;
   }
   return flag;
-} function cntResult() {
-  var count_str = "";
-  for (var q = 1; q < cur_index; q++) {
-    var worker_name = soldier_id[q];
-    var night_cnt = 0; var day_cnt = 0;
-    if (yagan[0][0][1] == worker_name) night_cnt++;
-    if (yagan[0][0][0] == worker_name) night_cnt++;
-    for (var k = 0; k < 7; k++) {
-      for (var i = 8; i <= 13; i++) {
-        for (var j = 0; j < 5; j++) {
-          if (yagan[k][i][j] == worker_name) night_cnt++;
-        }
-      }
-    }
-    for (var k = 0; k < 7; k++) {
-      for (var i = 1; i <= 7; i++) {
-        for (var j = 0; j < 2; j++) {
-          if (yagan[k][i][j] == worker_name) day_cnt++;
-        }
-      }
-    }
-    count_str += worker_name + " : " + String(night_cnt) + " / " + String(day_cnt) + " / " + String(night_cnt + day_cnt);
-    count_str += "\n";
-  }
-  document.getElementById("result").innerText = count_str;
-} function submitInput() {
+} 
+
+
+
+function submitInput() {
   var name_list = Arr;
   cur_index = 1;
   for (var i = 0; i < name_list.length; i++) {
@@ -1343,29 +1288,28 @@ function line_check(cur_k, cur_i, cur_j) {
     cur_index++;
   }
 }
- function handleSelectClick() {
-  submitInput();
-  makeSelect();
-}
+
 function handleLimit() {
   if(document.querySelector('input[name="workerList"]:checked') === null) return;
-  var name = document.querySelector('input[name="workerList"]:checked').value;
+  let element = document.querySelector('input[name="workerList"]:checked') as HTMLInputElement;
+  if(element == null) return;
+  let name = element.value;
   console.log(name);
   let val = -1;
   for(let i = 0 ; i < Arr.length; i++){
     if(name === Arr[i]){
-      val =i + 1;
+      val = i + 1;
       break;
     }
   }
   console.log(val);
-  val = parseInt(val);
   // save input worker's limitation of work time
 
   var limit_value_arr = new Array();
   const soldier_limit = document.getElementsByName("time_lim");
   for (var i = 0; i < soldier_limit.length; i++) {
-    if (soldier_limit[i].checked == true) limit_value_arr.push(soldier_limit[i].value);
+    const cur_limit = soldier_limit[i] as HTMLInputElement;
+    if (cur_limit.checked == true) limit_value_arr.push(cur_limit.value);
   }
   for (let k = 0; k < 7; k++) {
     for (let i = 0; i <= 13; i++) {
@@ -1374,14 +1318,19 @@ function handleLimit() {
       }
     }
   }
+  console.log(limit_value_arr);
+
   for (var i = 0; i < limit_value_arr.length; i++) {
-    var num = parseInt(limit_value_arr[i]);
+    let num: number = parseInt(limit_value_arr[i]);
     // cctv worker
+
+
     if (num < 84) {
-      var a = num % 7;
-      var b = parseInt(num / 7);
-      limit[val][num % 7][parseInt(num / 7)][0] = 1;
-      limit[val][num % 7][parseInt(num / 7)][1] = 1;
+      const a = num % 7;
+      const b = Math.floor(num / 7);
+      console.log(a, b);
+      limit[val][a][b][0] = 1;
+      limit[val][a][b][1] = 1;
       if (b == 0 && a >= 1) {
         limit[val][a - 1][12][0] = 1;
         limit[val][a - 1][12][1] = 1;
@@ -1389,14 +1338,15 @@ function handleLimit() {
     }
     // 불침번
     else {
-      var a = num % 7;
-      var b = parseInt(num / 7) - 12;
+      const a = num % 7;
+      const b = Math.floor(num / 7) - 12;
       limit[val][a][13][b] = 1;
     }
   }
+  
 }
-function handleRadio(name) {
-  let val=-1;
+function handleRadio(name: string) {
+  let val = -1;
   for(let i = 0 ; i < Arr.length; i++){
     if(Arr[i] === name){
       console.log(123);
@@ -1404,12 +1354,11 @@ function handleRadio(name) {
       break;
     }
   }
-  console.log(val);
-  val = parseInt(val);
-  console.log(val);
+
   var boxes = document.getElementsByName("time_lim");
   for (let i = 0; i < boxes.length; i++) {
-    boxes[i].checked = false;
+    const box = boxes[i] as HTMLInputElement;
+    box.checked = false;
   }
   for (let k = 0; k < 7; k++) {
     for (let i = 0; i <= 13; i++) {
@@ -1428,10 +1377,11 @@ function handleRadio(name) {
         }
         if (Flag == 0) continue;
         for (var q = 0; q < boxes.length; q++) {
-
+          const box = boxes[q] as HTMLInputElement;
+          
           if (limit[val][k][i][j] == 1) {
-            if (boxes[q].value == num) {
-              boxes[q].checked = true;
+            if (parseInt(box.value) == num) {
+              box.checked = true;
             }
           }
 
@@ -1440,7 +1390,7 @@ function handleRadio(name) {
       }
     }
   }
-} function resetNightWorks(flag) {
+} function resetNightWorks(flag : number) {
   let n1 = 56 + flag;
   let n2 = 63 + flag;
   let n3 = 70 + flag;
@@ -1452,15 +1402,16 @@ function handleRadio(name) {
   let n9 = 112 + flag;
   var boxes = document.getElementsByName("time_lim");
   for (let i = 0; i < boxes.length; i++) {
-    if (boxes[i].value == n1) boxes[i].checked = false;
-    if (boxes[i].value == n2) boxes[i].checked = false;
-    if (boxes[i].value == n3) boxes[i].checked = false;
-    if (boxes[i].value == n4) boxes[i].checked = false;
-    if (boxes[i].value == n5) boxes[i].checked = false;
-    if (boxes[i].value == n6) boxes[i].checked = false;
-    if (boxes[i].value == n7) boxes[i].checked = false;
-    if (boxes[i].value == n8) boxes[i].checked = false;
-    if (boxes[i].value == n9) boxes[i].checked = false;
+    const box = boxes[i] as HTMLInputElement;
+    if (parseInt(box.value) == n1) box.checked = false;
+    if (parseInt(box.value) == n2) box.checked = false;
+    if (parseInt(box.value) == n3) box.checked = false;
+    if (parseInt(box.value) == n4) box.checked = false;
+    if (parseInt(box.value) == n5) box.checked = false;
+    if (parseInt(box.value) == n6) box.checked = false;
+    if (parseInt(box.value) == n7) box.checked = false;
+    if (parseInt(box.value) == n8) box.checked = false;
+    if (parseInt(box.value) == n9) box.checked = false;
   }
   handleLimit();
 }
@@ -1803,14 +1754,16 @@ const ResultWrapper = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `
 
+interface NameId{
+  name: string;
+  id: string;
+}
 
-function NameTag({name, id}) {
+function NameTag({name, id} : NameId) {
   const [idx, setIdx] = useState();
-
-
   return <NameWrapper>
     <input type="radio" onChange={()=>handleRadio(name)}  name="workerList" id={id} value={name}></input>
-    <label for={id}>
+    <label htmlFor={id}>
       <NameBox>
         <h1>{name}</h1>
         {/* <h1>{id}</h1> */}
@@ -1819,9 +1772,13 @@ function NameTag({name, id}) {
   </NameWrapper>
 }
 
-export default function Project({date}){
+interface ProjectProps{
+  date: string;
+}
 
-  const [workers, setWorkers] = useState([]);
+export default function Project({date} : ProjectProps){
+
+  const [workers, setWorkers] = useState<NameId[]>([]);
   const [name, setName] = useState("");
   const [flag, setFlag] = useState();
   const fecthWorkers = async () => {
@@ -1829,7 +1786,7 @@ export default function Project({date}){
       collection(db, "workers"),
     );
     const snapshot = await getDocs(tweetQuery);
-    const workers = snapshot.docs.map(doc => {
+    const workers: NameId[] = snapshot.docs.map(doc => {
       const { name } = doc.data();
       return {
         name,
@@ -1849,9 +1806,7 @@ export default function Project({date}){
   useEffect(() => {
     setDay(date);  
   }, [date])
-  for(let i = 0; i < workers.length; i++){
-    console.log(workers[i].name, workers[i].id);
-  }
+
 
   return <Wrapper>
 
@@ -1861,22 +1816,19 @@ export default function Project({date}){
         <caption>근무 제한 사항 입력란</caption>
         <tbody><tr>
           <th></th>
-          <th colspan="1"><p id="day11">월</p></th>
-          <th colspan="1"><p id="day21">화</p></th>
-          <th colspan="1"><p id="day31">수</p></th>
-          <th colspan="1"><p id="day41">목</p></th>
-          <th colspan="1"><p id="day51">금</p></th>
-          <th class="sat" colspan="1"><p id="day61">토</p></th>
-          <th class="sun" colspan="1"><p id="day71">일</p></th>
-          <th colspan="1">줄 체크</th>
+          <th colSpan={1}><p id="day11">월</p></th>
+          <th colSpan={1}><p id="day21">화</p></th>
+          <th colSpan={1}><p id="day31">수</p></th>
+          <th colSpan={1}><p id="day41">목</p></th>
+          <th colSpan={1}><p id="day51">금</p></th>
+          <th className="sat" colSpan={1}><p id="day61">토</p></th>
+          <th className="sun" colSpan={1}><p id="day71">일</p></th>
+          <th colSpan={1}>줄 체크</th>
         </tr>
           <tr>
             <td>06:00~08:00</td>
             <td>
               <input id="chkBox0" type="checkbox" name="time_lim" value="0" onChange={handleLimit} />
-              {/* <label for="chkBox0">
-                <ChkBox></ChkBox>
-              </label>  */}
             </td>
             <td><input type="checkbox" name="time_lim" value="1" onChange={handleLimit} /></td>
             <td><input type="checkbox" name="time_lim" value="2" onChange={handleLimit} /></td>
@@ -2044,13 +1996,13 @@ export default function Project({date}){
             </td>
           </tr><tr>
             <td>불침번 1</td>
-            <td><input type="checkbox" name="time_lim" value="84" onchange="handleLimit();" /></td>
-            <td><input type="checkbox" name="time_lim" value="85" onchange="handleLimit();" /></td>
-            <td><input type="checkbox" name="time_lim" value="86" onchange="handleLimit();" /></td>
-            <td><input type="checkbox" name="time_lim" value="87" onchange="handleLimit();" /></td>
-            <td><input type="checkbox" name="time_lim" value="88" onchange="handleLimit();" /></td>
-            <td><input type="checkbox" name="time_lim" value="89" onchange="handleLimit();" /></td>
-            <td><input type="checkbox" name="time_lim" value="90" onchange="handleLimit();" /></td>
+            <td><input type="checkbox" name="time_lim" value="84" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="85" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="86" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="87" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="88" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="89" onChange={handleLimit} /></td>
+            <td><input type="checkbox" name="time_lim" value="90" onChange={handleLimit} /></td>
             <td>
               <button type="button" onClick={() => checkButton(12, 2)}>✅</button>
               <button type="button" onClick={() => resetButton(12, 2)}>❎</button>
@@ -2247,13 +2199,13 @@ export default function Project({date}){
         <caption>경작서</caption>
         <tbody><tr>
           <th></th>
-          <th colspan="2"><p id="day12">월</p></th>
-          <th colspan="2"><p id="day22">화</p></th>
-          <th colspan="2"><p id="day32">수</p></th>
-          <th colspan="2"><p id="day42">목</p></th>
-          <th colspan="2"><p id="day52">금</p></th>
-          <th class="sat" colspan="2"><p id="day62">토</p></th>
-          <th class="sun" colspan="2"><p id="day72">일</p></th>
+          <th colSpan={2}><p id="day12">월</p></th>
+          <th colSpan={2}><p id="day22">화</p></th>
+          <th colSpan={2}><p id="day32">수</p></th>
+          <th colSpan={2}><p id="day42">목</p></th>
+          <th colSpan={2}><p id="day52">금</p></th>
+          <th className="sat" colSpan={2}><p id="day62">토</p></th>
+          <th className="sun" colSpan={2}><p id="day72">일</p></th>
         </tr>
           <tr>
             <td>cctv 구분</td>
@@ -2564,7 +2516,7 @@ export default function Project({date}){
         </tbody>
       </ResultTable>
       <ButtonPart>
-        <button className="make" value="경작서 만들어보기" id="run" onClick={start_program}>경작서 만들어보기</button>
+        <button className="make" value="경작서 만들어보기" id="run" onClick={(e) => start_program(e)}>경작서 만들어보기</button>
         <SaveResult>
           <SaveBtn/>
         </SaveResult>
@@ -2578,18 +2530,20 @@ function SaveBtn () {
     
   const onSave = async() => {
     console.log(yagan);
-    let date = document.getElementById("today").value;
+    let element = document.getElementById("today") as HTMLInputElement;
+    if(element == null) return;
+    let date = element.value;
     if (date.length === 0) {
       alert("날짜를 입력 후 버튼을 눌러주세요")
       return;
     }
     console.log(date);
-    let year = date[0] + date[1] + date[2] + date[3];
-    let month = date[5] + date[6];
-    let day = date[8] + date[9];
-    year = parseInt(year);
-    month = parseInt(month);
-    day = parseInt(day);
+    let year_str = date[0] + date[1] + date[2] + date[3];
+    let month_str = date[5] + date[6];
+    let day_str = date[8] + date[9];
+    let year = parseInt(year_str);
+    let month = parseInt(month_str);
+    let day = parseInt(day_str);
 
     let days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     let dateArr = [];
