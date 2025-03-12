@@ -69,10 +69,9 @@ const TitleArea = styled.div`
     }
     &.log-out {
       svg {
-;
       }
     }
-  `;
+`;
 
 export default function Layout(){
   const navigate = useNavigate();

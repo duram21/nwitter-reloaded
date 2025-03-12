@@ -1,4 +1,4 @@
-import { collection, getDocs, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../firebase";
@@ -103,21 +103,22 @@ export default function Notice(){
       console.log(e);
       setNoticeName(e.target.id);
     }
+    console.log(notices);
   return <Wrapper>
     <NoticeWrapper>
         <NoticeBox>
         <input onChange={changeNoticeName} type="radio"  name="NameNotice" id="all"></input>
-        <label for="all">
+        <label htmlFor="all">
           <Box>모든 글</Box>
         </label>
       </NoticeBox>
       <NoticeBox>
         <input onChange={changeNoticeName} type="radio" name="NameNotice" id="notice1"></input>
-        <label for="notice1"><Box>게시판1</Box></label>
+        <label htmlFor="notice1"><Box>게시판1</Box></label>
       </NoticeBox>
       <NoticeBox>        
         <input onChange={changeNoticeName} type="radio" name="NameNotice" id="notice2"></input>
-        <label for="notice2"><Box>게시판2</Box></label>
+        <label htmlFor="notice2"><Box>게시판2</Box></label>
       </NoticeBox>
       {/* {notices.map((notice) => (<NoticeList key={notice.id} {...notice} noticeNum={onNotice}/>))} */}
     </NoticeWrapper>

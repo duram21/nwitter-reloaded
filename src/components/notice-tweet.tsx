@@ -1,21 +1,9 @@
-import { collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../firebase";
-import Tweet from "./tweet";
-import { Unsubscribe } from "firebase/auth";
 import Title from "./writing-list";
 import { IWriting } from "../routes/notice";
-import { Link } from "react-router-dom";
-
-export interface ITweet {
-  id: string;
-  photo?: string;
-  tweet:string;
-  userId:string;
-  username:string;
-  createdAt?:number;
-}
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,13 +37,14 @@ export default function NoticeTweet({noticeName} : NoticeNum){
       );
     }
     const snapshot = await getDocs(tweetQuery);
-    const tweets = snapshot.docs.map(doc => {
-      const {title, noticeName, createdAt, userId, username, photo } = doc.data();
+    const tweets : IWriting[] = snapshot.docs.map(doc => {
+      const {title, noticeName, detail, createdAt, userId, username, photo } = doc.data();
       return {
         title,
         noticeName,
         createdAt,
         userId,
+        detail,
         username,
         photo,
         id: doc.id,

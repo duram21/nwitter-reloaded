@@ -53,7 +53,7 @@ export default function DisplayWork({dateData} : Date){
 
 
   const [curWork, setCurWork] = useState<String[] | null>([]);
-  const [flag, setFlag] = useState(0);
+  // const [flag, setFlag] = useState(0);
 
   let idx = -2;
   let today = dateData;
@@ -69,7 +69,6 @@ export default function DisplayWork({dateData} : Date){
       }
     })
     setWorkData(works);
-    setFlag(1);
     console.log("표 불러왔어요 ㅠㅠ")
   }
   useEffect(() => {

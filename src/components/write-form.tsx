@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Form = styled.form`
   display: flex;
@@ -50,20 +50,6 @@ const TitleArea = styled.input`
   }
 `;
 
-
-const AttachFileButton = styled.label`
-  padding: 10px 0px;
-  color: #1d9bf0;
-  text-align: center;
-  border-radius: 20px;
-  border: 1px solid #1d9bf0;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-`;
-const AttachFileInput = styled.input`
-  display: none;
-`;
 const SubmitBtn = styled.input`
   background-color: #1d9bf0;
   color: white;
@@ -106,12 +92,6 @@ export default function WriteForm(){
     setNoticeName(e.target.value);
     console.log(noticeName);
   }  
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {files} = e.target;
-    if(files && files.length === 1){
-      setFile(files[0]);
-    }
-  }
   const onSubmit = async(e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   

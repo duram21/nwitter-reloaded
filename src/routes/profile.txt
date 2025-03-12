@@ -193,11 +193,6 @@ export default function Profile() {
         </Img>
       </NamePart>
     </MyProfile>
-    <MyContents>
-      {/* <h1>내가 쓴 글</h1>
-      <Tweets>
-        {tweets.map(tweet => <Tweet key={tweet.id} {...tweet} />)}
-      </Tweets> */}
-    </MyContents>
+
   </Wrapper>
 }

@@ -129,7 +129,7 @@ export default function ToggleList({date} : PropsToggleList) {
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
         >
-          {items.map((item, index) => (
+          {items.map((item) => (
             // <li key={index} className="p-2 border-b last:border-0">
             //   {item.date} {item.name} : {item.detail}
             // </li>
