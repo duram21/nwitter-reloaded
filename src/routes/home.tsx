@@ -23,6 +23,7 @@ const TodayWork = styled.div`
   }
   background-color: white;
   border: 3px solid #bb94e9;
+  border-radius: 8px;
   padding : 10px;
 `;
 const Wrapper = styled.div`
@@ -87,8 +88,13 @@ const NoticeDetail = styled.div`
   justify-content: space-between;
   align-items: center;
   color: black;
+  background-color: #88dba3;
+  border-radius: 8px;
   .recentWriting{
     font-size: 20px;
+  }
+  p{
+    padding: 20px;
   }
 `
 

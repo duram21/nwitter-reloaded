@@ -33,13 +33,20 @@ const Payload = styled.p`
 
 export default function Title({ username, title, noticeName, id }: IWriting) {
   const moveAddress = `/content/${id}`
-
+  const notice : {[key: string] : string} = {
+    "announcement": "공지사항",
+    "free": "자유게시판",
+    "tip": "팁 게시판",
+    "notice1": "게시판1",
+    "notice2": "게시판2"
+  }
+  const key = noticeName;
   return (
         <Link to={moveAddress} style={{textDecoration: "none"}}>
     <Wrapper>
         <TItleTop>
           <Username>{username}</Username>
-          <Username>{noticeName}</Username>
+          <Username>{notice[key]}</Username>
         </TItleTop>
         <Payload>{title}</Payload>
     </Wrapper>

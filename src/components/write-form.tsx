@@ -5,18 +5,20 @@ import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
-const Form = styled.form`
+const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
 `;
 const TextArea = styled.textarea`
-  border: 2px solid white;
+  border: 2px solid black;
   padding: 20px;
   border-radius: 20px;
   font-size: 16px;
-  color: white;
-  background-color: black;
+  background-color: #ffffff;
   width: 100%;
   resize: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -31,12 +33,11 @@ const TextArea = styled.textarea`
 `;
 
 const TitleArea = styled.input`
-  border: 2px solid white;
+  border: 2px solid black;
   padding: 20px;
   border-radius: 20px;
   font-size: 16px;
-  color: white;
-  background-color: black;
+  background-color: #ffffff;
   width: 100%;
   resize: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -51,12 +52,12 @@ const TitleArea = styled.input`
 `;
 
 const SubmitBtn = styled.input`
-  background-color: #1d9bf0;
+  background-color: #3e9c7d;
   color: white;
   border: none;
   width: 100px;
   padding: 10px 10px;
-  border-radius: 20px;
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
   &:hover,
@@ -67,7 +68,14 @@ const SubmitBtn = styled.input`
 
 const SelectNoticeName =styled.select`
   background-color: white;
-  font-size: 17px;
+  font-size: 14px;
+  font-weight: bold;
+  height: 30px;
+  border-radius: 8px;
+  option{
+    font-weight: bold;
+
+  }
 `;
 
 export default function WriteForm(){
@@ -75,7 +83,7 @@ export default function WriteForm(){
   const [detail, setDetail] = useState("");
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File|null>(null);
-  const [noticeName, setNoticeName] = useState("notice1");
+  const [noticeName, setNoticeName] = useState("free");
   const navigate = useNavigate();
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if(e.target.name === "detail"){
@@ -92,7 +100,7 @@ export default function WriteForm(){
     setNoticeName(e.target.value);
     console.log(noticeName);
   }  
-  const onSubmit = async(e : React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async(e : React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
   
     const user = auth.currentUser;
@@ -127,15 +135,18 @@ export default function WriteForm(){
       setLoading(false);
     }
   }
-  return <Form onSubmit={onSubmit}>
+  return <Wrapper>
     <SelectNoticeName onChange={onNoticeNameChange} value={noticeName}>
-        <option value="notice1">notice1</option>
-        <option value="notice2">notice2</option>
+      <option value="announcement">공지사항</option>
+      <option value="free">자유게시판</option>
+      <option value="tip">팁 게시판</option>
+      <option value="notice1">게시판1</option>
+      <option value="notice2">게시판2</option>
 
     </SelectNoticeName>
     <TitleArea required name="title" value={title} onChange={onTitleChange} placeholder="제목을 입력해주세요"/>
     <TextArea required rows={20} maxLength={180} name="detail" value={detail} onChange={onChange} placeholder="글을 작성하세요"/>
 
-    <SubmitBtn type="submit" value={isLoading ? "Posting....":"등록하기"}/>
-  </Form>
+    <SubmitBtn type="submit" onClick={onSubmit} value={isLoading ? "Posting....":"등록하기"}/>
+  </Wrapper>
 }

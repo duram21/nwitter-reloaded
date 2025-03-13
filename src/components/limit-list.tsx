@@ -121,7 +121,7 @@ export default function ToggleList({date} : PropsToggleList) {
           <p>{week[0]} 부터<br/>  {week[6]} 까지 </p>
 
         : ""}
-        {isOpen ? <p>근무 제한 목록 숨기기</p> : <p>근무 제한 목록 보기</p>}
+        {isOpen ? <p>근무 제한 목록 숨기기</p> : <p>근무 제한 목록 펼치기</p>}
       </button>
       {isOpen && flag ? (
         <motion.ul

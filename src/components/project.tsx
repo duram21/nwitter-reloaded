@@ -783,6 +783,7 @@ function fixed_submit_button() {
       buf_yagan[day.selectedIndex - 1][12][pos.selectedIndex] = name;
     }
   }
+  (document.getElementById("fixed_name") as HTMLSelectElement).value = "";
   updateResult();
 }
 // 불침번 고정 근무자를 선택하여 ResultTable에 반영하는 함수
@@ -793,7 +794,7 @@ function fixed_submit_button2() {
   const name = (document.getElementById("fixed_name2") as HTMLSelectElement).value;
   buf_yagan[day.selectedIndex][13][pos.selectedIndex] = name;
   yagan[day.selectedIndex][13][pos.selectedIndex] = name;
-
+  (document.getElementById("fixed_name2") as HTMLSelectElement).value = "";
   updateResult();
 }
 
@@ -906,6 +907,16 @@ function processFixedDayWorkers() {
 
 function lastCheck() {
   var impos_flag = 0;
+  let visited: number[][][] = [];
+  for(let i = 0 ; i < 10; i++){
+    visited[i] = [];
+    for(let j = 0; j < 20; j++){
+      visited[i][j] = [];
+      for(let k = 0 ; k < 10; k++){
+        visited[i][j][k] = 0;
+      }
+    }
+  }
   while (!impos_flag) {
     impos_flag = 1;
     // 전체적으로 균등한 지 확인
@@ -916,8 +927,9 @@ function lastCheck() {
           if (i < 13 && j > 2) continue;
           if (buf_yagan[k][i][j]) continue;
           var chk = line_check(k, i, j);
-          if (!chk ) {
+          if (!chk && !visited[k][i][j]) {
             impos_flag = 0;
+            visited[k][i][j] = 1;
             select_i = i; select_j = j; select_k = k;
             break;
           }
@@ -949,6 +961,15 @@ function lastCheck() {
           [yagan[select_k][select_i][select_j], yagan[select_k][i][select_j]] = [yagan[select_k][i][select_j], yagan[select_k][select_i][select_j]];
           continue;
         }
+
+        for(let a = 0; a < 7; a++){
+          for(let b = 0; b <= 13; b++){
+              for(let c = 0 ; c < 5; c++){
+                  visited[a][b][c] = 0;
+              }
+          }
+      }
+
         console.log("스왑되었스빈다 ㅋㅋ");
         break;
       }

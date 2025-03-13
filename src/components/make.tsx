@@ -7,6 +7,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  .infoPart{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-weight: bold;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
 `;
 const InputDate = styled.div`
   display: flex;
@@ -32,13 +41,13 @@ export default function Make(){
   }
   
   return <Wrapper>
-
+    <div className="infoPart">
       <h1>일주일 분량의 근무가 짜여집니다.</h1>
-
-    <p>시작 날짜(월요일)를 입력해주세요!</p>
-    <InputDate>
-      <input type="date" id="today" name="today" onChange={onDate} />
-    </InputDate>
+      <p>시작 날짜(월요일)를 입력해주세요!</p>
+      <InputDate>
+        <input type="date" id="today" name="today" onChange={onDate} />
+      </InputDate>
+    </div>
 
     <ToggleList date={date}/>
 

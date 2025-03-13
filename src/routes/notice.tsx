@@ -8,7 +8,7 @@ import NoticeTweet from "../components/notice-tweet";
 
 const Wrapper = styled.div`
   display: flex;
-  gap :50px;
+  gap : 30px;
   flex-direction: column;
 `;
 
@@ -53,7 +53,7 @@ const Box = styled.div`
 
   height: 50px;
   width: 100px;
-  font-size: 20px;
+  font-size: 18px;
 
 `;
 
@@ -106,10 +106,28 @@ export default function Notice(){
     console.log(notices);
   return <Wrapper>
     <NoticeWrapper>
-        <NoticeBox>
+      <NoticeBox>
         <input onChange={changeNoticeName} type="radio"  name="NameNotice" id="all"></input>
         <label htmlFor="all">
           <Box>모든 글</Box>
+        </label>
+      </NoticeBox>
+      <NoticeBox>
+        <input onChange={changeNoticeName} type="radio"  name="NameNotice" id="announcement"></input>
+        <label htmlFor="announcement">
+          <Box>공지사항</Box>
+        </label>
+      </NoticeBox>
+      <NoticeBox>
+        <input onChange={changeNoticeName} type="radio"  name="NameNotice" id="free"></input>
+        <label htmlFor="free">
+          <Box>자유게시판</Box>
+        </label>
+      </NoticeBox>
+      <NoticeBox>
+        <input onChange={changeNoticeName} type="radio"  name="NameNotice" id="tip"></input>
+        <label htmlFor="tip">
+          <Box>팁 게시판</Box>
         </label>
       </NoticeBox>
       <NoticeBox>
