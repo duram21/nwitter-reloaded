@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './components/layout'
 import Home from './routes/home'
@@ -9,20 +9,22 @@ import styled, { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
 import LoadingScreen from './components/loading-screen'
 import { auth } from './firebase'
-import ProtectedRoute from './components/protected-route'
+// import ProtectedRoute from './components/protected-route'
 import Notice from './routes/notice'
 import Write from './routes/write'
 import Content from './routes/content'
 import Check from './components/check'
 import Make from './components/make'
 import Manage from './components/manage'
+import { onAuthStateChanged, User } from 'firebase/auth'
 
 const router = createBrowserRouter([
   {
     path:"/",
-    element: (<ProtectedRoute>
-      <Layout />
-    </ProtectedRoute>),
+    // element: (<ProtectedRoute>
+    //   <Layout />
+    // </ProtectedRoute>),
+    element: <Layout />,
     children: [
       {
         path:"",
@@ -103,8 +105,26 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
+interface AuthContextType {
+  user: User | null;
+}
+
+
+export const myContext = createContext<AuthContextType>({user: null});
+
 function App() {
+  const [user, setUser] = useState(auth.currentUser);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Auth state changed:", currentUser);
+      setUser(currentUser);
+      setIsLoading(false);
+    });
+    return () => unsubscribe();
+  }, [])
+
   const init = async() => {
     // wait for firebase
     await auth.authStateReady();
@@ -115,10 +135,12 @@ function App() {
     init();
   }, [])
   return (
+    <myContext.Provider value={{user}}>
     <Wrapper>
     <GlobalStyles />
     {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
     </Wrapper>
+    </myContext.Provider>
   )
 }
 

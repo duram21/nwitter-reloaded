@@ -1,9 +1,10 @@
 import { addDoc, collection, updateDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
-import { auth, db, storage } from "../firebase";
+import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import { myContext } from "../App";
 
 const Wrapper = styled.form`
   display: flex;
@@ -84,6 +85,7 @@ export default function WriteForm(){
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File|null>(null);
   const [noticeName, setNoticeName] = useState("free");
+  const {user} = useContext(myContext);
   const navigate = useNavigate();
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if(e.target.name === "detail"){
@@ -103,7 +105,10 @@ export default function WriteForm(){
   const onSubmit = async(e : React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
   
-    const user = auth.currentUser;
+    if (user === null) {
+      alert("로그인 후에 이용해주세요")
+      return;
+    }
     if(!user || isLoading || detail === "" || detail.length > 180) return;
 
     try{

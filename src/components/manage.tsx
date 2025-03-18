@@ -1,8 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, onSnapshot, query } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { auth, db} from "../firebase";
+import { db} from "../firebase";
 import { Unsubscribe } from "firebase/auth";
+import { myContext } from "../App";
 
 const Wrapper = styled.div`
   display: flex;
@@ -195,6 +196,7 @@ export default function Manage(){
   const [date, setDate] = useState("");
   const [limitName, setLimitName] = useState("");
   const [limitDetail, setLimitDetail] = useState("");
+  const {user} = useContext(myContext);
 
   interface Item{
     date: string;
@@ -263,7 +265,11 @@ export default function Manage(){
 
   const onSubmit = async(e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const user = auth.currentUser;
+
+    if (user === null) {
+      alert("로그인 후에 이용해주세요")
+      return;
+    }
     if(!user || isLoading || name === "") return;
     try{
       setLoading(true);
@@ -296,7 +302,10 @@ export default function Manage(){
   }
   const onLimitSubmit = async(e : React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const user = auth.currentUser;
+    if (user === null) {
+      alert("로그인 후에 이용해주세요")
+      return;
+    }
     if(!user || isLoading || limitName === "" || limitDetail === "") return;
     try{
       setLoading(true);

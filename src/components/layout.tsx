@@ -1,6 +1,8 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
+import { useContext } from "react";
+import { myContext } from "../App";
 
 
 const TitleArea = styled.div`
@@ -74,6 +76,8 @@ const TitleArea = styled.div`
 `;
 
 export default function Layout(){
+  const {user} = useContext(myContext);
+  console.log(user);
   const navigate = useNavigate();
   const onLogOut = async() => {
     const ok = confirm("Are you sure you want to log out?");
@@ -88,7 +92,7 @@ export default function Layout(){
     <Wrapper>
       <header>
         <TitleArea>
-          <p>근무를 열심히😊</p>
+          <p>근무 요정😇</p>
         </TitleArea>
         <Menu>
           <Link to="/" style={{ textDecoration: "none" }}>
@@ -125,13 +129,25 @@ export default function Layout(){
               <h1>글쓰기</h1>
             </MenuItem>
           </Link>
-          <MenuItem onClick={onLogOut} className="log-out">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
-            </svg>
-            <h1>로그아웃</h1>
+          {user ? 
+            <MenuItem onClick={onLogOut} className="log-out">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+              </svg>
+              <h1>로그아웃</h1>
 
-          </MenuItem>
+            </MenuItem>
+          : 
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <MenuItem className="log-in">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                </svg>
+              <h1>로그인</h1>
+
+            </MenuItem>
+            </Link>
+          }
 
 
         </Menu>

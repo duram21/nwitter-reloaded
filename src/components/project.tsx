@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { myContext } from "../App";
 
 
 
@@ -1543,7 +1544,7 @@ export default function Project({date} : ProjectProps){
           <th colSpan={1}><p id="day51">금</p></th>
           <th className="sat" colSpan={1}><p id="day61">토</p></th>
           <th className="sun" colSpan={1}><p id="day71">일</p></th>
-          <th colSpan={1}>줄 체크</th>
+          <th colSpan={1}>열 선텍</th>
         </tr>
           <tr>
             <td>06:00~08:00</td>
@@ -1785,7 +1786,7 @@ export default function Project({date} : ProjectProps){
           </tr>
 
           <tr>
-            <td>Day Check</td>
+            <td>열 선택</td>
             <td>
               <button type="button" onClick={() => checkButton(0, 1)}>✅</button>
               <button type="button" onClick={() => resetButton(0, 1)}>❎</button>
@@ -2247,9 +2248,13 @@ export default function Project({date} : ProjectProps){
 };
 
 function SaveBtn () {
-    
+  const { user } = useContext(myContext);
   const onSave = async() => {
-    console.log(yagan);
+    if(user === null){
+      alert("로그인 후에 이용해주세요")
+      return;
+    }
+
     let element = document.getElementById("today") as HTMLInputElement;
     if(element == null) return;
     let date = element.value;
@@ -2257,7 +2262,7 @@ function SaveBtn () {
       alert("날짜를 입력 후 버튼을 눌러주세요")
       return;
     }
-    console.log(date);
+
     let year_str = date[0] + date[1] + date[2] + date[3];
     let month_str = date[5] + date[6];
     let day_str = date[8] + date[9];

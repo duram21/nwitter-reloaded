@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 const Button = styled.span`
   margin-top: 50px;
-  background-color: white;
+  background-color: #a3ddb4;
   font-weight: 500;
   width: 100%;
   color: black;
   padding: 10px 20px;
   border-radius: 50px;
-  border: 0;
+  border: solid 1px black;
   display: flex;
   gap: 5px;
   align-items: center;
