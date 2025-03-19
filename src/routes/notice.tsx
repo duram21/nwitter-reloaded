@@ -62,7 +62,7 @@ export interface IWriting {
   noticeName: string;
   photo?: string;
   detail?: string;
-  title?: string;
+  title: string;
   userId:string;
   username:string;
   createdAt:number;

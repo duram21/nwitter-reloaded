@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { IWriting } from "./notice";
 import { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs, query} from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, updateDoc} from "firebase/firestore";
 import { auth, db } from "../firebase";
 import styled from "styled-components";
 
@@ -9,10 +9,12 @@ const Wrapper = styled.div`
   display: grid;
   grid-template: 2fr 1fr  1fr 8fr 1fr / 50vw;
   padding: 0px 20px;
-  height: 500px;
+  height: 550px;
   border: 1px solid rgba(255, 255, 255, 0.5);
-
   width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  /* font-weight: bold; */
 `;
 
 const Username = styled.span`
@@ -24,6 +26,16 @@ const Detail = styled.p`
   margin: 10px 0px;
   font-size: 18px;
   grid-row-start: 4;
+  textarea{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    height: 200px;
+  }
 `;
 const AddPart = styled.div`
   display: flex;
@@ -68,7 +80,15 @@ const TitlePart = styled.div`
   padding: 10px;
   font-size: 20px;
   align-self: center;
-  
+  font-weight: bold;
+  input{
+    width : 100%;
+    height: 40px;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+  }
 `;
 const NoticeName = styled.div`
   
@@ -78,14 +98,24 @@ const Button = styled.div`
   grid-row-start: 5;
   display: flex;
   gap: 10px;
+  margin-bottom: 10px;
 `
 
 export default function Content() {
   const params = useParams();
   const navigate = useNavigate();
-  console.log(params.contentId);
   const [loading, setLoading] = useState(true);
-  const [content, setContent] = useState<IWriting>();
+  const [content, setContent] = useState<IWriting>({
+    title: '',
+    id: '',
+    noticeName: '',
+    photo: '',
+    detail: '',
+    userId: '',
+    username: '',
+    createdAt: 0,
+  });
+  const [editFlag, setEditFlag] = useState(false);
   const user = auth.currentUser;
   const fecthTweets = async () => {
     const tweetQuery = query(
@@ -135,43 +165,83 @@ export default function Content() {
 
     }
   }
-  //   const onEdit = () => {
-  //     //setEditMode(true);
-  //   }
-  //   const onSave = async() => {
-  //     const ok = confirm("Are you sure you want to save this tweet?");
-  //     if(!ok) return;
-  //     await updateDoc(doc(db, "tweets", content?.id), {
-  //       tweet: editTweet
-  //     });
-  
-  //     //setEditMode(false);
-  //   }
+  const onEdit = () => {
+    setEditFlag(true);
+  }
+
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(prev => ({
+      ...prev,
+      title: e.target.value,
+    }))
+  }
+  const onChangeDetail = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(prev => ({
+      ...prev,
+      detail: e.target.value,
+    }))
+  }
+
+  const onSave = async () => {
+    const ok = confirm("Are you sure you want to save this writing?");
+    if (!ok) return;
+    await updateDoc(doc(db, "writings", content?.id), {
+      title: content?.title,
+      detail: content?.detail,
+    });
+
+    setEditFlag(false);
+  }
 
   return (<div>
       {loading ? "Loading..." : 
-    <Wrapper>
+    (!editFlag ? 
+      <Wrapper>
+          <TitlePart>
+            {content?.title}
+          </TitlePart>
+          <AddPart>
+            <Username>{content?.username}</Username>
+            <NoticeName>{content?.noticeName}</NoticeName>
+          </AddPart>
+            
+          <Detail>{content?.detail}</Detail>
+          
+          <Button>
+            {user?.uid === content?.userId ?
+                  <EditButton onClick={onEdit}>Edit</EditButton>
+                  : null
+                }
+          </Button>
+
+          </Wrapper>
+        : 
+
+        <Wrapper>
         <TitlePart>
-          {content?.title}
+          <input type="text" value={content?.title} onChange={onChangeTitle}></input>
         </TitlePart>
         <AddPart>
           <Username>{content?.username}</Username>
           <NoticeName>{content?.noticeName}</NoticeName>
         </AddPart>
           
-        <Detail>{content?.detail}</Detail>
+        <Detail>
+          <textarea value={content?.detail} onChange={onChangeDetail}></textarea>
+        </Detail>
         
         <Button>
           {user?.uid === content?.userId ?
                 <DeleteButton onClick={onDelete}>Delete</DeleteButton>
                 : null
               }
-              <EditButton >Edit</EditButton>
-              <SaveButton >Save</SaveButton>
+
+          <SaveButton onClick={onSave}>Save</SaveButton>
         </Button>
 
         </Wrapper>
-        
+
+            )
       }
   </div>)
 }
