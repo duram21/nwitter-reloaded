@@ -387,8 +387,12 @@ const NameBox = styled.div`
 
 
 function Worker({id, name} : WorkerData) {
-  
+  const {user} = useContext(myContext);
   const onDelete = async() => {
+    if (user === null) {
+      alert("로그인 후에 이용해주세요")
+      return;
+    }
     let message = `${name} 명단에서 제외하겠습니까?`;
     const ok = confirm(message);
     if (!ok) return;

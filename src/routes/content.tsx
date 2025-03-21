@@ -193,6 +193,14 @@ export default function Content() {
     setEditFlag(false);
   }
 
+  const notice : {[key: string] : string} = {
+    "announcement": "공지사항",
+    "free": "자유게시판",
+    "tip": "팁 게시판",
+    "notice1": "게시판1",
+    "notice2": "게시판2"
+  }
+
   return (<div>
       {loading ? "Loading..." : 
     (!editFlag ? 
@@ -202,7 +210,7 @@ export default function Content() {
           </TitlePart>
           <AddPart>
             <Username>{content?.username}</Username>
-            <NoticeName>{content?.noticeName}</NoticeName>
+            <NoticeName>{notice[content?.noticeName]}</NoticeName>
           </AddPart>
             
           <Detail>{content?.detail}</Detail>
