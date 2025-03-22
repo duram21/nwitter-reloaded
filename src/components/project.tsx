@@ -14,75 +14,75 @@ let cur_index = 1;
 
 
 // check array for availability 
-var limit = new Array(100);
-for (var i = 0; i < 100; i++) {
+let limit = new Array(100);
+for (let i = 0; i < 100; i++) {
   limit[i] = new Array(7);
-  for (var j = 0; j < 7; j++) {
+  for (let j = 0; j < 7; j++) {
     limit[i][j] = new Array(20);
-    for (var k = 0; k < 20; k++) {
+    for (let k = 0; k < 20; k++) {
       limit[i][j][k] = new Array(5);
-      for (var q = 0; q < 5; q++) {
+      for (let q = 0; q < 5; q++) {
         limit[i][j][k][q] = 0;
       }
     }
   }
 }
-for (var i = 0; i < 5; i++) {
-  for (var j = 0; j < 20; j++) {
-    for (var k = 0; k < 5; k++) {
+for (let i = 0; i < 5; i++) {
+  for (let j = 0; j < 20; j++) {
+    for (let k = 0; k < 5; k++) {
       limit[1][i][j][k] = 0;
     }
   }
 }
 
 // array for random idx
-var random_idx_i : number[] = new Array(100);
-var random_idx_j : number[] = new Array(100);
+let random_idx_i : number[] = new Array(100);
+let random_idx_j : number[] = new Array(100);
 
 
 // 근무 개수를 count 해주는 배열 
 let cnt: string[][]  = new Array(100);
-for (var i = 0; i < 100; i++) {
+for (let i = 0; i < 100; i++) {
   cnt[i] = new Array();
 }
 
 // test for night work -> not duplicate
-var yagan = new Array(7);
-for (var i = 0; i < 7; i++) {
+let yagan = new Array(7);
+for (let i = 0; i < 7; i++) {
   yagan[i] = new Array(20);
-  for (var j = 0; j < 20; j++) {
+  for (let j = 0; j < 20; j++) {
     yagan[i][j] = new Array(5);
-    for (var k = 0; k < 5; k++) {
+    for (let k = 0; k < 5; k++) {
       yagan[i][j][k] = "";
     }
   }
 }
-var buf_yagan = new Array(7);
-for (var i = 0; i < 7; i++) {
+let buf_yagan = new Array(7);
+for (let i = 0; i < 7; i++) {
   buf_yagan[i] = new Array(20);
-  for (var j = 0; j < 20; j++) {
+  for (let j = 0; j < 20; j++) {
     buf_yagan[i][j] = new Array(5);
-    for (var k = 0; k < 5; k++) {
+    for (let k = 0; k < 5; k++) {
       buf_yagan[i][j][k] = "";
     }
   }
 }
 
-var human_cnt = new Array(100);     // count people for each work
-var work_min = 0;
-for (var i = 1; i < 100; i++) human_cnt[i] = 0;
+let human_cnt = new Array(100);     // count people for each work
+let work_min = 0;
+for (let i = 1; i < 100; i++) human_cnt[i] = 0;
 function init() {
   cnt = new Array(100);
-  for (var i = 0; i < 100; i++) {
+  for (let i = 0; i < 100; i++) {
     cnt[i] = new Array();
   }
 
   yagan = new Array(7);
-  for (var i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     yagan[i] = new Array(20);
-    for (var j = 0; j < 20; j++) {
+    for (let j = 0; j < 20; j++) {
       yagan[i][j] = new Array(5);
-      for (var k = 0; k < 5; k++) {
+      for (let k = 0; k < 5; k++) {
         yagan[i][j][k] = "";
       }
     }
@@ -91,29 +91,29 @@ function init() {
   random_idx_j = new Array(100);
   work_min = 0;
   human_cnt = new Array(100);
-  for (var i = 1; i < 100; i++) human_cnt[i] = 0;
+  for (let i = 1; i < 100; i++) human_cnt[i] = 0;
 }
 
 function start_program(e: React.MouseEvent<HTMLButtonElement>) {
   e.preventDefault();
   init();
   submitInput();
-  var idxTot = Arr.length;
+  let idxTot = Arr.length;
   console.log("실행됨 ㅎ");
   cnt = new Array(100);
-  for (var i = 0; i < 100; i++) {
+  for (let i = 0; i < 100; i++) {
     cnt[i] = new Array();
   }
   human_cnt[0] = idxTot;     // human_cnt array initialize
-  for (var i = 0; i < idxTot; i++) {
+  for (let i = 0; i < idxTot; i++) {
     cnt[0].push(Arr[i]);
   }
   processFixedNightWorkers();
-  for (var i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     //buf_yagan[i] = new Array(20);
-    for (var j = 0; j < 20; j++) {
+    for (let j = 0; j < 20; j++) {
       //buf_yagan[i][j] = new Array(5);
-      for (var k = 0; k < 5; k++) {
+      for (let k = 0; k < 5; k++) {
         yagan[i][j][k] = buf_yagan[i][j][k];
         //console.log(buf_yagan[i][j][k]);
       }
@@ -121,35 +121,35 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
   }
 
   // <!-- night work select section -->
-  for (var i = 8; i <= 13; i++) {
+  for (let i = 8; i <= 13; i++) {
     updateResult();
-    for (var k = 0; k < 7; k++) {
+    for (let k = 0; k < 7; k++) {
       updateResult();
       if (k == 6 && i == 12) continue;
-      for (var j = 0; j < 5; j++) {
+      for (let j = 0; j < 5; j++) {
         updateResult();
         if (i < 13 && j > 1) continue;
         if (yagan[k][i][j]) continue;
-        var del_idx;
+        let del_idx;
         while (!yagan[k][i][j]) { // choose randome worker
-          var random_num = Math.floor(Math.random() * 100);
+          let random_num = Math.floor(Math.random() * 100);
           del_idx = random_num % human_cnt[work_min];
-          var worker = cnt[work_min][del_idx];
-          var posArr = [];
-          var imposArr = [];
+          let worker = cnt[work_min][del_idx];
+          let posArr = [];
+          let imposArr = [];
           // how to solve duplication problem?   --> call function for test......
-          var dup_flag = 0;
-          for (var ii = 8; ii <= 13; ii++) {
-            for (var jj = 0; jj < 5; jj++) {
+          let dup_flag = 0;
+          for (let ii = 8; ii <= 13; ii++) {
+            for (let jj = 0; jj < 5; jj++) {
               if (yagan[k][ii][jj] == worker) {
                 dup_flag = 1;
               }
             }
           }
-          var worker_idx = soldier_id.findIndex(a => a === worker);
+          let worker_idx = soldier_id.findIndex(a => a === worker);
           // if chosen worker satisfy such condition -> escape while loop
           if (dup_flag == 0 && limit[worker_idx][k][i][j] == 0) {
-            var tflag = CheckSameTime(k, i, j, worker);
+            let tflag = CheckSameTime(k, i, j, worker);
             if (tflag)
               posArr.push(k * 1000 + i * 10 + j);
             else
@@ -158,27 +158,27 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
 
           make_random_idx(8, 13, 1); // make random index of i to select random time table
           make_random_idx(0, 4, 2);
-          for (var a = 8; a <= 13; a++) {
-            for (var kkk = 0; kkk < 7; kkk++) {
-              for (var b = 0; b < 5; b++) {
-                var iii = random_idx_i[a];
-                var jjj = random_idx_j[b];
+          for (let a = 8; a <= 13; a++) {
+            for (let kkk = 0; kkk < 7; kkk++) {
+              for (let b = 0; b < 5; b++) {
+                let iii = random_idx_i[a];
+                let jjj = random_idx_j[b];
                 if (kkk == 6 && iii == 12) continue;
                 //iii = a;
                 //jjj = b;
                 if (iii < 13 && jjj > 1) continue;
                 if (yagan[kkk][iii][jjj]) continue; // already chosen that time table
                 // how to solve duplication problem?   --> call function for test......
-                var dup_flag = 0;
-                for (var ii = 8; ii <= 13; ii++) {
-                  for (var jj = 0; jj < 5; jj++) {
+                let dup_flag = 0;
+                for (let ii = 8; ii <= 13; ii++) {
+                  for (let jj = 0; jj < 5; jj++) {
                     if (yagan[kkk][ii][jj] == worker) {
                       dup_flag = 1;
                     }
                   }
                 }
                 if (dup_flag == 0 && limit[worker_idx][kkk][iii][jjj] == 0) {
-                  var tflag = CheckSameTime(kkk, iii, jjj, worker);
+                  let tflag = CheckSameTime(kkk, iii, jjj, worker);
                   if (tflag)
                     posArr.push(kkk * 1000 + iii * 10 + jjj);
                   else
@@ -189,28 +189,28 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
           }
           // if this worker is put another time table ?
           if (posArr.length) {
-            var ans = posArr[0];
-            var jPos = ans % 10;
+            let ans = posArr[0];
+            let jPos = ans % 10;
             ans = Math.floor(ans / 10);
-            var iPos = ans % 100;
+            let iPos = ans % 100;
             ans = Math.floor(ans / 100);
-            var kPos = ans;
+            let kPos = ans;
             add_work(del_idx, kPos, iPos, jPos);
-            for (var q = 0; q <= 5; q++) {
+            for (let q = 0; q <= 5; q++) {
               yagan[q + 1][0][0] = yagan[q][12][0];
               yagan[q + 1][0][1] = yagan[q][12][1];
             }
             updateResult();
           }
           else if (imposArr.length) {
-            var ans = imposArr[0];
-            var jPos = ans % 10;
+            let ans = imposArr[0];
+            let jPos = ans % 10;
             ans = Math.floor(ans / 10);
-            var iPos = ans % 100;
+            let iPos = ans % 100;
             ans = Math.floor(ans / 100);
-            var kPos = ans;
+            let kPos = ans;
             add_work(del_idx, kPos, iPos, jPos);
-            for (var q = 0; q <= 5; q++) {
+            for (let q = 0; q <= 5; q++) {
               yagan[q + 1][0][0] = yagan[q][12][0];
               yagan[q + 1][0][1] = yagan[q][12][1];
             }
@@ -220,21 +220,21 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
           else {
             make_random_idx(8, 13, 1); // make random index of i to select random time table
             make_random_idx(0, 4, 2);
-            var posArr_from = [];
-            var posArr_to = [];
-            var imposArr_from = [];
-            var imposArr_to = [];
-            for (var kkk = 0; kkk < 7; kkk++) {
-              for (var z = 8; z <= 13; z++) {
-                for (var x = 0; x < 5; x++) {
-                  var iii = random_idx_i[z];
-                  var jjj = random_idx_j[x];
+            let posArr_from = [];
+            let posArr_to = [];
+            let imposArr_from = [];
+            let imposArr_to = [];
+            for (let kkk = 0; kkk < 7; kkk++) {
+              for (let z = 8; z <= 13; z++) {
+                for (let x = 0; x < 5; x++) {
+                  let iii = random_idx_i[z];
+                  let jjj = random_idx_j[x];
                   if (iii < 13 && jjj > 1) continue;
                   if (kkk == 6 && iii == 12) continue;
                   if (!yagan[kkk][iii][jjj] || buf_yagan[kkk][iii][jjj] || limit[worker_idx][kkk][iii][jjj]) continue;
-                  var dup_flag = 0;
-                  for (var ii = 8; ii <= 13; ii++) {
-                    for (var jj = 0; jj < 5; jj++) {
+                  let dup_flag = 0;
+                  for (let ii = 8; ii <= 13; ii++) {
+                    for (let jj = 0; jj < 5; jj++) {
                       if (yagan[kkk][ii][jj] == worker) {
                         dup_flag = 1;
                       }
@@ -242,18 +242,18 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
                   }
                   if (dup_flag) continue;
                   // find such swap thing
-                  for (var a = 0; a < 7; a++) {
-                    for (var o = 13; o >= 8; o--) {
-                      for (var p = 4; p >= 0; p--) {
-                        var b = random_idx_i[o];
-                        var c = random_idx_j[p];
+                  for (let a = 0; a < 7; a++) {
+                    for (let o = 13; o >= 8; o--) {
+                      for (let p = 4; p >= 0; p--) {
+                        let b = random_idx_i[o];
+                        let c = random_idx_j[p];
                         if (b < 13 && c > 1) continue;
                         if (a == 6 && b == 12) continue;
-                        var to_worker_idx = soldier_id.findIndex(a => a === yagan[kkk][iii][jjj]);
+                        let to_worker_idx = soldier_id.findIndex(a => a === yagan[kkk][iii][jjj]);
                         if (yagan[a][b][c] || buf_yagan[a][b][c] || limit[to_worker_idx][a][b][c]) continue;
-                        var to_dup_flag = 0;
-                        for (var ii = 8; ii <= 13; ii++) {
-                          for (var jj = 0; jj < 5; jj++) {
+                        let to_dup_flag = 0;
+                        for (let ii = 8; ii <= 13; ii++) {
+                          for (let jj = 0; jj < 5; jj++) {
                             if (yagan[a][ii][jj] == yagan[kkk][iii][jjj]) {
                               to_dup_flag = 1;
                             }
@@ -261,8 +261,8 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
                         }
 
                         if (to_dup_flag || limit[to_worker_idx][a][b][c]) continue;
-                        var from_tflag = CheckSameTime(kkk, iii, jjj, worker);
-                        var to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
+                        let from_tflag = CheckSameTime(kkk, iii, jjj, worker);
+                        let to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
                         if (from_tflag && to_tflag) {
                           posArr_from.push(kkk * 1000 + iii * 10 + jjj);
                           posArr_to.push(a * 1000 + b * 10 + c);
@@ -279,44 +279,44 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
               updateResult();
             }
             if (posArr_to.length) {
-              var ans = posArr_from[0];
-              var jPos = ans % 10;
+              let ans = posArr_from[0];
+              let jPos = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos = ans % 100;
+              let iPos = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos = ans;
+              let kPos = ans;
               ans = posArr_to[0];
-              var jPos_to = ans % 10;
+              let jPos_to = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos_to = ans % 100;
+              let iPos_to = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos_to = ans;
+              let kPos_to = ans;
               yagan[kPos_to][iPos_to][jPos_to] = yagan[kPos][iPos][jPos];
               yagan[kPos][iPos][jPos] = worker;
 
-              for (var q = 0; q <= 5; q++) {
+              for (let q = 0; q <= 5; q++) {
                 yagan[q + 1][0][0] = yagan[q][12][0];
                 yagan[q + 1][0][1] = yagan[q][12][1];
               }
               updateResult();
             }
             else if (imposArr_to.length) {
-              var ans = imposArr_from[0];
-              var jPos = ans % 10;
+              let ans = imposArr_from[0];
+              let jPos = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos = ans % 100;
+              let iPos = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos = ans;
+              let kPos = ans;
               ans = imposArr_to[0];
-              var jPos_to = ans % 10;
+              let jPos_to = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos_to = ans % 100;
+              let iPos_to = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos_to = ans;
+              let kPos_to = ans;
               yagan[kPos_to][iPos_to][jPos_to] = yagan[kPos][iPos][jPos];
               yagan[kPos][iPos][jPos] = worker;
 
-              for (var q = 0; q <= 5; q++) {
+              for (let q = 0; q <= 5; q++) {
                 yagan[q + 1][0][0] = yagan[q][12][0];
                 yagan[q + 1][0][1] = yagan[q][12][1];
               }
@@ -343,33 +343,33 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
 
   // <!-- day work select section -->
 
-  for (var i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     updateResult();
-    for (var k = 0; k < 7; k++) {
+    for (let k = 0; k < 7; k++) {
       updateResult();
-      for (var j = 0; j < 2; j++) {
+      for (let j = 0; j < 2; j++) {
         updateResult();
         if (yagan[k][i][j]) continue;
-        var del_idx;
+        let del_idx;
         while (!yagan[k][i][j]) { // choose randome worker
-          var random_num = Math.floor(Math.random() * 100);
+          let random_num = Math.floor(Math.random() * 100);
           del_idx = random_num % human_cnt[work_min];
-          var worker = cnt[work_min][del_idx];
-          var posArr = [];
-          var imposArr = [];
+          let worker = cnt[work_min][del_idx];
+          let posArr = [];
+          let imposArr = [];
           // how to solve duplication problem?   --> call function for test......
-          var worker_idx = soldier_id.findIndex(a => a === worker);
-          var dup_flag = 0;
-          for (var ii = 1; ii <= 7; ii++) {
-            for (var jj = 0; jj < 2; jj++) {
+          let worker_idx = soldier_id.findIndex(a => a === worker);
+          let dup_flag = 0;
+          for (let ii = 1; ii <= 7; ii++) {
+            for (let jj = 0; jj < 2; jj++) {
               if (yagan[k][ii][jj] == worker) {
                 dup_flag = 1;
               }
             }
           }
-          var con_flag = check_day(k, i, worker);
+          let con_flag = check_day(k, i, worker);
           if (dup_flag == 0 && con_flag && limit[worker_idx][k][i][j] == 0) {
-            var tflag = CheckSameTime(k, i, j, worker);
+            let tflag = CheckSameTime(k, i, j, worker);
             if (tflag)
               posArr.push(k * 1000 + i * 10 + j);
             else
@@ -379,26 +379,26 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
           make_random_idx(1, 7, 1);
           make_random_idx(0, 1, 2);
 
-          for (var a = 1; a <= 7; a++) {
-            for (var kkk = 0; kkk < 7; kkk++) {
-              for (var b = 0; b < 2; b++) {
-                var iii = random_idx_i[a];
-                var jjj = random_idx_j[b];
+          for (let a = 1; a <= 7; a++) {
+            for (let kkk = 0; kkk < 7; kkk++) {
+              for (let b = 0; b < 2; b++) {
+                let iii = random_idx_i[a];
+                let jjj = random_idx_j[b];
                 //iii = a;
                 //jjj = b;
                 if (yagan[kkk][iii][jjj]) continue; // already chosen that time table
                 // how to solve duplication problem?   --> call function for test......
-                var dup_flag = 0;
-                for (var ii = 1; ii <= 7; ii++) {
-                  for (var jj = 0; jj < 2; jj++) {
+                let dup_flag = 0;
+                for (let ii = 1; ii <= 7; ii++) {
+                  for (let jj = 0; jj < 2; jj++) {
                     if (yagan[kkk][ii][jj] == worker) {
                       dup_flag = 1;
                     }
                   }
                 }
-                var con_flag = check_day(kkk, iii, worker);
+                let con_flag = check_day(kkk, iii, worker);
                 if (dup_flag == 0 && con_flag && limit[worker_idx][kkk][iii][jjj] == 0) {
-                  var tflag = CheckSameTime(kkk, iii, jjj, worker);
+                  let tflag = CheckSameTime(kkk, iii, jjj, worker);
                   if (tflag)
                     posArr.push(kkk * 1000 + iii * 10 + jjj);
                   else
@@ -409,28 +409,28 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
           }
           // if this worker is put another time table ?
           if (posArr.length) {
-            var ans = posArr[0];
-            var jPos = ans % 10;
+            let ans = posArr[0];
+            let jPos = ans % 10;
             ans = Math.floor(ans / 10);
-            var iPos = ans % 100;
+            let iPos = ans % 100;
             ans = Math.floor(ans / 100);
-            var kPos = ans;
+            let kPos = ans;
             add_work(del_idx, kPos, iPos, jPos);
-            for (var q = 0; q <= 5; q++) {
+            for (let q = 0; q <= 5; q++) {
               yagan[q + 1][0][0] = yagan[q][12][0];
               yagan[q + 1][0][1] = yagan[q][12][1];
             }
             updateResult();
           }
           else if (imposArr.length) {
-            var ans = imposArr[0];
-            var jPos = ans % 10;
+            let ans = imposArr[0];
+            let jPos = ans % 10;
             ans = Math.floor(ans / 10);
-            var iPos = ans % 100;
+            let iPos = ans % 100;
             ans = Math.floor(ans / 100);
-            var kPos = ans;
+            let kPos = ans;
             add_work(del_idx, kPos, iPos, jPos);
-            for (var q = 0; q <= 5; q++) {
+            for (let q = 0; q <= 5; q++) {
               yagan[q + 1][0][0] = yagan[q][12][0];
               yagan[q + 1][0][1] = yagan[q][12][1];
             }
@@ -440,47 +440,47 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
           else {
             make_random_idx(1, 7, 1);
             make_random_idx(0, 1, 2);
-            var posArr_from = [];
-            var posArr_to = [];
-            var imposArr_from = [];
-            var imposArr_to = [];
-            for (var kkk = 0; kkk < 7; kkk++) {
-              for (var z = 1; z <= 7; z++) {
-                for (var x = 0; x < 2; x++) {
-                  var iii = random_idx_i[z];
-                  var jjj = random_idx_j[x];
+            let posArr_from = [];
+            let posArr_to = [];
+            let imposArr_from = [];
+            let imposArr_to = [];
+            for (let kkk = 0; kkk < 7; kkk++) {
+              for (let z = 1; z <= 7; z++) {
+                for (let x = 0; x < 2; x++) {
+                  let iii = random_idx_i[z];
+                  let jjj = random_idx_j[x];
                   if (!yagan[kkk][iii][jjj] || buf_yagan[kkk][iii][jjj] || limit[worker_idx][kkk][iii][jjj]) continue;
-                  var dup_flag = 0;
-                  for (var ii = 1; ii <= 7; ii++) {
-                    for (var jj = 0; jj < 2; jj++) {
+                  let dup_flag = 0;
+                  for (let ii = 1; ii <= 7; ii++) {
+                    for (let jj = 0; jj < 2; jj++) {
                       if (yagan[kkk][ii][jj] == worker) {
                         dup_flag = 1;
                       }
                     }
                   }
-                  var con_flag = check_day(kkk, iii, worker);
+                  let con_flag = check_day(kkk, iii, worker);
                   if (dup_flag || !con_flag) continue;
                   // find such swap thing
-                  for (var a = 0; a < 7; a++) {
-                    for (var o = 7; o >= 1; o--) {
-                      for (var p = 1; p >= 0; p--) {
-                        var b = random_idx_i[o];
-                        var c = random_idx_j[p];
-                        var to_worker_idx = soldier_id.findIndex(a => a === yagan[kkk][iii][jjj]);
+                  for (let a = 0; a < 7; a++) {
+                    for (let o = 7; o >= 1; o--) {
+                      for (let p = 1; p >= 0; p--) {
+                        let b = random_idx_i[o];
+                        let c = random_idx_j[p];
+                        let to_worker_idx = soldier_id.findIndex(a => a === yagan[kkk][iii][jjj]);
                         if (yagan[a][b][c] || buf_yagan[a][b][c] || limit[to_worker_idx][a][b][c]) continue;
-                        var to_dup_flag = 0;
-                        for (var ii = 1; ii <= 7; ii++) {
-                          for (var jj = 0; jj < 2; jj++) {
+                        let to_dup_flag = 0;
+                        for (let ii = 1; ii <= 7; ii++) {
+                          for (let jj = 0; jj < 2; jj++) {
                             if (yagan[a][ii][jj] == yagan[kkk][iii][jjj]) {
                               to_dup_flag = 1;
                             }
                           }
                         }
-                        var to_con_flag = check_day(a, b, yagan[kkk][iii][jjj]);
+                        let to_con_flag = check_day(a, b, yagan[kkk][iii][jjj]);
                         if (to_dup_flag || !to_con_flag || limit[to_worker_idx][a][b][c]) continue;
 
-                        var from_tflag = CheckSameTime(kkk, iii, jjj, worker);
-                        var to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
+                        let from_tflag = CheckSameTime(kkk, iii, jjj, worker);
+                        let to_tflag = CheckSameTime(a, b, c, yagan[kkk][iii][jjj]);
                         if (from_tflag && to_tflag) {
                           posArr_from.push(kkk * 1000 + iii * 10 + jjj);
                           posArr_to.push(a * 1000 + b * 10 + c);
@@ -498,47 +498,47 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
               updateResult();
             }
             if (posArr_to.length) {
-              var ans = posArr_from[0];
-              var jPos = ans % 10;
+              let ans = posArr_from[0];
+              let jPos = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos = ans % 100;
+              let iPos = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos = ans;
+              let kPos = ans;
 
               ans = posArr_to[0];
-              var jPos_to = ans % 10;
+              let jPos_to = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos_to = ans % 100;
+              let iPos_to = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos_to = ans;
+              let kPos_to = ans;
               yagan[kPos_to][iPos_to][jPos_to] = yagan[kPos][iPos][jPos];
               yagan[kPos][iPos][jPos] = worker;
 
-              for (var q = 0; q <= 5; q++) {
+              for (let q = 0; q <= 5; q++) {
                 yagan[q + 1][0][0] = yagan[q][12][0];
                 yagan[q + 1][0][1] = yagan[q][12][1];
               }
               updateResult();
             }
             else if (imposArr_to.length) {
-              var ans = imposArr_from[0];
-              var jPos = ans % 10;
+              let ans = imposArr_from[0];
+              let jPos = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos = ans % 100;
+              let iPos = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos = ans;
+              let kPos = ans;
 
               ans = imposArr_to[0];
-              var jPos_to = ans % 10;
+              let jPos_to = ans % 10;
               ans = Math.floor(ans / 10);
-              var iPos_to = ans % 100;
+              let iPos_to = ans % 100;
               ans = Math.floor(ans / 100);
-              var kPos_to = ans;
+              let kPos_to = ans;
 
               yagan[kPos_to][iPos_to][jPos_to] = yagan[kPos][iPos][jPos];
               yagan[kPos][iPos][jPos] = worker;
 
-              for (var q = 0; q <= 5; q++) {
+              for (let q = 0; q <= 5; q++) {
                 yagan[q + 1][0][0] = yagan[q][12][0];
                 yagan[q + 1][0][1] = yagan[q][12][1];
               }
@@ -573,12 +573,12 @@ function start_program(e: React.MouseEvent<HTMLButtonElement>) {
 }
  
 function CheckSameTime(kk: number, ii: number, jj: number, name: string) {
-  var flag = 1;
+  let flag = 1;
   //if (name == "") return 0;
   // 불침번이랑 CCTV 나누어야 하지 않을까요?
   // 불침번 case
   if (ii == 13) {
-    for (var k = 0; k < 7; k++) {
+    for (let k = 0; k < 7; k++) {
       if (k == kk) continue;
       if (!yagan[k][ii][jj]) continue;
       if (yagan[k][ii][jj] === name) {
@@ -588,8 +588,8 @@ function CheckSameTime(kk: number, ii: number, jj: number, name: string) {
     }
   }
   else {
-    for (var k = 0; k < 7; k++) {
-      for (var j = 0; j < 2; j++) {
+    for (let k = 0; k < 7; k++) {
+      for (let j = 0; j < 2; j++) {
         if (k == kk) continue;
         if (!yagan[k][ii][j]) continue;
         if (yagan[k][ii][j] === name) {
@@ -604,11 +604,11 @@ function CheckSameTime(kk: number, ii: number, jj: number, name: string) {
 
 function printWork() {
   // <!-- print about work list for 7 days -->
-  var st = 6;
-  var en = 8;
-  for (var k = 0; k < 7; k++) {
+  let st = 6;
+  let en = 8;
+  for (let k = 0; k < 7; k++) {
     console.log("Day", k + 1);
-    for (var i = 0; i <= 13; i++) {
+    for (let i = 0; i <= 13; i++) {
       // 불침번 print
       if (i == 13) {
         console.log(i, "불침번 : ", yagan[k][i][0], yagan[k][i][1], yagan[k][i][2], yagan[k][i][3], yagan[k][i][4])
@@ -642,7 +642,7 @@ function add_work(del_idx: number, k: number, i: number, j: number) {
 }
 // function for check work consecutively
 function check_day(day: number, idx: number, name: string) {
-  var possible = 1;
+  let possible = 1;
   // consider the situation that works consequtively -> day-night or night-day
   if (idx == 1) {
     if (name == yagan[day][idx - 1][0] || name == yagan[day][idx - 1][1]) possible = 0;
@@ -680,14 +680,14 @@ function check_day(day: number, idx: number, name: string) {
 }
 // make random index  flag=1 i, flag=2 j, flag=3 k!
 function make_random_idx(st: number, en: number, flag: number) {
-  var gap = en - st + 1;
-  var buf = new Array(gap);
-  var visited = new Array(100);
-  for (var i = 0; i < 100; i++) visited[i] = 0;
-  var chk_cnt = 0;
+  let gap = en - st + 1;
+  let buf = new Array(gap);
+  let visited = new Array(100);
+  for (let i = 0; i < 100; i++) visited[i] = 0;
+  let chk_cnt = 0;
   while (chk_cnt < gap) {
     while (true) {
-      var rand_idx = Math.floor(Math.random() * (gap)) + st;
+      let rand_idx = Math.floor(Math.random() * (gap)) + st;
       if (visited[rand_idx]) continue;
       visited[rand_idx] = 1;
       buf[chk_cnt++] = rand_idx;
@@ -696,19 +696,19 @@ function make_random_idx(st: number, en: number, flag: number) {
   }
   if (flag == 1) {
     //random_idx_i
-    for (var i = 0; i < gap; i++) {
+    for (let i = 0; i < gap; i++) {
       random_idx_i[i + st] = buf[i];
     }
   }
   if (flag == 2) {
     //random_idx_j
-    for (var j = 0; j < gap; j++) {
+    for (let j = 0; j < gap; j++) {
       random_idx_j[j + st] = buf[j];
     }
   }
   if (flag == 3) {
     //random_idx_k
-    for (var i = 0; i < gap; i++) {
+    for (let i = 0; i < gap; i++) {
       random_idx_i[i + st] = buf[i];
     }
   }
@@ -718,7 +718,7 @@ function make_random_idx(st: number, en: number, flag: number) {
 function checkButton(n: number, flag: number) {
   const boxes = document.getElementsByName("time_lim");
   if (flag == 1) {
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       if (i % 7 == n){
         const cur_box = boxes[i] as HTMLInputElement;
         cur_box.checked = true;
@@ -726,7 +726,7 @@ function checkButton(n: number, flag: number) {
     }
   }
   else if (flag == 2) {
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       if (Math.floor(i / 7) == n) {
         const cur_box = boxes[i] as HTMLInputElement;
         cur_box.checked = true;
@@ -734,7 +734,7 @@ function checkButton(n: number, flag: number) {
     }
   }
   else if (flag == 3) {
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       const cur_box = boxes[i] as HTMLInputElement;
       cur_box.checked = true;
     }
@@ -746,7 +746,7 @@ function checkButton(n: number, flag: number) {
 function resetButton(n: number, flag: number) {
   const boxes = document.getElementsByName("time_lim");
   if (flag == 1) {
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       if (i % 7 == n){
         const cur_box = boxes[i] as HTMLInputElement;
         cur_box.checked = false;
@@ -754,7 +754,7 @@ function resetButton(n: number, flag: number) {
     }
   }
   else if (flag == 2) {
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       if (Math.floor(i / 7) == n) {
         const cur_box = boxes[i] as HTMLInputElement;
         cur_box.checked = false;
@@ -762,7 +762,7 @@ function resetButton(n: number, flag: number) {
     }
   }
   else if (flag == 3) {
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       const cur_box = boxes[i] as HTMLInputElement;
       cur_box.checked = false;
     }
@@ -789,8 +789,8 @@ function fixed_submit_button() {
 }
 // 불침번 고정 근무자를 선택하여 ResultTable에 반영하는 함수
 function fixed_submit_button2() {
-  var day = document.getElementById("fixed_day2") as HTMLSelectElement;
-  var pos = document.getElementById("bool_type") as HTMLSelectElement;
+  let day = document.getElementById("fixed_day2") as HTMLSelectElement;
+  let pos = document.getElementById("bool_type") as HTMLSelectElement;
   if (day == null || pos == null) return;
   const name = (document.getElementById("fixed_name2") as HTMLSelectElement).value;
   buf_yagan[day.selectedIndex][13][pos.selectedIndex] = name;
@@ -800,13 +800,13 @@ function fixed_submit_button2() {
 }
 
 function processFixedNightWorkers() {
-  for (var i = 0; i < Arr.length; i++) {
+  for (let i = 0; i < Arr.length; i++) {
     const cur_worker = Arr[i];
-    var cntWork = 0;
-    for (var a = 0; a < 7; a++) {
-      for (var b = 0; b <= 13; b++) {
+    let cntWork = 0;
+    for (let a = 0; a < 7; a++) {
+      for (let b = 0; b <= 13; b++) {
         if (b == 12 || (1 <= b && b <= 7)) continue;
-        for (var c = 0; c < 5; c++) {
+        for (let c = 0; c < 5; c++) {
           if (buf_yagan[a][b][c] == cur_worker) cntWork++;
         }
       }
@@ -815,7 +815,7 @@ function processFixedNightWorkers() {
     human_cnt[0]--;
     human_cnt[cntWork]++;
   }
-  for (var i = 0; i < 100; i++) {
+  for (let i = 0; i < 100; i++) {
     if (human_cnt[i]) {
       work_min = i;
       break;
@@ -824,18 +824,18 @@ function processFixedNightWorkers() {
 } 
 
 function processFixedDayWorkers() {
-  for (var i = 0; i < Arr.length; i++) {
-    var cur_worker = Arr[i];
-    var cntWork = 0;
-    for (var a = 0; a < 7; a++) {
-      for (var b = 1; b <= 7; b++) {
-        for (var c = 0; c < 5; c++) {
+  for (let i = 0; i < Arr.length; i++) {
+    let cur_worker = Arr[i];
+    let cntWork = 0;
+    for (let a = 0; a < 7; a++) {
+      for (let b = 1; b <= 7; b++) {
+        for (let c = 0; c < 5; c++) {
           if (buf_yagan[a][b][c] == cur_worker) cntWork++;
         }
       }
     }
     let min_idx = 0 ;
-    for (var j = 0; j < 100; j++) {
+    for (let j = 0; j < 100; j++) {
       let tmp = cnt[j].findIndex(n => n === cur_worker);
       if (tmp == -1) continue;
       min_idx = j;
@@ -846,7 +846,7 @@ function processFixedDayWorkers() {
     human_cnt[min_idx]--;
     human_cnt[cntWork + min_idx]++;
   }
-  for (var i = 0; i < 100; i++) {
+  for (let i = 0; i < 100; i++) {
     if (human_cnt[i]) {
       work_min = i;
       break;
@@ -854,13 +854,13 @@ function processFixedDayWorkers() {
   }
 }
  function updateResult() {
-  for (var k = 0; k < 7; k++) {
-    for (var i = 0; i <= 13; i++) {
+  for (let k = 0; k < 7; k++) {
+    for (let i = 0; i <= 13; i++) {
       if (i == 12) continue;
-      for (j = 0; j < 5; j++) {
+      for (let j = 0; j < 5; j++) {
         if (i < 13 && j > 1) continue;
-        var val = k * 1000 + i * 10 + j;
-        var str_data = "data" + String(val);
+        let val = k * 1000 + i * 10 + j;
+        let str_data = "data" + String(val);
         const element = document.getElementById(str_data);
         if(element) element.innerText = yagan[k][i][j];
       }
@@ -878,17 +878,17 @@ function processFixedDayWorkers() {
   let month = parseInt(month_str);
   let day = parseInt(day_str);
 
-  var days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   // 윤년 check
   if (((year % 100 != 0) && (year % 4 == 0)) || year % 400 == 0) days[2]++;
-  var week = ["월", "화", "수", "목", "금", "토", "일"];
-  for (var i = 0; i < 7; i++) {
+  let week = ["월", "화", "수", "목", "금", "토", "일"];
+  for (let i = 0; i < 7; i++) {
     // update
-    var update_id1 = "day" + String(i + 1) + "1";
-    var update_id2 = "day" + String(i + 1) + "2";
-    var update_id3 = "day" + String(i + 1) + "3";
-    var update_id4 = "day" + String(i + 1) + "4";
-    var update_str = String(month) + "/" + String(day) + " " + week[i];
+    let update_id1 = "day" + String(i + 1) + "1";
+    let update_id2 = "day" + String(i + 1) + "2";
+    let update_id3 = "day" + String(i + 1) + "3";
+    let update_id4 = "day" + String(i + 1) + "4";
+    let update_str = String(month) + "/" + String(day) + " " + week[i];
     console.log(update_id1, update_id2, update_str);
     let element : HTMLElement | null = null;
     if(element = document.getElementById(update_id1)) element.innerText = update_str;
@@ -907,7 +907,7 @@ function processFixedDayWorkers() {
 }
 
 function lastCheck() {
-  var impos_flag = 0;
+  let impos_flag = 0;
   let visited: number[][][] = [];
   for(let i = 0 ; i < 10; i++){
     visited[i] = [];
@@ -922,12 +922,12 @@ function lastCheck() {
     impos_flag = 1;
     // 전체적으로 균등한 지 확인
     let select_i: number = 0, select_j: number = 0, select_k: number = 0;
-    for (var k = 0; k < 7; k++) {
-      for (var i = 1; i <= 7; i++) {
-        for (var j = 0; j < 5; j++) {
+    for (let k = 0; k < 7; k++) {
+      for (let i = 1; i <= 7; i++) {
+        for (let j = 0; j < 5; j++) {
           if (i < 13 && j > 2) continue;
           if (buf_yagan[k][i][j]) continue;
-          var chk = line_check(k, i, j);
+          let chk = line_check(k, i, j);
           if (!chk && !visited[k][i][j]) {
             impos_flag = 0;
             visited[k][i][j] = 1;
@@ -943,17 +943,17 @@ function lastCheck() {
     // selected
     // 선택된게 주간인 경우는 ? j == 1 ~ 7
     if (select_i >= 1 && select_i <= 7) {
-      for (var i = 1; i <= 7; i++) {
+      for (let i = 1; i <= 7; i++) {
         if (i == select_i) continue;
         if (buf_yagan[select_k][i][select_j]) continue;
-        var a_worker_idx = soldier_id.findIndex(a => a === yagan[select_k][i][select_j]);
-        var b_worker_idx = soldier_id.findIndex(a => a === yagan[select_k][select_i][select_j]);
+        let a_worker_idx = soldier_id.findIndex(a => a === yagan[select_k][i][select_j]);
+        let b_worker_idx = soldier_id.findIndex(a => a === yagan[select_k][select_i][select_j]);
         if (limit[a_worker_idx][select_k][select_i][select_j] || limit[b_worker_idx][select_k][i][select_j]) continue;
-        var a_flag = 1, b_flag = 1;
+        let a_flag = 1, b_flag = 1;
         //console.log(yagan[select_k][i][select_j], yagan[select_k][select_i][select_j])
         [yagan[select_k][select_i][select_j], yagan[select_k][i][select_j]] = [yagan[select_k][i][select_j], yagan[select_k][select_i][select_j]];
-        var c1_flag = check_day(select_k, select_i, yagan[select_k][select_i][select_j]);
-        var c2_flag = check_day(select_k, i, yagan[select_k][i][select_j]);
+        let c1_flag = check_day(select_k, select_i, yagan[select_k][select_i][select_j]);
+        let c2_flag = check_day(select_k, i, yagan[select_k][i][select_j]);
         a_flag = line_check(select_k, select_i, select_j);
         b_flag = line_check(select_k, i, select_j);
         //console.log(yagan[select_k][select_i][select_j], yagan[select_k][i][select_j])
@@ -978,8 +978,8 @@ function lastCheck() {
   }
 }
 function line_check(cur_k: number, cur_i : number, cur_j: number) {
-  var flag = 1;
-  for (var k = 0; k < 7; k++) {
+  let flag = 1;
+  for (let k = 0; k < 7; k++) {
     if (k == cur_k) continue;
     // 불침번인 경우
     if (cur_i == 13) {
@@ -990,7 +990,7 @@ function line_check(cur_k: number, cur_i : number, cur_j: number) {
     }
     // cctv case
     else {
-      for (var j = 0; j < 2; j++) {
+      for (let j = 0; j < 2; j++) {
         if (yagan[k][cur_i][j] == yagan[cur_k][cur_i][cur_j]) {
           flag = 0;
           break;
@@ -1005,9 +1005,9 @@ function line_check(cur_k: number, cur_i : number, cur_j: number) {
 
 
 function submitInput() {
-  var name_list = Arr;
+  let name_list = Arr;
   cur_index = 1;
-  for (var i = 0; i < name_list.length; i++) {
+  for (let i = 0; i < name_list.length; i++) {
     soldier_id[cur_index] = name_list[i];
     cur_index++;
   }
@@ -1029,9 +1029,9 @@ function handleLimit() {
   console.log(val);
   // save input worker's limitation of work time
 
-  var limit_value_arr = new Array();
+  let limit_value_arr = new Array();
   const soldier_limit = document.getElementsByName("time_lim");
-  for (var i = 0; i < soldier_limit.length; i++) {
+  for (let i = 0; i < soldier_limit.length; i++) {
     const cur_limit = soldier_limit[i] as HTMLInputElement;
     if (cur_limit.checked == true) limit_value_arr.push(cur_limit.value);
   }
@@ -1044,7 +1044,7 @@ function handleLimit() {
   }
   console.log(limit_value_arr);
 
-  for (var i = 0; i < limit_value_arr.length; i++) {
+  for (let i = 0; i < limit_value_arr.length; i++) {
     let num: number = parseInt(limit_value_arr[i]);
     // cctv worker
 
@@ -1079,7 +1079,7 @@ function handleRadio(name: string) {
     }
   }
 
-  var boxes = document.getElementsByName("time_lim");
+  let boxes = document.getElementsByName("time_lim");
   for (let i = 0; i < boxes.length; i++) {
     const box = boxes[i] as HTMLInputElement;
     box.checked = false;
@@ -1100,7 +1100,7 @@ function handleRadio(name: string) {
           Flag = 1;
         }
         if (Flag == 0) continue;
-        for (var q = 0; q < boxes.length; q++) {
+        for (let q = 0; q < boxes.length; q++) {
           const box = boxes[q] as HTMLInputElement;
           
           if (limit[val][k][i][j] == 1) {
@@ -1124,7 +1124,7 @@ function handleRadio(name: string) {
   let n7 = 98 + flag;
   let n8 = 105 + flag;
   let n9 = 112 + flag;
-  var boxes = document.getElementsByName("time_lim");
+  let boxes = document.getElementsByName("time_lim");
   for (let i = 0; i < boxes.length; i++) {
     const box = boxes[i] as HTMLInputElement;
     if (parseInt(box.value) == n1) box.checked = false;
@@ -1141,9 +1141,9 @@ function handleRadio(name: string) {
 }
 
 function printCheckResult() {
-  for (var k = 0; k < 7; k++) {
-    for (var i = 0; i <= 13; i++) {
-      for (var j = 0; j < 5; j++) {
+  for (let k = 0; k < 7; k++) {
+    for (let i = 0; i <= 13; i++) {
+      for (let j = 0; j < 5; j++) {
         if (i < 13 && j > 1) continue;
         let flag = line_check(k, i, j);
         if (!flag) console.log(k, i, j);
@@ -1164,7 +1164,7 @@ function swapNightWorks() {
       for (let i = 8; i <= 13; i++) {
         for (let j = 0; j < 5; j++) {
           if (!yagan[k][i][j]) continue;
-          var worker_idx = soldier_id.findIndex(a => a === yagan[k][i][j]);
+          let worker_idx = soldier_id.findIndex(a => a === yagan[k][i][j]);
           if (buf_yagan[k][i][j]) continue;
           let lineFlag = line_check(k, i, j);
           if (lineFlag) continue;
@@ -1173,7 +1173,7 @@ function swapNightWorks() {
             if (ii <= 12 && ii == i) continue;
             for (let jj = 0; jj < 5; jj++) {
               if (!yagan[k][ii][jj]) continue;
-              var tmp_worker_idx = soldier_id.findIndex(a => a === yagan[k][ii][jj]);
+              let tmp_worker_idx = soldier_id.findIndex(a => a === yagan[k][ii][jj]);
               if (buf_yagan[k][ii][jj]) continue;
               if (limit[tmp_worker_idx][k][i][j] || limit[worker_idx][k][ii][jj]) continue;
 
@@ -1182,7 +1182,7 @@ function swapNightWorks() {
               let lineFlag2 = line_check(k, ii, jj);
               if (lineFlag1 && lineFlag2) {
                 swapFlag = 1;
-                for (var q = 0; q <= 5; q++) {
+                for (let q = 0; q <= 5; q++) {
                   yagan[q + 1][0][0] = yagan[q][12][0];
                   yagan[q + 1][0][1] = yagan[q][12][1];
                 }
@@ -1515,7 +1515,7 @@ export default function Project({date} : ProjectProps){
       }
     })
     setWorkers(workers);
-    var Tmp = [];
+    let Tmp = [];
     for(let i = 0 ; i < workers.length; i++){
       Tmp.push(workers[i].name);
     }
