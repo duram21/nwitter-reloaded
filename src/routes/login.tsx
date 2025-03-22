@@ -42,14 +42,16 @@ export default function CreateAccount() {
             console.log(e);
         }
         finally {
-            setLoading(false);
+          setLoading(false);
         }
         console.log(name, email, password);
-    }
-
-    return (
+      }
+      
+      return (
         <Wrapper>
             <Title>추가 기능을 위해 로그인</Title>
+          <p>text id : test@test.com</p>
+          <p>text password : 123123</p>
         <Form onSubmit={onSubmit}>
             <Input
                 onChange={onChange}
@@ -72,7 +74,10 @@ export default function CreateAccount() {
             계정이 없나요? <Link to="/create-account">회원가입 하기</Link>
         </Switcher>
         <GithubButton />
+
         <Link to="/">홈으로 돌아가기</Link>
+
+
     </Wrapper>
     );
 }

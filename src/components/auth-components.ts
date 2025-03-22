@@ -13,7 +13,9 @@ export const Wrapper = styled.div`
   width: 420px;
   padding: 50px 20px;
   background-color: white;
-  
+  p{
+    margin: 4px;
+  }
 `;
 
 export const Title = styled.h1`
